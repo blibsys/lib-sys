@@ -18,7 +18,7 @@ $user_set = find_all_users();
     </div>
     
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/users/new.php'); ?>">Create New user</a>
+      <a class="action" href="<?php echo url_for('/admin/users/new.php'); ?>">Add New user</a>
     </div>
     
     <table class="list">

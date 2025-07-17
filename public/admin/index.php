@@ -11,6 +11,17 @@
       ?>">Items</a></li>
 	  <li><a href="<?php echo url_for ('/admin/users/index.php'); 
 	  ?>">Users</a></li>
+	   <li><a href="<?php echo url_for('/admin/creators/index.php'); 
+      ?>">Creators</a></li>
+	  <li><a href="<?php echo url_for ('/admin/publishers/index.php'); 
+	  ?>">Publishers</a></li>
+	   <li><a href="<?php echo url_for('/admin/courses/index.php'); 
+      ?>">Courses</a></li>
+      <li><a href="<?php echo url_for ('/admin/itemcreators/index.php'); 
+	  ?>">Item Creators</a></li>
+	  <li><a href="<?php echo url_for ('/admin/circulation/index.php'); 
+	  ?>">Circulation</a></li>
+	  
     </ul>
    </div>
   

@@ -4,17 +4,17 @@
 $id = $_GET['id'] ?? '1';
 ?>
 
-<?php $page_title = 'Show Item'; ?>
+<?php $page_title = 'Show publisher'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div id="content">
 
-	<a class="back-link" href="<?php echo url_for('/admin/items/index.php');
+	<a class="back-link" href="<?php echo url_for('/admin/publishers/index.php');
 	?>">&laquo; Back to List</a>
 	
-	<div class="item show">
+	<div class="publisher show">
 	
-	  Item_ID: <?php echo h($id); ?>
+	  publisher_ID: <?php echo h($id); ?>
 	  
 	</div>
 

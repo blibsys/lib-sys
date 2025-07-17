@@ -21,7 +21,7 @@ if(is_post_request()) {
 }   
 ?>
 
-<?php $page_title = 'Create Page'; ?>
+<?php $user_title = 'Add User'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- html with embedded php to display a web form for editing module -->
@@ -29,12 +29,11 @@ if(is_post_request()) {
 
 <div id="content">
 
-  <a class = "back-link" href="<?php echo url_for('/admin/pages/index.php') ?>">&laquo; Back to List</a>
+  <a class = "back-link" href="<?php echo url_for('/admin/users/index.php') ?>">&laquo; Back to List</a>
   
-  <div class="page new">
-    <h1>New Page</h1>
-
-    <form action="<?php echo url_for('/admin/pages/new.php'); ?>" method="post">
+  <div class="user new">
+    <h1>New User</h1>
+    <form action="<?php echo url_for('/admin/users/new.php'); ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
         <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
@@ -55,7 +54,7 @@ if(is_post_request()) {
         </dd>
       </dl>
       <div id="operations">
-        <input type="submit" value="Create Page" />
+        <input type="submit" value="Add user" />
       </div>
     </form>
 

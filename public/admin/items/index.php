@@ -19,7 +19,7 @@ $item_set = find_all_items();
     </div>
 
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/items/new.php'); ?>">Create New item</a>
+      <a class="action" href="<?php echo url_for('/admin/items/new.php'); ?>">Add New Item</a>
     </div>
 
   	<table class="list">

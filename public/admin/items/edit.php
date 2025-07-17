@@ -23,7 +23,6 @@ if(is_post_request()) {
 	echo "Position: " . $position . "<br />";
 	echo "Visible: " . $visible . "<br />";
 }   
-
 ?>
 
 <?php $page_title = 'Edit Item'; ?>

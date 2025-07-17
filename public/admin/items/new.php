@@ -22,7 +22,7 @@ if(is_post_request()) {
 
 ?>
 
-<?php $page_title = 'Create item'; ?>
+<?php $page_title = 'Add item'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- html with embedded php to display a web form for creating a new item -->
@@ -33,7 +33,7 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/admin/items/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="item new">
-    <h1>Create Item</h1>
+    <h1>Add Item</h1>
 
     <form action="<?php echo url_for('/admin/items/new.php'); ?>" method="post">
       <dl>
