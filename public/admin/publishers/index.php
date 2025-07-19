@@ -9,7 +9,7 @@
 
 <div id="content">
   <div class="publishers listing">
-    <h1>Items</h1>
+    <h1>Publishers</h1>
 
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
@@ -28,12 +28,12 @@
         <th>&nbsp;</th>
   	  </tr>
 
-      <?php while($publisher = mysqli_fetch_assoc($publisher_set)) { ?>
+      <?php while($pub = mysqli_fetch_assoc($publisher_set)) { ?>
         <tr>
-          <td><?php echo h($publisher['publisher_id']); ?></td>
-          <td><?php echo h($publisher['publisher_name']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/publishers/show.php?Page=1&id=' . h(u($publisher['publisher_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($publisher['publisher_id']))); ?>"">Edit</a></td>
+          <td><?php echo h($pub['publisher_id']); ?></td>
+          <td><?php echo h($pub['publisher_name']); ?></td>
+          <td><a class="action" href="<?php echo url_for('/admin/publishers/show.php?Page=1&id=' . h(u($pub['publisher_id'])));?>">View</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($pub['publisher_id']))); ?>"">Edit</a></td>
           <td><a class="action" href="">Delete</a></td>
     	  </tr>
       <?php } ?>

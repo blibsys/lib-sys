@@ -7,11 +7,11 @@ $circulation_set = find_all_circ();
 
 ?>
 
-<?php $page_title = 'circulations'; ?>
+<?php $page_title = 'circulation'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div id="content">
-  <div class="circulations listing">
+  <div class="circulation listing">
     <h1>Circulation</h1>
 
     <div class="back-link-wrapper">
@@ -19,7 +19,7 @@ $circulation_set = find_all_circ();
     </div>
 
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/circulations/new.php'); ?>">Add New Circulation</a>
+      <a class="action" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New Circulation</a>
     </div>
 
   	<table class="list">
@@ -39,20 +39,20 @@ $circulation_set = find_all_circ();
         <th>&nbsp;</th>
   	  </tr>
 
-      <?php while($circulation = mysqli_fetch_assoc($circulation_set)) { ?>
+      <?php while($circ = mysqli_fetch_assoc($circulation_set)) { ?>
         <tr>
-          <td><?php echo h($circulation['circulation_id']); ?></td>
-          <td><?php echo h($circulation['user_id']); ?></td>
-          <td><?php echo h($circulation['item_id']);?></td>
-    	  <td><?php echo h($circulation['borrow_date']); ?></td>
-    	  <td><?php echo h($circulation['date_due_back']); ?></td>
-          <td><?php echo h($circulation['returned_date'] ?? ''); ?></td>
-          <td><?php echo h($circulation['next_reminder_date']);?></td>
-          <td><?php echo h($circulation['item_circulation_status']); ?></td>
-          <td><?php echo h($circulation['created_at']);?></td>
-    	  <td><?php echo h($circulation['updated_at']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circulation['circulation_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circulation['circulation_id']))); ?>"">Edit</a></td>
+          <td><?php echo h($circ['circulation_id']); ?></td>
+          <td><?php echo h($circ['user_id']); ?></td>
+          <td><?php echo h($circ['item_id']);?></td>
+    	  <td><?php echo h($circ['borrow_date']); ?></td>
+    	  <td><?php echo h($circ['date_due_back']); ?></td>
+          <td><?php echo h($circ['returned_date'] ?? ''); ?></td>
+          <td><?php echo h($circ['next_reminder_date']);?></td>
+          <td><?php echo h($circ['item_circulation_status']); ?></td>
+          <td><?php echo h($circ['created_at']);?></td>
+    	  <td><?php echo h($circ['updated_at']); ?></td>
+          <td><a class="action" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circ['circulation_id'])));?>">View</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circ['circulation_id']))); ?>"">Edit</a></td>
           <td><a class="action" href="">Delete</a></td>
     	  </tr>
       <?php } ?>

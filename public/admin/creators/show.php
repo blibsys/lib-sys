@@ -1,7 +1,11 @@
 <?php require_once('../../../private/initialise.php'); ?>
 
 <?php
+
 $id = $_GET['id'] ?? '1';
+
+$creator = find_creator_by_id($id);
+
 ?>
 
 <?php $page_title = 'Show Creator'; ?>
@@ -14,7 +18,18 @@ $id = $_GET['id'] ?? '1';
 	
 	<div class="creator show">
 	
-	  Creator_ID: <?php echo h($id); ?>
+	<!--Creator_ID: <?php echo h($id); ?>-->
+	
+	<div class="attributes">
+	<dl>
+	  <dt>Creator id</dt>
+	  <dd><?php echo h($creator['creator_id']); ?></dd>
+	</dl>
+	<dl>
+	  <dt>Creator name</dt>
+	  <dd><?php echo h($creator['creator_name']); ?></dd>
+	</dl>
+	</div>	  
 	  
 	</div>
 

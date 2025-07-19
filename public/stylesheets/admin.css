@@ -15,7 +15,7 @@ header {
   height: 40px;
   margin: 0 0 10px 0;
   padding: 0;
-  background: #0055DD;
+  background: #25849c;
   color: white;
 }
 
@@ -57,7 +57,7 @@ footer {
   height: 20px;
   margin: 0 0 10px 0;
   padding: 10px 20px;
-  background: #0055DD;
+  background: #25849c;
   color: white;
 }
 
@@ -84,8 +84,8 @@ table.list tr td {
 }
 
 table.list tr th {
-  border: 1px solid #0055DD;
-  background: #0055DD;
+  border: 1px solid #124754;
+  background: #124754;
   color: white;
   text-align: left;
 }

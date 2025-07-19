@@ -1,7 +1,11 @@
 <?php require_once('../../../private/initialise.php'); ?>
 
 <?php
+
 $id = $_GET['id'] ?? '1';
+
+$pub = find_pub_by_id($id);
+
 ?>
 
 <?php $page_title = 'Show publisher'; ?>
@@ -9,12 +13,22 @@ $id = $_GET['id'] ?? '1';
 
 <div id="content">
 
-	<a class="back-link" href="<?php echo url_for('/admin/publishers/index.php');
-	?>">&laquo; Back to List</a>
+	<a class="back-link" href="<?php echo url_for('/admin/publishers/index.php');?>">&laquo; Back to List</a>
 	
 	<div class="publisher show">
 	
-	  publisher_ID: <?php echo h($id); ?>
+	  <!--publisher_ID: <?php echo h($id); ?>-->
+	
+	<div class="attributes">
+	<dl>
+	  <dt>Publisher id</dt>
+	  <dd><?php echo h($pub['publisher_id']); ?></dd>
+	</dl>
+	<dl>
+	  <dt>Publisher name</dt>
+	  <dd><?php echo h($pub['publisher_name']); ?></dd>
+	</dl>
+	</div>
 	  
 	</div>
 

@@ -9,7 +9,7 @@
 
 <div id="content">
   <div class="courses listing">
-    <h1>Items</h1>
+    <h1>Courses</h1>
 
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>

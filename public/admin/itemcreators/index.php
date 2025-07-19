@@ -8,7 +8,7 @@
 
 <div id="content">
   <div class="item creators listing">
-    <h1>Creators</h1>
+    <h1>Item Creators</h1>
 
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
@@ -27,12 +27,12 @@
         <th>&nbsp;</th>
   	  </tr>
 
-      <?php while($itemcreator = mysqli_fetch_assoc($itemcreator_set)) { ?>
+      <?php while($icreator = mysqli_fetch_assoc($itemcreator_set)) { ?>
         <tr>
-          <td><?php echo h($itemcreator['item_id']); ?></td>
-          <td><?php echo h($itemcreator['creator_id']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/itemcreators/show.php?Page=1&id=' . h(u($itemcreator['item_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/itemcreators/edit.php?id=' . h(u($itemcreator['item_id']))); ?>"">Edit</a></td>
+          <td><?php echo h($icreator['item_id']); ?></td>
+          <td><?php echo h($icreator['creator_id']); ?></td>
+          <td><a class="action" href="<?php echo url_for('/admin/itemcreators/show.php?id=' . h(u($icreator['item_id']))); ?>">View</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/itemcreators/edit.php?id=' . h(u($icreator['item_id']))); ?>"">Edit</a></td>
           <td><a class="action" href="">Delete</a></td>
     	  </tr>
       <?php } ?>
