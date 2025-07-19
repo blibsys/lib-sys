@@ -19,7 +19,7 @@ $circulation_set = find_all_circ();
     </div>
 
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New Circulation</a>
+      <!--<a class="action" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New Circulation</a>-->
     </div>
 
   	<table class="list">

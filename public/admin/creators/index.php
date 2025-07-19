@@ -15,7 +15,7 @@
     </div>
     
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/courses/new.php'); ?>">Add New Creator</a>
+      <a class="action" href="<?php echo url_for('/admin/creators/new.php'); ?>">Add New Creator</a>
     </div>
     
     <table class = "list">

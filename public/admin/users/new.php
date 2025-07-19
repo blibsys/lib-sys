@@ -1,61 +1,59 @@
 <?php
- 
+
 require_once('../../../private/initialise.php'); 
 
-$menu_name = '';
-$position = '';
-$visible = ''; 
-
-if(is_post_request()) {
-
-// Handle form values sent by new.php
-
-	$menu_name = $_POST['menu_name'] ?? '';
-	$position = $_POST['position'] ?? '';
-	$visible = $_POST['visible'] ?? '';
-	
-	echo "Form parameters<br />";
-	echo "Menu name: " . $menu_name . "<br />";
-	echo "Position: " . $position . "<br />";
-	echo "Visible: " . $visible . "<br />";
-}   
 ?>
 
-<?php $user_title = 'Add User'; ?>
+<?php $page_title = 'Add user'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
-<!-- html with embedded php to display a web form for editing module -->
 <!-- ("server side script for managing content") -->
-
+<!-- need to add validation to the forms -->
 <div id="content">
 
-  <a class = "back-link" href="<?php echo url_for('/admin/users/index.php') ?>">&laquo; Back to List</a>
-  
+  <a class="back-link" href="<?php echo url_for('/admin/users/index.php'); ?>">&laquo; Back to List</a>
+
   <div class="user new">
-    <h1>New User</h1>
-    <form action="<?php echo url_for('/admin/users/new.php'); ?>" method="post">
+    <h1>Add user</h1>
+
+    <form action="<?php echo url_for('/admin/users/create.php'); ?>" method="post">
       <dl>
-        <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
+        <dt>User id</dt>
+        <dd><input type="text" name="user_id" value="" /></dd>
       </dl>
       <dl>
-        <dt>Position</dt>
-        <dd>
-          <select name="position">
-            <option value="1"<?php if($position == "1") {echo " selected";} ?>>1</option>
-          </select>
-        </dd>
+        <dt>First name</dt>
+        <dd><input type="text" name="first_name" value="" /></dd>
       </dl>
       <dl>
-        <dt>Visible</dt>
-        <dd>
-          <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1"<?php if($visible == "1") {echo" checked"; } ?> />
-        </dd>
+        <dt>Last name</dt>
+        <dd><input type="text" name="last_name" value="" /></dd>
       </dl>
+      <dl>
+        <dt>Start date</dt>
+        <dd><input type="text" name="user_start_date" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>End date</dt>
+        <dd><input type="text" name="user_end_date" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Type</dt>
+        <dd><input type="text" name="user_type" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Email</dt>
+        <dd><input type="text" name="email" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Course ID</dt>
+        <dd><input type="text" name="course_id" value="" /></dd>
+      </dl>
+      
       <div id="operations">
-        <input type="submit" value="Add user" />
+        <input type="submit" value="Add User" />
       </div>
+      
     </form>
 
   </div>

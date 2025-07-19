@@ -8,6 +8,7 @@ $item_set = find_all_items();
 ?>
 
 <?php $page_title = 'items'; ?>
+
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div id="content">

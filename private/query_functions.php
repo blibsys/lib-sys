@@ -80,8 +80,8 @@
 	$sql .= "i.publication_year, i.item_copy, i.publisher_id, i.category, ";
 	$sql .= "GROUP_CONCAT(c.creator_name ORDER BY c.creator_name SEPARATOR ', ') AS creators ";
 	$sql .= "FROM items i ";
-	$sql .= "JOIN item_creators ic ON ic.item_id = i.item_id ";
-	$sql .= "JOIN creators c ON c.creator_id = ic.creator_id ";
+	$sql .= "LEFT JOIN item_creators ic ON ic.item_id = i.item_id ";
+	$sql .= "LEFT JOIN creators c ON c.creator_id = ic.creator_id ";
 	$sql .= "WHERE i.item_id='" . $id . "' ";
 	$sql .= "GROUP BY i.item_id, i.title, i.item_edition, i.isbn, i.item_type, i.publication_year, i.item_copy";
 	$result = mysqli_query($db, $sql);
@@ -177,4 +177,164 @@
     return $pub; // returns an assoc. array
 	}
 
+	function insert_item($title, $item_edition, $isbn, $item_type, $publication_year, $item_copy, $publisher_id, $category, $item_status)
+	 { global $db;
+	  
+	  	$sql = "INSERT INTO items ";
+		$sql .= "(title, item_edition, isbn, item_type, publication_year, item_copy, publisher_id, category, item_status) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . $title . "',";
+		$sql .= "'" . $item_edition . "',";
+		$sql .= "'" . $isbn . "',";
+		$sql .= "'" . $item_type . "',";
+		$sql .= "'" . $publication_year . "',";
+		$sql .= "'" . $item_copy . "',";
+		$sql .= "'" . $publisher_id . "',";
+		$sql .= "'" . $category . "',";
+		$sql .= "'" . $item_status . "'";
+		$sql .= ")";
+		$result = mysqli_query($db, $sql);
+		//for INSERT statements, $result is true/false
+		//echo $sql . "<br>";
+		//echo mysqli_error($db);
+		if($result) {
+			return true;
+		} else {
+		  // INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		}
+	}	  
+	
+	function insert_course($course_id, $course_name){
+		global $db;
+		
+		$sql = "INSERT INTO courses ";
+		$sql .= "(course_id, course_name) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . $course_id . "',";
+		$sql .= "'" . $course_name . "'";
+		$sql .= ")";
+		$result = mysqli_query($db, $sql);
+		//for INSERT statements, $result is true/false
+		if($result) {
+			return true;
+		} else {
+		  //INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		}
+	}
+	
+	function insert_creator($creator_id, $creator_name){
+		global $db;
+		
+		$sql = "INSERT INTO creators ";
+		$sql .= "(creator_id, creator_name) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . $creator_id . "',";
+		$sql .= "'" . $creator_name . "'";
+		$sql .= ")";
+		$result = mysqli_query($db, $sql);
+		//for INSERT statements, $result is true/false
+		if($result) {
+			return true;
+		} else {
+		  //INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		}
+	}
+	
+	function insert_publisher($publisher_id, $publisher_name){
+		global$db;
+		
+		$sql = "INSERT INTO publishers ";
+		$sql .= "(publisher_id, publisher_name) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . $publisher_id . "',";
+		$sql .= "'" . $publisher_name . "'";
+		$sql .= ")";
+			$result = mysqli_query($db, $sql);
+		//for INSERT statements, $result is true/false
+		if($result) {
+			return true;
+		} else {
+		  //INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		}
+	}
+		
+	function insert_user($user_id, $first_name, $last_name, $user_start_date, $user_end_date, $user_type, $email, $course_id)
+   	{	global $db;
+		
+		$sql = "INSERT INTO users ";
+		$sql .= "(user_id, first_name, last_name, user_start_date, user_end_date, user_type, email, course_id) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . $user_id . "',";
+		$sql .= "'" . $first_name . "',";
+		$sql .= "'" . $last_name . "',";
+		$sql .= "'" . $user_start_date . "',";
+		$sql .= "'" . $user_end_date . "',";
+		$sql .= "'" . $user_type . "',";
+		$sql .= "'" . $email . "',";
+		$sql .= "'" . $course_id . "'";
+		$sql .= ")";
+			$result = mysqli_query($db, $sql);
+		//for INSERT statements, $result is true/false
+		if($result) {
+			return true;
+		} else {
+		  //INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		}		
+	}
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 ?>	

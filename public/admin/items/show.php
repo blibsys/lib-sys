@@ -4,8 +4,11 @@
 
 $id = $_GET['id'] ?? '1';
 
-$item = find_item_by_id($id)
-
+$item = find_item_by_id($id);
+if (!$item) {
+  echo "<p>Item not found.</p>";
+  exit;
+}
 ?>
 
 <?php $page_title = 'Show Item'; ?>
@@ -67,7 +70,7 @@ $item = find_item_by_id($id)
 	    </dl>
         <dl>
 	      <dt>Created</dt>
-	      <dd><?php echo h($tem['created_at'] ?? ''); ?></dd>
+	      <dd><?php echo h($item['created_at'] ?? ''); ?></dd>
 	    </dl>
 	    <dl>
 	      <dt>Updated</dt>

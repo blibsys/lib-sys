@@ -1,24 +1,6 @@
 <?php
 
-require_once('../../../private/initialise.php');
-
-$menu_name = '';
-$position = '';
-$visible = '';
-
-if(is_post_request()) {
-
-    // Handle form values sent by edit.php
-
-	$menu_name = $_POST['menu_name'] ?? '';
-	$position = $_POST['position'] ?? '';
-	$visible = $_POST['visible'] ?? '';
-	
-	echo "Form parameters<br />";
-	echo "Menu name: " . $menu_name . "<br />";
-	echo "Position: " . $position . "<br />";
-	echo "Visible: " . $visible . "<br />";
-}   
+require_once('../../../private/initialise.php'); 
 
 ?>
 
@@ -27,7 +9,7 @@ if(is_post_request()) {
 
 <!-- html with embedded php to display a web form for creating a new item -->
 <!-- ("server side script for managing content") -->
-
+<!-- need to add validation to the forms -->
 <div id="content">
 
   <a class="back-link" href="<?php echo url_for('/admin/items/index.php'); ?>">&laquo; Back to List</a>
@@ -35,29 +17,49 @@ if(is_post_request()) {
   <div class="item new">
     <h1>Add Item</h1>
 
-    <form action="<?php echo url_for('/admin/items/new.php'); ?>" method="post">
+    <form action="<?php echo url_for('/admin/items/create.php'); ?>" method="post">
       <dl>
-        <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
+        <dt>Title</dt>
+        <dd><input type="text" name="title" value="" /></dd>
       </dl>
       <dl>
-        <dt>Position</dt>
-        <dd>
-          <select name="position">
-            <option value="1"<?php if($position == "1") {echo " selected";} ?>>1</option>
-          </select>
-        </dd>
+        <dt>Edition</dt>
+        <dd><input type="text" name="item_edition" value="" /></dd>
       </dl>
       <dl>
-        <dt>Visible</dt>
-        <dd>
-          <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1"<?php if($visible == "1") {echo" checked"; } ?>/>
-        </dd>
+        <dt>ISBN</dt>
+        <dd><input type="text" name="isbn" value="" /></dd>
       </dl>
+      <dl>
+        <dt>Type</dt>
+        <dd><input type="text" name="item_type" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Year published</dt>
+        <dd><input type="text" name="publication_year" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Copy</dt>
+        <dd><input type="text" name="item_copy" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Publisher id</dt>
+        <dd><input type="text" name="publisher_id" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Category</dt>
+        <dd><input type="text" name="category" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Status</dt>
+        <dd><input type="text" name="item_status" value="" /></dd>
+      </dl>
+
+      
       <div id="operations">
-        <input type="submit" value="Create item" />
+        <input type="submit" value="Add Item" />
       </div>
+      
     </form>
 
   </div>
