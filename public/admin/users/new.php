@@ -46,7 +46,7 @@ require_once('../../../private/initialise.php');
         <dd><input type="text" name="email" value="" /></dd>
       </dl>
       <dl>
-        <dt>Course ID</dt>
+        <dt>Course id</dt>
         <dd><input type="text" name="course_id" value="" /></dd>
       </dl>
       

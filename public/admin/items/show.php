@@ -45,7 +45,7 @@ if (!$item) {
 	      <dd><?php echo h($item['item_type']); ?></dd>
 	    </dl>
 	     <dl>
-	      <dt>isbn</dt>
+	      <dt>ISBN</dt>
 	      <dd><?php echo h($item['isbn']); ?></dd>
 	    </dl>
 	    <dl>

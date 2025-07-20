@@ -1,60 +1,109 @@
 <?php
-
-require_once('../../../private/initialise.php');
+require_once('../../../private/initialise.php'); 
 
 if(!isset($_GET['id'])) {
 	redirect_to(url_for('/admin/items/index.php'));
 }
+
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
 
 if(is_post_request()) {
-
-    // Handle form values sent by edit.php
-
-	$menu_name = $_POST['menu_name'] ?? '';
-	$position = $_POST['position'] ?? '';
-	$visible = $_POST['visible'] ?? '';
+		
+	$item = [];
+	$item['id'] = $id;
+	$item['title']= $_POST['title'] ?? '';
+	$item['item_edition']= $_POST['item_edition'] ?? '';
+	$item['isbn']= $_POST['isbn'] ?? '';
+	$item['item_type']= $_POST['item_type'] ?? '';
+	$item['publication_year']= $_POST['publication_year'] ?? '';
+	$item['item_copy']= $_POST['item_copy'] ?? '';
+	$item['publisher_id']= $_POST['publisher_id'] ?? '';
+	$item['category']= $_POST['category'] ?? '';
+	$item['item_status']= $_POST['item_status'] ?? '';
 	
-	echo "Form parameters<br />";
-	echo "Menu name: " . $menu_name . "<br />";
-	echo "Position: " . $position . "<br />";
-	echo "Visible: " . $visible . "<br />";
+	$sql = "UPDATE items SET ";
+	$sql .= "title='" . $item['title'] . "', ";
+	$sql .= "item_edition='" . $item['item_edition'] . "', ";
+	$sql .= "isbn='" . $item['isbn'] . "', ";
+	$sql .= "item_type='" . $item['item_type'] . "', ";
+	$sql .= "publication_year='" . $item['publication_year'] . "', ";
+	$sql .= "item_copy='" . $item['item_copy'] . "', ";
+	$sql .= "publisher_id='" . $item['publisher_id'] . "', ";
+	$sql .= "category='" . $item['category'] . "', ";
+	$sql .= "item_status='" . $item['item_status'] . "' ";	
+	$sql .= "WHERE item_id='" . $id . "'";
+	$sql .= "LIMIT 1";
+
+	$result = mysqli_query($db, $sql);
+	// for UPDATE statements, $result is true/false
+	if($result) {
+	  redirect_to(url_for('/admin/items/show.php?id=' . $id));
+	} else {
+	  // update failed
+	  echo mysqli_error($db);
+	  db_disconnect($db);
+	  exit;
+	  
+	}
+
+} else {
+	
+	$item = find_item_by_id($id);
+
 }   
 ?>
 
-<?php $page_title = 'Edit Item'; ?>
+	<?php $page_title = 'Edit Item'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/admin/items/index.php'); ?>">&laquo; Back to List</a>
-
+  <a class = "back-link" href="<?php echo url_for('/admin/items/index.php') ?>">&laquo; Back to List</a>
+  
   <div class="item edit">
     <h1>Edit Item</h1>
 
     <form action="<?php echo url_for('/admin/items/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
-        <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
+        <dt>item id</dt>
+        <!--item id read only:-->
+        <dd><?php echo h($item['item_id']); ?></dd>
       </dl>
       <dl>
-        <dt>Position</dt>
-        <dd>
-          <select name="position">
-            <option value="1"<?php if($position == "1") {echo " selected";} ?>>1</option>
-            
-          </select>
-        </dd>
+        <dt>title</dt>
+        <dd><input type="text" name="title" value="<?php echo h($item['title']); ?>" /></dd>
       </dl>
       <dl>
-        <dt>Visible</dt>
-        <dd>
-          <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?php if($visible == "1") {echo" checked"; } ?> />
-        </dd>
+        <dt>Item edition</dt>
+        <dd><input type="text" name="item_edition" value="<?php echo h($item['item_edition']); ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>ISBN</dt>
+        <dd><input type="text" name="isbn" value="<?php echo h($item['isbn']); ?>" /></dd>
+      </dl>
+       <dl>
+        <dt>Item type</dt>
+        <dd><input type="text" name="item_type" value="<?php echo h($item['item_type']); ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>Publication year</dt>
+        <dd><input type="text" name="publication_year" value="<?php echo h($item['publication_year']); ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>copy</dt>
+        <dd><input type="text" name="item_copy" value="<?php echo h($item['item_copy']); ?>" /></dd>
+      </dl>
+       <dl>
+        <dt>Publisher id</dt>
+        <dd><input type="text" name="publisher_id" value="<?php echo h($item['publisher_id']); ?>" /></dd>
+      </dl>
+       <dl>
+        <dt>Category</dt>
+        <dd><input type="text" name="category" value="<?php echo h($item['category']); ?>" /></dd>
+      </dl>
+       <dl>
+        <dt>Status</dt>
+        <dd><input type="text" name="item_status" value="<?php echo h($item['item_status']); ?>" /></dd>
       </dl>
       <div id="operations">
         <input type="submit" value="Edit Item" />

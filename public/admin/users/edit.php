@@ -4,27 +4,57 @@ require_once('../../../private/initialise.php');
 if(!isset($_GET['id'])) {
 	redirect_to(url_for('/admin/users/index.php'));
 }
+
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
 
 if(is_post_request()) {
 
-// Handle form values sent by edit.php
-
-	$menu_name = $_POST['menu_name'] ?? '';
-	$position = $_POST['position'] ?? '';
-	$visible = $_POST['visible'] ?? '';
+// Handle form values sent by new.php
+		
+	$user = [];
+	$user['id'] = $id;
+	//$user['user_id']= $_POST['user_id'] ?? '';
+	$user['first_name']= $_POST['first_name'] ?? '';
+	$user['last_name']= $_POST['last_name'] ?? '';
+	$user['user_start_date']= $_POST['user_start_date'] ?? '';
+	$user['user_end_date']= $_POST['user_end_date'] ?? '';
+	$user['user_type']= $_POST['user_type'] ?? '';
+	$user['email']= $_POST['email'] ?? '';
+	//course_id has fk restraint
+	//$user['course_id']= $_POST['course_id'] ?? '';
 	
-	echo "Form parameters<br />";
-	echo "Menu name: " . $menu_name . "<br />";
-	echo "Position: " . $position . "<br />";
-	echo "Visible: " . $visible . "<br />";
+	$sql = "UPDATE users SET ";
+	//$sql .= "user_id='" . $user['user_id'] . "', ";
+	$sql .= "first_name='" . $user['first_name'] . "', ";
+	$sql .= "last_name='" . $user['last_name'] . "', ";
+	$sql .= "user_start_date='" . $user['user_start_date'] . "', ";
+	$sql .= "user_end_date='" . $user['user_end_date'] . "', ";
+	$sql .= "user_type='" . $user['user_type'] . "', ";
+	$sql .= "email='" . $user['email'] . "' ";
+	//$sql .= "course_id='" . $user['course_id'] . "' ";
+	$sql .= "WHERE user_id='" . $id . "'";
+	$sql .= "LIMIT 1";
+	
+	$result = mysqli_query($db, $sql);
+	// for UPDATE statements, $result is true/false
+	if($result) {
+	  redirect_to(url_for('/admin/users/show.php?id=' . $id));
+	} else {
+	  // update failed
+	  echo mysqli_error($db);
+	  db_disconnect($db);
+	  exit;
+	  
+	}
+
+} else {
+	
+	$user = find_user_by_id($id);
+
 }   
 ?>
 
-<?php $user_title = 'Edit user'; ?>
+<?php $page_title = 'Edit User'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- html with embedded php to display a web form for editing user -->
@@ -39,23 +69,33 @@ if(is_post_request()) {
 
     <form action="<?php echo url_for('/admin/users/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
-        <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>" /></dd>
+        <dt>User id</dt>
+        <!--user id read only:-->
+        <dd><?php echo h($user['user_id']); ?></dd>
       </dl>
       <dl>
-        <dt>Position</dt>
-        <dd>
-          <select name="position">
-            <option value="1"<?php if($position == "1") {echo " selected";} ?>>1</option>
-          </select>
-        </dd>
+        <dt>First name</dt>
+        <dd><input type="text" name="first_name" value="<?php echo h($user['first_name']); ?>" /></dd>
       </dl>
       <dl>
-        <dt>Visible</dt>
-        <dd>
-          <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1"<?php if($visible == "1") {echo" checked"; } ?>/>
-        </dd>
+        <dt>Last name</dt>
+        <dd><input type="text" name="last_name" value="<?php echo h($user['last_name']); ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>Start date</dt>
+        <dd><input type="text" name="user_start_date" value="<?php echo h($user['user_start_date']); ?>" /></dd>
+      </dl>
+       <dl>
+        <dt>End date</dt>
+        <dd><input type="text" name="user_end_date" value="<?php echo h($user['user_end_date']); ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>User type</dt>
+        <dd><input type="text" name="user_type" value="<?php echo h($user['user_type']); ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>Email</dt>
+        <dd><input type="text" name="email" value="<?php echo h($user['email']); ?>" /></dd>
       </dl>
       <div id="operations">
         <input type="submit" value="Edit user" />
