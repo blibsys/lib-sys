@@ -5,10 +5,11 @@
 $id = $_GET['id'] ?? '1';
 
 $item = find_item_by_id($id);
-if (!$item) {
+/*if (!$item) {
   echo "<p>Item not found.</p>";
   exit;
 }
+*/
 ?>
 
 <?php $page_title = 'Show Item'; ?>

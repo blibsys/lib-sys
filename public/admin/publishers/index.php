@@ -33,8 +33,8 @@
           <td><?php echo h($pub['publisher_id']); ?></td>
           <td><?php echo h($pub['publisher_name']); ?></td>
           <td><a class="action" href="<?php echo url_for('/admin/publishers/show.php?Page=1&id=' . h(u($pub['publisher_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($pub['publisher_id']))); ?>"">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($pub['publisher_id']))); ?>">Edit</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/publishers/delete.php?id=' . h(u($pub['publisher_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

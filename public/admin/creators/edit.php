@@ -13,22 +13,8 @@ if(is_post_request()) {
 	$creator['id'] = $id;
 	$creator['creator_name']= $_POST['creator_name'] ?? '';
 	
-	$sql = "UPDATE creators SET ";
-	$sql .= "creator_name='" . $creator['creator_name'] . "' ";
-	$sql .= "WHERE creator_id='" . $id . "'";
-	$sql .= "LIMIT 1";
-
-	$result = mysqli_query($db, $sql);
-	// for UPDATE statements, $result is true/false
-	if($result) {
-	  redirect_to(url_for('/admin/creators/show.php?id=' . $id));
-	} else {
-	  // update failed
-	  echo mysqli_error($db);
-	  db_disconnect($db);
-	  exit;
-	  
-	}
+	$result = update_creator($creator);
+	redirect_to(url_for('/admin/creators/show.php?id=' . $id));
 
 } else {
 	

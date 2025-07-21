@@ -38,3 +38,4 @@ $creator = find_creator_by_id($id);
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
+	

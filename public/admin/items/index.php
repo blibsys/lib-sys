@@ -57,8 +57,8 @@ $item_set = find_all_items();
           <td><?php echo h($item['created_at']);?></td>
     	  <td><?php echo h($item['updated_at']); ?></td>
           <td><a class="action" href="<?php echo url_for('/admin/items/show.php?Page=1&id=' . h(u($item['item_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/items/edit.php?id=' . h(u($item['item_id']))); ?>"">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/items/edit.php?id=' . h(u($item['item_id']))); ?>">Edit</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/items/delete.php?id=' . h(u($item['item_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

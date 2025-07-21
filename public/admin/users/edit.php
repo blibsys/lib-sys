@@ -13,39 +13,16 @@ if(is_post_request()) {
 		
 	$user = [];
 	$user['id'] = $id;
-	//$user['user_id']= $_POST['user_id'] ?? '';
 	$user['first_name']= $_POST['first_name'] ?? '';
 	$user['last_name']= $_POST['last_name'] ?? '';
 	$user['user_start_date']= $_POST['user_start_date'] ?? '';
 	$user['user_end_date']= $_POST['user_end_date'] ?? '';
 	$user['user_type']= $_POST['user_type'] ?? '';
 	$user['email']= $_POST['email'] ?? '';
-	//course_id has fk restraint
-	//$user['course_id']= $_POST['course_id'] ?? '';
-	
-	$sql = "UPDATE users SET ";
-	//$sql .= "user_id='" . $user['user_id'] . "', ";
-	$sql .= "first_name='" . $user['first_name'] . "', ";
-	$sql .= "last_name='" . $user['last_name'] . "', ";
-	$sql .= "user_start_date='" . $user['user_start_date'] . "', ";
-	$sql .= "user_end_date='" . $user['user_end_date'] . "', ";
-	$sql .= "user_type='" . $user['user_type'] . "', ";
-	$sql .= "email='" . $user['email'] . "' ";
-	//$sql .= "course_id='" . $user['course_id'] . "' ";
-	$sql .= "WHERE user_id='" . $id . "'";
-	$sql .= "LIMIT 1";
-	
-	$result = mysqli_query($db, $sql);
-	// for UPDATE statements, $result is true/false
-	if($result) {
-	  redirect_to(url_for('/admin/users/show.php?id=' . $id));
-	} else {
-	  // update failed
-	  echo mysqli_error($db);
-	  db_disconnect($db);
-	  exit;
-	  
-	}
+
+		$result = update_user($user);
+	redirect_to(url_for('/admin/users/show.php?id=' . $id));
+
 
 } else {
 	

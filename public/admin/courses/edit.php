@@ -7,38 +7,34 @@ if(!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
+$errors = [];
+
 if(is_post_request()) {
 		
 	$course = [];
-	$course['id'] = $id;
+	$course['course_id'] = $id;
 	$course['course_name']= $_POST['course_name'] ?? '';
 	
-	$sql = "UPDATE courses SET ";
-	$sql .= "course_name='" . $course['course_name'] . "' ";
-	$sql .= "WHERE course_id='" . $id . "'";
-	$sql .= "LIMIT 1";
-
-	$result = mysqli_query($db, $sql);
-	// for UPDATE statements, $result is true/false
-	if($result) {
-	  redirect_to(url_for('/admin/courses/show.php?id=' . $id));
-	} else {
-	  // update failed
-	  echo mysqli_error($db);
-	  db_disconnect($db);
-	  exit;
-	  
-	}
-
+	$result = update_course($course);
+	if($result == true) {
+		redirect_to(url_for('/admin/courses/show.php?id=' . $id));
+	  } else {
+	    $errors = $result;
+	    var_dump($errors);
+	  }
+	
 } else {
 	
 	$course = find_course_by_id($id);
+	
+	$course_set = find_all_courses();
 
 }   
+
 ?>
 	
 	<?php $page_title = 'Edit course'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+	<?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- html with embedded php to display a web form for editing course -->
 <!-- ("server side script for managing content") -->
@@ -49,6 +45,14 @@ if(is_post_request()) {
   
   <div class="course edit">
     <h1>Edit Course</h1>
+    
+    <?php if(!empty($errors)) : ?>
+  <div class="errors">
+    <?php foreach ($errors as $error) : ?>
+      <p style="color:red;"><?php echo h($error); ?></p>
+    <?php endforeach; ?>
+  </div>
+<?php endif; ?>
 
     <form action="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>

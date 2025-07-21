@@ -9,32 +9,18 @@ $id = $_GET['id'];
 
 if(is_post_request()) {
 
-	$publisher = [];
-	$publisher['id'] = $id;
-	$publisher['publisher_name']= $_POST['publisher_name'] ?? '';
+	$pub = [];
+	$pub['id'] = $id;
+	$pub['publisher_name']= $_POST['publisher_name'] ?? '';
 	
-	$sql = "UPDATE publishers SET ";
-	$sql .= "publisher_name='" . $publisher['publisher_name'] . "' ";
-	$sql .= "WHERE publisher_id='" . $id . "'";
-	$sql .= "LIMIT 1";
-
-	$result = mysqli_query($db, $sql);
-	// for UPDATE statements, $result is true/false
-	if($result) {
-	  redirect_to(url_for('/admin/publishers/show.php?id=' . $id));
-	} else {
-	  // update failed
-	  echo mysqli_error($db);
-	  db_disconnect($db);
-	  exit;
-	  
-	}
-
-} else {
+	$result = update_publisher($pub);
+	redirect_to(url_for('admin/publishers/show.php?id=' . $id));
 	
-	$publisher = find_pub_by_id($id);
+  } else {
+	
+	$pub = find_pub_by_id($id);
 
-}   
+  }   
 ?>
 	
 	<?php $page_title = 'Edit Publisher'; ?>
@@ -53,14 +39,14 @@ if(is_post_request()) {
     <form action="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
         <dt>Publisher id</dt>
-        <dd><?php echo h($publisher['publisher_id']) ?></dd>
+        <dd><?php echo h($pub['publisher_id']) ?></dd>
       </dl>
       <dl>
         <dt>Publisher name</dt>
-        <dd><input type="text" name="publisher_name" value="<?php echo h($publisher['publisher_name']); ?>" /></dd>
+        <dd><input type="text" name="publisher_name" value="<?php echo h($pub['publisher_name']); ?>" /></dd>
       </dl>
  	   <div id="operations">
-        <input type="submit" value="Edit publisher" />
+        <input type="submit" value="Edit Publisher" />
       </div>
     </form>
 

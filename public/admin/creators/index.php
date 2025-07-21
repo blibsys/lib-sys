@@ -32,8 +32,8 @@
           <td><?php echo h($creator['creator_id']); ?></td>
           <td><?php echo h($creator['creator_name']); ?></td>
           <td><a class="action" href="<?php echo url_for('/admin/creators/show.php?Page=1&id=' . h(u($creator['creator_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/creators/edit.php?id=' . h(u($creator['creator_id']))); ?>"">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/creators/edit.php?id=' . h(u($creator['creator_id']))); ?>">Edit</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/creators/delete.php?id=' . h(u($creator['creator_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

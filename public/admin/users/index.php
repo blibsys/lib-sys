@@ -52,7 +52,7 @@ $user_set = find_all_users();
     	  <td><?php echo h($user['updated_at']); ?></td>
           <td><a class="action" href="<?php echo url_for('/admin/users/show.php?user=1&id=' . h(u($user['user_id'])));?>">View</a></td>
           <td><a class="action" href="<?php echo url_for('/admin/users/edit.php?id=' . h(u($user['user_id']))); ?>">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/users/delete.php?id=' . h(u($user['user_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

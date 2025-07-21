@@ -2,13 +2,16 @@
 
 require_once('../../../private/initialise.php'); 
 
-?>
+	$course_set = find_all_courses();
+	$course_count = mysqli_num_rows($course_set) + 1;
+	mysqli_free_result($course_set);
+
+	$course = [];
+	?>
+
 
 <?php $page_title = 'Add course'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
-<!-- html with embedded php to display a web form for creating a new course -->
-<!-- ("server side script for managing content") -->
 
 <div id="content">
 
@@ -36,6 +39,4 @@ require_once('../../../private/initialise.php');
 
 </div>
 
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
-
-
+<?php include(SHARED_PATH . '/admin_footer.php'); ?> 

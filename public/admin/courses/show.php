@@ -8,7 +8,7 @@ $course = find_course_by_id($id);
 
 ?>
 
-<?php $page_title = 'show course'; ?>
+<?php $page_title = 'Show Course'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div id="content">

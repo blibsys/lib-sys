@@ -4,7 +4,7 @@
 
 $id = $_GET['id'] ?? '1';
 
-$circ = find_loan_by_id($id);
+$circ = find_circ_by_id($id);
 
 ?>
 

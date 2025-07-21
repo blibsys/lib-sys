@@ -21,36 +21,15 @@ if(is_post_request()) {
 	$item['category']= $_POST['category'] ?? '';
 	$item['item_status']= $_POST['item_status'] ?? '';
 	
-	$sql = "UPDATE items SET ";
-	$sql .= "title='" . $item['title'] . "', ";
-	$sql .= "item_edition='" . $item['item_edition'] . "', ";
-	$sql .= "isbn='" . $item['isbn'] . "', ";
-	$sql .= "item_type='" . $item['item_type'] . "', ";
-	$sql .= "publication_year='" . $item['publication_year'] . "', ";
-	$sql .= "item_copy='" . $item['item_copy'] . "', ";
-	$sql .= "publisher_id='" . $item['publisher_id'] . "', ";
-	$sql .= "category='" . $item['category'] . "', ";
-	$sql .= "item_status='" . $item['item_status'] . "' ";	
-	$sql .= "WHERE item_id='" . $id . "'";
-	$sql .= "LIMIT 1";
-
-	$result = mysqli_query($db, $sql);
-	// for UPDATE statements, $result is true/false
-	if($result) {
-	  redirect_to(url_for('/admin/items/show.php?id=' . $id));
-	} else {
-	  // update failed
-	  echo mysqli_error($db);
-	  db_disconnect($db);
-	  exit;
-	  
-	}
-
-} else {
+	$result = update_item($item);
+	redirect_to(url_for('admin/items/show.php?id=' . $id));
+	
+  } else {
 	
 	$item = find_item_by_id($id);
 
-}   
+  }   
+  
 ?>
 
 	<?php $page_title = 'Edit Item'; ?>

@@ -33,8 +33,8 @@
           <td><?php echo h($course['course_id']); ?></td>
           <td><?php echo h($course['course_name']); ?></td>
           <td><a class="action" href="<?php echo url_for('/admin/courses/show.php?Page=1&id=' . h(u($course['course_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($course['course_id']))); ?>"">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($course['course_id']))); ?>""">Edit</a></td>
+          <td><a class="action" href="<?php echo url_for('/admin/courses/delete.php?id=' . h(u($course['course_id'])));?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

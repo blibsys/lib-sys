@@ -17,8 +17,6 @@ $pub = find_pub_by_id($id);
 	
 	<div class="publisher show">
 	
-	  <!--publisher_ID: <?php echo h($id); ?>-->
-	
 	<div class="attributes">
 	<dl>
 	  <dt>Publisher id</dt>
