@@ -37,14 +37,15 @@ $item = find_item_by_id($id);
 	      <dt>Creators</dt>
 	      <dd><?php echo h($item['creators']); ?></dd>
 	    </dl>
-	    <dl>
-	       <dt>Status</dt>
-	      <dd><?php echo h($item['item_status']); ?></dd>
-	    </dl>
-	    <dl>
+		<dl>
 	      <dt>Type</dt>
 	      <dd><?php echo h($item['item_type']); ?></dd>
 	    </dl>
+		<dl>
+	       <dt>Status</dt>
+	      <dd><?php echo h($item['item_status']); ?></dd>
+	    </dl>
+	   
 	     <dl>
 	      <dt>ISBN</dt>
 	      <dd><?php echo h($item['isbn']); ?></dd>
@@ -54,11 +55,11 @@ $item = find_item_by_id($id);
 	      <dd><?php echo h($item['item_edition']); ?></dd>
 	    </dl>
 	    <dl>
-	      <dt>Published Year</dt>
+	      <dt>Year published</dt>
 	      <dd><?php echo h($item['publication_year']); ?></dd>
 	    </dl>
 	    <dl>
-	      <dt>Publisher id</dt>
+	      <dt>Publisher</dt>
 	      <dd><?php echo h($item['publisher_id']); ?></dd>
 	    </dl>
 	    <dl>
@@ -66,7 +67,7 @@ $item = find_item_by_id($id);
 	      <dd><?php echo h($item['category']); ?></dd>
 	    </dl>
 	    <dl>
-	      <dt>Copy</dt>
+	      <dt>Number of copies</dt>
 	      <dd><?php echo h($item['item_copy']); ?></dd>
 	    </dl>
         <dl>

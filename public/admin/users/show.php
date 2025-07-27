@@ -3,7 +3,7 @@
 <?php
 
 $id = $_GET['id'] ?? '1';
-
+// Check if the id is set and valid
 $user = find_user_by_id($id)
 
 ?>

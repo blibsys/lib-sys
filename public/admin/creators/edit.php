@@ -10,16 +10,20 @@ $id = $_GET['id'];
 if(is_post_request()) {
 		
 	$creator = [];
-	$creator['id'] = $id;
+	$creator['creator_id'] = $id;
 	$creator['creator_name']= $_POST['creator_name'] ?? '';
-	
 	$result = update_creator($creator);
+	if($result === true) {
 	redirect_to(url_for('/admin/creators/show.php?id=' . $id));
-
+	   } else {
+	    $errors = $result;
+		//var_dump($errors);
+	  }
+	  
 } else {
 	
 	$creator = find_creator_by_id($id);
-
+	$creator_set = find_all_creators();
 }   
 ?>
 	
@@ -35,6 +39,8 @@ if(is_post_request()) {
   
   <div class="creator edit">
     <h1>Edit Creator</h1>
+    
+     <?php echo display_errors($errors); ?>
 
     <form action="<?php echo url_for('/admin/creators/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>

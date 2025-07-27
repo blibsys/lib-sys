@@ -4,14 +4,19 @@
   redirect_to(url_for('/admin/courses/index.php'));
 }
 $id = $_GET['id'];
+	$course = find_course_by_id($id);
 
 if(is_post_request()) {
 	
 	$result = delete_course($id);
+  if($result === true) {
 	redirect_to(url_for('/admin/courses/index.php'));
-	
+  } else {
+    $errors = $result;
+  //var_dump($errors);
+  }
 	} else {
-	$course = find_course_by_id($id);
+
 	}
 
 ?>
@@ -25,7 +30,10 @@ if(is_post_request()) {
 
   <div class="course delete">
     <h1>Delete Course</h1>
-    <p>!! Are you sure you want to delete this course? !!</p>
+
+  <?php echo display_errors($errors); ?>
+
+    <p>!! Are you sure you want to delete this course??</p>
     <p class="item"><?php echo h($course['course_id'] . ' - ' . $course['course_name']); ?></p>
 
     <form action="<?php echo url_for('/admin/courses/delete.php?id=' . h(u($course['course_id']))); ?>" method="post">

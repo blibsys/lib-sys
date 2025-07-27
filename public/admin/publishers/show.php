@@ -3,7 +3,7 @@
 <?php
 
 $id = $_GET['id'] ?? '1';
-
+// Check if the id is set and valid
 $pub = find_pub_by_id($id);
 
 ?>

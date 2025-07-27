@@ -13,8 +13,7 @@ $creator = find_creator_by_id($id);
 
 <div id="content">
 
-	<a class="back-link" href="<?php echo url_for('/admin/creators/index.php');
-	?>">&laquo; Back to List</a>
+	<a class="back-link" href="<?php echo url_for('/admin/creators/index.php'); ?>">&laquo; Back to List</a>
 	
 	<div class="creator show">
 	

@@ -22,10 +22,14 @@ if(is_post_request()) {
 	$item['item_status']= $_POST['item_status'] ?? '';
 	
 	$result = update_item($item);
-	redirect_to(url_for('admin/items/show.php?id=' . $id));
-	
+  if($result === true) {
+	  redirect_to(url_for('admin/items/show.php?id=' . h(u($id))));
   } else {
-	
+	$errors = $result;
+  //var_dump($errors);
+  } 
+  } else {
+
 	$item = find_item_by_id($id);
 
   }   
@@ -42,47 +46,78 @@ if(is_post_request()) {
   <div class="item edit">
     <h1>Edit Item</h1>
 
+    	<?php echo display_errors($errors); ?>
+
     <form action="<?php echo url_for('/admin/items/edit.php?id=' . h(u($id))); ?>" method="post">
-      <dl>
-        <dt>item id</dt>
+     <?php if(isset($item['item_id'])): ?>
+    <dl>
+        <dt>Item id</dt>
         <!--item id read only:-->
         <dd><?php echo h($item['item_id']); ?></dd>
+        <?php endif; ?>
       </dl>
       <dl>
-        <dt>title</dt>
+        <dt>Title</dt>
         <dd><input type="text" name="title" value="<?php echo h($item['title']); ?>" /></dd>
       </dl>
+       <dl>
+        <dt>Item Type</dt>
+        <dd>
+          <select name="item_type" id="item_type">
+        <option value="book" <?php if(($item['item_status'] ?? '') == 'book') echo 'selected'; ?>>Book</option>
+        <option value="journal" <?php if(($item['item_status'] ?? '') == 'journal') echo 'selected'; ?>>Journal</option>
+        <option value="programme" <?php if(($item['item_status'] ?? '') == 'programme') echo 'selected'; ?>>Programme</option>
+        <option value="dvd" <?php if(($item['item_status'] ?? '') == 'dvd') echo 'selected'; ?>>DVD</option>
+        <option value="other" <?php if(($item['item_status'] ?? '') == 'other') echo 'selected'; ?>>Other</option>
+          </select>
+        </dd>
+      </dl>
       <dl>
-        <dt>Item edition</dt>
-        <dd><input type="text" name="item_edition" value="<?php echo h($item['item_edition']); ?>" /></dd>
+        <dt>Status</dt>
+        <dd>
+          <select name="item_status" id="item_status">
+        <option value="available" <?php if(($item['item_status'] ?? '') == 'available') echo 'selected'; ?>>Available</option>
+        <option value="on loan" <?php if(($item['item_status'] ?? '') == 'on loan') echo 'selected'; ?>>On-loan</option>
+        <option value="missing" <?php if(($item['item_status'] ?? '') == 'missing') echo 'selected'; ?>>Missing</option>
+          </select>
+        </dd>
       </dl>
       <dl>
         <dt>ISBN</dt>
         <dd><input type="text" name="isbn" value="<?php echo h($item['isbn']); ?>" /></dd>
       </dl>
-       <dl>
-        <dt>Item type</dt>
-        <dd><input type="text" name="item_type" value="<?php echo h($item['item_type']); ?>" /></dd>
+      <dl>
+        <dt>Edition</dt>
+        <dd><input type="number" name="item_edition" value="<?php echo h($item['item_edition']); ?>" /></dd>
       </dl>
       <dl>
-        <dt>Publication year</dt>
-        <dd><input type="text" name="publication_year" value="<?php echo h($item['publication_year']); ?>" /></dd>
+        <dt>Year published</dt>
+        <dd><input type="number" name="publication_year" value="<?php echo h($item['publication_year']); ?>" /></dd>
       </dl>
+        <?php
+      $publisher_set = mysqli_query($db, "SELECT publisher_id, publisher_name FROM publishers");
+        ?>
       <dl>
-        <dt>copy</dt>
-        <dd><input type="text" name="item_copy" value="<?php echo h($item['item_copy']); ?>" /></dd>
-      </dl>
-       <dl>
-        <dt>Publisher id</dt>
-        <dd><input type="text" name="publisher_id" value="<?php echo h($item['publisher_id']); ?>" /></dd>
-      </dl>
-       <dl>
+        <dt>Publisher</dt>
+        <dd>
+      <select name="publisher_id">
+     <option value="">-- Select Publisher --</option>
+    <?php while ($row = mysqli_fetch_assoc($publisher_set)): ?>
+    <option value="<?php echo h($row['publisher_id']); ?>"
+      <?php if (($item['publisher_id'] ?? '') == $row['publisher_id']) echo 'selected'; ?>>
+      <?php echo h($row['publisher_id']) . " - " . h($row['publisher_name']); ?>
+     </option>
+    <?php endwhile; ?>
+      </select>
+      </dd>
+    </dl>
+    <dl>
         <dt>Category</dt>
         <dd><input type="text" name="category" value="<?php echo h($item['category']); ?>" /></dd>
       </dl>
-       <dl>
-        <dt>Status</dt>
-        <dd><input type="text" name="item_status" value="<?php echo h($item['item_status']); ?>" /></dd>
+      <dl>
+        <dt>Number of copies</dt>
+        <dd><input type="number" name="item_copy" value="<?php echo h($item['item_copy']); ?>" /></dd>
       </dl>
       <div id="operations">
         <input type="submit" value="Edit Item" />

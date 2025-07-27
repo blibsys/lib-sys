@@ -1,3 +1,5 @@
+
+
 <?php 
 require_once('../../../private/initialise.php'); 
 
@@ -7,8 +9,6 @@ if(!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-$errors = [];
-
 if(is_post_request()) {
 		
 	$course = [];
@@ -16,24 +16,20 @@ if(is_post_request()) {
 	$course['course_name']= $_POST['course_name'] ?? '';
 	
 	$result = update_course($course);
-	if($result == true) {
+	if($result === true) {
 		redirect_to(url_for('/admin/courses/show.php?id=' . $id));
 	  } else {
 	    $errors = $result;
-	    var_dump($errors);
+		//var_dump($errors);
 	  }
 	
 } else {
 	
 	$course = find_course_by_id($id);
-	
 	$course_set = find_all_courses();
-
-}   
-
+} 
 ?>
-	
-	<?php $page_title = 'Edit course'; ?>
+	<?php $page_title = 'Edit Course'; ?>
 	<?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- html with embedded php to display a web form for editing course -->
@@ -45,14 +41,8 @@ if(is_post_request()) {
   
   <div class="course edit">
     <h1>Edit Course</h1>
-    
-    <?php if(!empty($errors)) : ?>
-  <div class="errors">
-    <?php foreach ($errors as $error) : ?>
-      <p style="color:red;"><?php echo h($error); ?></p>
-    <?php endforeach; ?>
-  </div>
-<?php endif; ?>
+
+   <?php echo display_errors($errors); ?>
 
     <form action="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
@@ -73,6 +63,8 @@ if(is_post_request()) {
 </div>
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
+
 
 
 

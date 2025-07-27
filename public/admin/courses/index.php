@@ -12,7 +12,7 @@
     <h1>Courses</h1>
 
     <div class="back-link-wrapper">
-      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
+      <a class="back-link" href="<?php echo url_for('/admin/index.php'); ?>">&laquo; Back to List</a>
     </div>
 
     <div class="actions">

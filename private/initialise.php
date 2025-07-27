@@ -26,4 +26,5 @@
 	
 	$db = db_connect();
 	
+	$errors = [];
 ?>

@@ -1,5 +1,14 @@
-<?php
+<?php	
 
+	//letters, hyphens, spaces and apostrophes only
+	function has_letters_only($value) {
+    return preg_match('/^[a-zA-Z\s\'\-]+$/', $value);
+}
+
+  //is numbers only
+  function has_numbers_only($value) {
+    return preg_match('/^[0-9]+$/', $value);
+  }
   // is_blank('abcd')
   // * validate data presence
   // * uses trim() so empty spaces don't count
@@ -92,5 +101,52 @@
     $email_regex = '/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\Z/i';
     return preg_match($email_regex, $value) === 1;
   }
+  
+   // has valid_date_format (2025-01-01)
+   function has_valid_date_format($date, $format = 'Y-m-d') {
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
 
+ function has_unique_course_id($course_id, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT * FROM courses ";
+    $sql .= "WHERE course_id='" . db_escape($db, $course_id) . "' ";
+    $sql .= "AND course_id != '" . db_escape($db, $current_id) . "'";
+
+    $course_set = mysqli_query($db, $sql);
+    $course_count = mysqli_num_rows($course_set);
+    mysqli_free_result($course_set);
+
+    return $course_count === 0;
+  }
+
+   function has_unique_creator_id($creator_id, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT * FROM creators ";
+    $sql .= "WHERE creator_id='" . db_escape($db, $creator_id) . "' ";
+    $sql .= "AND creator_id != '" . db_escape($db, $current_id) . "'";
+
+    $creator_set = mysqli_query($db, $sql);
+    $creator_count = mysqli_num_rows($creator_set);
+    mysqli_free_result($creator_set);
+
+    return $creator_count === 0;
+  }
+
+  function has_users_with_course_id($course_id) {
+    global $db;
+
+    $sql = "SELECT * FROM users ";
+    $sql .= "WHERE course_id='" . db_escape($db, $course_id) . "'";
+
+    $user_set = mysqli_query($db, $sql);
+    $user_count = mysqli_num_rows($user_set);
+    mysqli_free_result($user_set);
+
+    return $user_count > 0;
+  }
 ?>
+

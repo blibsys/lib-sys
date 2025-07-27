@@ -1,8 +1,32 @@
  <?php
 
-require_once('../../../private/initialise.php'); 
+require_once('../../../private/initialise.php');
 
-?>
+if(is_post_request()) {
+
+    // Handle form values sent by edit/new.php
+
+	$creator = [];
+	$creator['creator_id'] = $_POST['creator_id'] ?? '';
+	$creator['creator_name'] = $_POST['creator_name'] ?? '';
+	
+	$result = insert_creator($creator);
+	if($result === true) {
+	$new_id = mysqli_insert_id($db);
+	redirect_to(url_for('admin/creators/show.php?id=' . $creator['creator_id']));
+	
+	} else {
+  	$errors = $result;
+  }
+  	} else {
+  	  // display blank form
+  }
+  	$creator_set = find_all_creators();
+	$creator_count = mysqli_num_rows($creator_set) + 1;
+	mysqli_free_result($creator_set);
+
+	//$creator = [];
+	?>
 
 <?php $page_title = 'Add creator'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -15,16 +39,18 @@ require_once('../../../private/initialise.php');
   <a class="back-link" href="<?php echo url_for('/admin/creators/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="creator new">
-    <h1>Add creator</h1>
+    <h1>Add Creator</h1>
+    
+    <?php echo display_errors($errors);?>
 
-    <form action="<?php echo url_for('/admin/creators/create.php'); ?>" method="post">
+    <form action="<?php echo url_for('/admin/creators/new.php'); ?>" method="post">
       <dl>
-        <dt>creator id</dt>
-        <dd><input type="text" name="creator_id" value="" /></dd>
+        <dt>Creator id</dt>
+        <dd><input type="text" name="creator_id" value="<?php echo h($creator['creator_id'] ?? ''); ?>" /></dd>
       </dl>
       <dl>
-        <dt>creator name</dt>
-        <dd><input type="text" name="creator_name" value="" /></dd>
+        <dt>Creator Name</dt>
+        <dd><input type="text" name="creator_name" value="<?php echo h($creator['creator_name'] ?? ''); ?>" /></dd>
       </dl>
     
       <div id="operations">
