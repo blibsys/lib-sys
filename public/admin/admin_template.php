@@ -9,4 +9,5 @@
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?> 
+
+<?php include(SHARED_PATH . '/admin_footer.php'); ?>

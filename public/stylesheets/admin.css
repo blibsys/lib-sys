@@ -11,7 +11,7 @@ body {
   width: 100%;
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #f5f7fa;
+  background: #fff;
   color: #000000;
 }
 
@@ -28,7 +28,7 @@ main {
 
 /* Top navbar styles */
     .navbar {
-  background: #25849c;
+  background: #0092bc;
   color: #fff;
   display: flex;
   align-items: center;
@@ -47,31 +47,35 @@ main {
 
 
 .nav-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.9em;
-  font-weight: 700;
+  font-size: 3em;
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  font-family: "Titillium Web", san-serif;
+  color: #fff;
   white-space: nowrap;
-  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 .navbar .nav-left {
   display: flex;
   align-items: center;
   min-width: 0;
+  gap: 14px; /* space between logo and button */
 }
+
 .logo {
   width: 100px;
   height: 40px;
-  background: #fff;
-  border-radius: 8px;
-  margin-right: 14px;
+  background: #0092bc;
+  border-radius: 4px;
+  margin: 0 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: #25849c;
+  color: #0092bc;
   font-size: 1.4em;
 }
 
@@ -134,29 +138,28 @@ main {
 }
 
 .menu-btn {
-  background: #fff;
-  color: #16505f;
+  background: #0092bc;
+  color: #e5eff1;
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   padding: 7px 18px;
   font-weight: 600;
   font-family: inherit;
-  font-size: 1em;
+  font-size: 3em;
   text-decoration: none;
   cursor: pointer;
   transition: background 0.18s;
+  display: flex;
+  margin: 0 2px;
 }
-.menu-btn:focus, .menu-btn:hover {
-  background: #e5eff1;
-  outline: 2px solid #16505f;
-}
+
 
 header {
   width: 100%;
   height: 112px;
   margin: 0 0 10px 0;
   padding: 0;
-  background: #25849c;
+  background: #0092bc;
   color: white;
   text-align: center;
 
@@ -167,12 +170,11 @@ header {
 
 footer {
   width: 100%;
-  height: 44px;
-  margin: 0;
-  padding: 20px 20px;
-  background: #25849c;
-  color: white;
-} 
+  padding: 20px 40px; /* remove height */
+  background: #0092bc;
+  color: #fff; /* better contrast */
+  box-sizing: border-box;
+}
 
 
 #content {
@@ -205,8 +207,8 @@ table.list tr td {
 }
 
 table.list tr th {
-  border: 1px solid #276676;
-  background: #276676;
+  border: 1px solid #026885;
+  background: #026885;
   color: white;
   text-align: left;
 }
@@ -251,7 +253,67 @@ dd {
 }
 
 
+#main-menu h2 {
+  font-size: 2em;
+  margin-bottom: 1.4em;
+  letter-spacing: 0.03em;
+  color: #23395d;
+}
 
+.module-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+  margin-top: 16px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px 0 rgba(60,60,60,0.08), 0 1.5px 3px 0 rgba(100,120,180,0.13);
+  text-decoration: none;
+  color: #23395d;
+  padding: 36px 18px 28px 18px;
+  transition: box-shadow 0.16s, transform 0.16s;
+  min-height: 140px;
+}
+.tile:hover, .tile:focus {
+  box-shadow: 0 6px 24px 0 rgba(80,100,160,0.16), 0 2.5px 5px 0 rgba(120,140,200,0.15);
+  outline: 2px solid #ffd600;
+  text-decoration: none;
+  color: #1a2540;
+  transform: translateY(-4px) scale(1.03);
+}
+
+.tile-icon {
+  font-size: 2.2em;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.tile-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 600px) {
+  .module-tiles {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .tile {
+    padding: 24px 8px 20px 8px;
+    min-height: 100px;
+  }
+}
 
 
 

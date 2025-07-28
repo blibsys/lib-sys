@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../private/initialise.php'); ?>
 
 <?php $page_title = '...'; ?>
 <?php include(SHARED_PATH . '/user_header.php'); ?>

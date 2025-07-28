@@ -7,10 +7,19 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #f5f7fa;
+  background: #fff;
   margin: 0;
   color: #222;
   min-height: 100vh;
+}
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* takes remaining vertical space */
 }
 
 /* Top navbar styles */
@@ -31,11 +40,11 @@ body {
   min-width: 0;
 }
 .logo {
-  width: 100px;
-  height: 40px;
+  width: 200px;
+  height: 60px;
   background: #fff;
-  border-radius: 8px;
-  margin-right: 14px;
+  border-radius: 4px;
+  margin-right: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,9 +53,11 @@ body {
   font-size: 1.4em;
 }
 .nav-title {
-  font-size: 1.7em;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-size: 3.2em;
+  font-weight: 100;
+  letter-spacing: 0.08em;
+  font-family: "Merriweather", serif;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,8 +118,20 @@ body {
   background: #f0f0f0;
   outline: 2px solid #999;
 }
+footer {
+  width: 100%;
+  padding: 20px 40px; /* remove height */
+  background: #000000;
+  color: #fff; /* better contrast */
+  box-sizing: border-box;
+}
 
 
+#content {
+  width: 920px;
+  min-height: 500px;
+  padding: 0 50px;
+}
 /* Notifications area */
 .notifications-area {
   background: #ffe9c8;
@@ -212,8 +235,7 @@ body {
 
 /* Focus states for accessibility */
 .search-input:focus-visible,
-.login-btn:focus-visible,
 .search-submit:focus-visible {
-  outline: 3px solid #ffd600;
+  outline: 3px solid #25849c;
   outline-offset: 1px;
 }
