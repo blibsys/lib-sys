@@ -38,7 +38,7 @@ if(is_post_request()) {
 
 	<?php $page_title = 'Edit Item'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+<main aria-label="main content">
 <div id="content">
 
   <a class = "back-link" href="<?php echo url_for('/admin/items/index.php') ?>">&laquo; Back to List</a>
@@ -127,5 +127,5 @@ if(is_post_request()) {
   </div>
 
 </div>
-
+    </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

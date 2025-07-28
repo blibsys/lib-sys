@@ -2,7 +2,7 @@
  
 <?php $page_title = 'Admin Menu'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+<main aria-label="main content">
 <div id="content">
   <div id="main-menu">
     <h2>Modules</h2>
@@ -21,10 +21,10 @@
 	  ?>">Item Creators</a></li>
 	  <li><a href="<?php echo url_for ('/admin/circulation/index.php'); 
 	  ?>">Circulation</a></li>
-	  
-    </ul>
+    
+  </ul>
    </div>
   
 </div>
-
+</main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

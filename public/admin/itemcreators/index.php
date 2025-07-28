@@ -6,6 +6,7 @@
 
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
+<main aria-label="main content">
 <div id="content">
   <div class="item creators listing">
     <h1>Item Creators</h1>
@@ -46,5 +47,5 @@
   </div>
 
 </div>
-
+      </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

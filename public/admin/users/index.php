@@ -9,6 +9,7 @@ $user_set = find_all_users();
 <?php $user_title = 'users'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
+<main aria-label="main content">
 <div id="content">
   <div class="users listing">
     <h1>Users</h1>
@@ -60,6 +61,6 @@ $user_set = find_all_users();
       </div>
 
 </div>
-
+      </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
     

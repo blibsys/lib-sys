@@ -6,7 +6,7 @@
 <?php $page_title = 'courses'; ?>
 
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+<main aria-label="main content">
 <div id="content">
   <div class="courses listing">
     <h1>Courses</h1>
@@ -47,5 +47,5 @@
   </div>
 
 </div>
-
+</main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

@@ -11,6 +11,7 @@ $circ = find_circ_by_id($id);
 <?php $page_title = 'Show Loans'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
+<main aria-label="main content">
 <div id="content">
 
 	<a class="back-link" href="<?php echo url_for('/admin/circulation/index.php');?>">&laquo; Back to List</a>
@@ -56,12 +57,9 @@ $circ = find_circ_by_id($id);
 	    <dt>Updated</dt>
 	    <dd><?php echo h($circ['updated_at']); ?></dd>
 	  </dl>
-	
-	  </div>	
-	  
-	  </div>
-
-</div>
-
+	 </div>	
+	</div>
+   </div>
+</main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 

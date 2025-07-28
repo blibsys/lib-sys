@@ -73,7 +73,27 @@
 	confirm_result_set($result);
 	return $result;
 }
+	function find_all_cats() {
+	global $db;
 
+	$sql = "SELECT DISTINCT category FROM items ";
+	$sql .= "ORDER BY category ASC";
+	$result = mysqli_query($db, $sql);
+	confirm_result_set($result);
+	return $result;
+	}
+
+	function find_items_by_cat($cat) {
+	global $db;	
+	$sql = "SELECT * FROM items ";
+	$sql .= "WHERE category='" . db_escape($db, $cat) . "' ";
+	$sql .= "ORDER BY item_id ASC";
+	$result = mysqli_query($db, $sql);
+	confirm_result_set($result);
+	return $result;
+	}
+
+	
 
     //find single record 
 	function find_item_by_id($id) {
@@ -603,7 +623,7 @@
       $allowed_types = ['book', 'journal', 'programme', 'dvd', 'other'];
       if(!in_array($item['item_type'], $allowed_types)) {
       $errors[] = "Invalid item type selected.";
-  }
+ }
 	}
 	  //publication_year
 	  if(!has_numbers_only($item['publication_year'])) {
@@ -622,7 +642,20 @@
 	  //publisher_id
 	  if(!has_presence($item['publisher_id'])) {
 	  $errors[] = "Publisher cannot be blank.";
-	}
+	} else {
+  	$publisher_id = db_escape($db, $item['publisher_id']);
+  	$sql = "SELECT COUNT(*) FROM publishers WHERE publisher_id = '{$publisher_id}'";
+  	$result = mysqli_query($db, $sql);
+  	if($result) {
+    $row = mysqli_fetch_row($result);
+    if($row[0] == 0) {
+      $errors[] = "Selected publisher does not exist.";
+    }
+    mysqli_free_result($result);
+  } else {
+    $errors[] = "Database error validating publisher.";
+  }
+  } 
 	  //category
 	  if(!has_presence($item['category'])) {
 	  $errors[] = "Category cannot be blank.";

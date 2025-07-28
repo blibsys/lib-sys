@@ -12,9 +12,9 @@ $item = find_item_by_id($id);
 */
 ?>
 
-<?php $page_title = 'Show Item'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+	<?php $page_title = 'Show Item'; ?>
+	<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<main aria-label="main content">
 <div id="content">
 
 	<a class="back-link" href="<?php echo url_for('/admin/items/index.php');
@@ -45,8 +45,7 @@ $item = find_item_by_id($id);
 	       <dt>Status</dt>
 	      <dd><?php echo h($item['item_status']); ?></dd>
 	    </dl>
-	   
-	     <dl>
+	    <dl>
 	      <dt>ISBN</dt>
 	      <dd><?php echo h($item['isbn']); ?></dd>
 	    </dl>
@@ -76,13 +75,13 @@ $item = find_item_by_id($id);
 	    </dl>
 	    <dl>
 	      <dt>Updated</dt>
-	      <dd><?php echo h($item['updated_at'] ?? ''); ?><dd>
+	      <dd><?php echo h($item['updated_at'] ?? ''); ?></dd>
 	    </dl> 
 	   </div>
 	  
 	</div>
-
-</div>
+  </div>
+</main>
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 

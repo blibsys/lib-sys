@@ -1,0 +1,219 @@
+
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  color: #222;
+  min-height: 100vh;
+}
+
+/* Top navbar styles */
+.navbar {
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 122px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.navbar .nav-left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.logo {
+  width: 100px;
+  height: 40px;
+  background: #fff;
+  border-radius: 8px;
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #111;
+  font-size: 1.4em;
+}
+.nav-title {
+  font-size: 1.7em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.user-details {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+}
+.user-icon {
+  margin-right: 0.6em;
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  background: #646262;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 42px;
+  color: #fff;
+  font-size: 1em;
+}
+.login-btn {
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 18px;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.login-btn:focus, .login-btn:hover {
+  background: #f0f0f0;
+  outline: 2px solid #999;
+}
+.admin-btn {
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 18px;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.admin-btn:focus, .admin-btn:hover {
+  background: #f0f0f0;
+  outline: 2px solid #999;
+}
+
+
+/* Notifications area */
+.notifications-area {
+  background: #ffe9c8;
+  color: #663c00;
+  margin: 0;
+  padding: 0.8em 2em;
+  border-bottom: 1px solid #ffe9c8;
+  font-size: 1.08em;
+  min-height: 2.6em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  box-sizing: border-box;
+}
+/* .notifications-area[aria-live] {
+  Visually indicate live region for screen readers
+} */
+
+/* Search bar section */
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 56px;
+  margin-bottom: 32px;
+  min-height: 250px;
+}
+.search-label {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #222;
+}
+.search-form {
+  width: 100%;
+  max-width: 700px; 
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.search-input {
+  flex: 1;
+  padding: 16px 60px 16px 20px;
+  border: 2px solid #bbb;
+  border-radius: 4px; 
+  font-size: 1.15em;
+  font-family: inherit;
+  outline: none;
+  transition: border 0.2s;
+  background: #fff;
+  color: #111;
+}
+.search-input:focus {
+  border: 2px solid #204080;
+  background: #f0f7ff;
+}
+.search-submit {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 4px; 
+  width: 44px;
+  height: 44px;
+  font-size: 1.3em;
+  cursor: pointer;
+  transition: background 0.13s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-submit:focus, .search-submit:hover {
+  background: #204080;
+  outline: 2px solid #25849c;
+}
+
+@media (max-width: 650px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5em 1em;
+    align-items: flex-start;
+  }
+  .nav-right {
+    margin-top: 0.5em;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .search-section {
+    margin-top: 32px;
+  }
+  .notifications-area {
+    padding: 0.8em 1em;
+    font-size: 1em;
+  }
+}
+
+/* Focus states for accessibility */
+.search-input:focus-visible,
+.login-btn:focus-visible,
+.search-submit:focus-visible {
+  outline: 3px solid #ffd600;
+  outline-offset: 1px;
+}

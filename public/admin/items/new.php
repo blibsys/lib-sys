@@ -40,6 +40,7 @@ mysqli_free_result($item_set);
 <!-- html with embedded php to display a web form for creating a new item -->
 <!-- ("server side script for managing content") -->
 <!-- need to add validation to the forms -->
+<main aria-label="main content">
 <div id="content">
 
   <a class="back-link" href="<?php echo url_for('/admin/items/index.php'); ?>">&laquo; Back to List</a>
@@ -124,5 +125,5 @@ mysqli_free_result($item_set);
   </div>
 
 </div>
-
+    </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

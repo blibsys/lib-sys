@@ -6,7 +6,7 @@
 <?php $page_title = 'publishers'; ?>
 
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+<main aria-label="main content">
 <div id="content">
   <div class="publishers listing">
     <h1>Publishers</h1>
@@ -47,5 +47,5 @@
   </div>
 
 </div>
-
+      </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

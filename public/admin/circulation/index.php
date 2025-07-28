@@ -10,6 +10,7 @@ $circulation_set = find_all_circ();
 <?php $page_title = 'circulation'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
+<main aria-label="main content">
 <div id="content">
   <div class="circulation listing">
     <h1>Circulation</h1>
@@ -65,6 +66,6 @@ $circulation_set = find_all_circ();
 
   </div>
 
-</div>
-
+  </div>
+ </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

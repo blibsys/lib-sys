@@ -32,7 +32,7 @@ if(is_post_request()) {
 
 <!-- html with embedded php to display a web form for editing creator -->
 <!-- ("server side script for managing content") -->
-
+<main aria-label="main content">
 <div id="content">
 
   <a class = "back-link" href="<?php echo url_for('/admin/creators/index.php') ?>">&laquo; Back to List</a>
@@ -60,7 +60,7 @@ if(is_post_request()) {
   </div>
 
 </div>
-
+</main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
