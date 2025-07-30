@@ -14,7 +14,7 @@ $circ = find_circ_by_id($id);
 <main aria-label="main content">
 <div id="content">
 
-	<a class="back-link" href="<?php echo url_for('/admin/circulation/index.php');?>">&laquo; Back to List</a>
+	<a class="back-link" href="<?php echo url_for('/admin/circulation/index.php');?>">← Back to List</a>
 	
 	<div class="circulation show">
 	

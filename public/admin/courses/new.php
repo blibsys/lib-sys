@@ -32,7 +32,7 @@ if(is_post_request()) {
 <main aria-label="main content">
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/admin/courses/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/admin/courses/index.php'); ?>">← Back to List</a>
 
   <div class="course new">
     <h1>Add Course</h1>

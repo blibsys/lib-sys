@@ -12,17 +12,17 @@
     <h1>Publishers</h1>
 
     <div class="back-link-wrapper">
-      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
+      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>
 
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/publishers/new.php'); ?>">Add New publisher</a>
+      <a class="action1" href="<?php echo url_for('/admin/publishers/new.php'); ?>">Add New publisher</a>
     </div>
       
     <table class = "list">
       <tr>  
-        <th>publisher_id</th>
-        <th>publisher_name</th>
+        <th>ID</th>
+        <th>Name</th>
   	    <th>&nbsp;</th>
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -32,9 +32,9 @@
         <tr>
           <td><?php echo h($pub['publisher_id']); ?></td>
           <td><?php echo h($pub['publisher_name']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/publishers/show.php?Page=1&id=' . h(u($pub['publisher_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($pub['publisher_id']))); ?>">Edit</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/publishers/delete.php?id=' . h(u($pub['publisher_id']))); ?>">Delete</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/publishers/show.php?Page=1&id=' . h(u($pub['publisher_id'])));?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($pub['publisher_id']))); ?>">Edit</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/publishers/delete.php?id=' . h(u($pub['publisher_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

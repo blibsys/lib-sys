@@ -14,7 +14,7 @@ $user = find_user_by_id($id)
 <div id="content">
 
 	<a class="back-link" href="<?php echo url_for('/admin/users/index.php');
-	?>">&laquo; Back to List</a>
+	?>">← Back to List</a>
 	
 	<div class="user show">
 	

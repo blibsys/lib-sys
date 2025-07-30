@@ -12,17 +12,17 @@
     <h1>Item Creators</h1>
 
     <div class="back-link-wrapper">
-      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
+      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>
     
     <div class="actions">
-      <!--<a class="action" href="<?php echo url_for('/admin/itemcreators/new.php'); ?>">Add New ItemCreator</a>-->
+      <!--<a class="action1" href="<?php echo url_for('/admin/itemcreators/new.php'); ?>">Add New ItemCreator</a>-->
     </div>
     
     <table class = "list">
       <tr>  
-        <th>item_id</th>
-        <th>creator_id</th>
+        <th>Item ID</th>
+        <th>Creator ID</th>
   	    <th>&nbsp;</th>
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -32,9 +32,9 @@
         <tr>
           <td><?php echo h($icreator['item_id']); ?></td>
           <td><?php echo h($icreator['creator_id']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/itemcreators/show.php?id=' . h(u($icreator['item_id']))); ?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/itemcreators/edit.php?id=' . h(u($icreator['item_id']))); ?>"">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/itemcreators/show.php?id=' . h(u($icreator['item_id']))); ?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/itemcreators/edit.php?id=' . h(u($icreator['item_id']))); ?>"">Edit</a></td>
+          <td><a class="action2" href="">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

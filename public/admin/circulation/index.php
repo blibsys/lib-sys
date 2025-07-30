@@ -16,25 +16,25 @@ $circulation_set = find_all_circ();
     <h1>Circulation</h1>
 
     <div class="back-link-wrapper">
-      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
+      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>
 
     <div class="actions">
-      <!--<a class="action" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New Circulation</a>-->
+      <!--<a class="action1" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New Circulation</a>-->
     </div>
 
   	<table class="list">
   	  <tr>
-        <th>circulation_id</th>
-        <th>user_id</th>
-        <th>item_id</th>
-  	    <th>borrow_date</th>
-  	    <th>date_due_back</th>
-        <th>returned_date</th>
-        <th>next_reminder_date</th>
-  	    <th>item_circulation_status</th>
-  	    <th>created_at</th>
-  	    <th>updated_at</th>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Item ID</th>
+  	    <th>Borrow date</th>
+  	    <th>Date due back</th>
+        <th>Returned date</th>
+        <th>Next reminder date</th>
+  	    <th>Status</th>
+  	    <th>Created</th>
+  	    <th>Updated</th>
   	    <th>&nbsp;</th>
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -52,9 +52,9 @@ $circulation_set = find_all_circ();
           <td><?php echo h($circ['item_circulation_status']); ?></td>
           <td><?php echo h($circ['created_at']);?></td>
     	  <td><?php echo h($circ['updated_at']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circ['circulation_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circ['circulation_id']))); ?>"">Edit</a></td>
-          <td><a class="action" href="">Delete</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circ['circulation_id'])));?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circ['circulation_id']))); ?>"">Edit</a></td>
+          <td><a class="action2" href="">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

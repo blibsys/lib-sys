@@ -22,7 +22,7 @@ if(is_post_request()) {
 <main aria-label="main content">
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/admin/creators/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/admin/creators/index.php'); ?>">← Back to List</a>
 
   <div class="creator delete">
     <h1>Delete Creator</h1>

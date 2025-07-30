@@ -99,13 +99,13 @@
 	function find_item_by_id($id) {
     global $db;
 	$sql  = "SELECT i.item_id, i.title, i.item_status, i.item_edition, i.isbn, i.item_type, ";
-	$sql .= "i.publication_year, i.item_copy, i.publisher_id, i.category, ";
+	$sql .= "i.publication_year, i.item_copy, i.publisher_id, i.category, i.created_at, i.updated_at, ";
 	$sql .= "GROUP_CONCAT(c.creator_name ORDER BY c.creator_name SEPARATOR ', ') AS creators ";
 	$sql .= "FROM items i ";
 	$sql .= "LEFT JOIN item_creators ic ON ic.item_id = i.item_id ";
 	$sql .= "LEFT JOIN creators c ON c.creator_id = ic.creator_id ";
 	$sql .= "WHERE i.item_id='" . db_escape($db, $id) . "' ";
-	$sql .= "GROUP BY i.item_id, i.title, i.item_edition, i.isbn, i.item_type, i.publication_year, i.item_copy";
+	$sql .= "GROUP BY i.item_id, i.title, i.item_edition, i.isbn, i.item_type, i.publication_year, i.item_copy, i.created_at, i.updated_at, i.publisher_id, i.category";
 	$result = mysqli_query($db, $sql);
     confirm_result_set($result);
     $item = mysqli_fetch_assoc($result);
@@ -598,6 +598,7 @@
 	//validation
 	
 	function validate_item($item) {
+	global $db;
 	  $errors = [];
 	  //title
 	  if(!has_presence($item['title'])) {
@@ -771,31 +772,170 @@
 		return $errors;
 	}	
 
-	
+	//SEARCH QUERIES
 
+	//basic search allowing one search term
+	/*function search_items($db, $search) {
+    // Prepare search terms
+    $like = '%' . $search . '%';
 
+    // Try to detect a year (4 digits)
+    $year = (preg_match('/^\d{4}$/', $search)) ? $search : '';
+    // Remove hyphens for ISBN search
+    $isbn = preg_replace('/-/', '', $search);
 
-	/* 
-	   // position
-    // Make sure we are working with an integer
-    $postion_int = (int) $subject['position'];
-    if($postion_int <= 0) {
-      $errors[] = "Position must be greater than zero.";
+    $sql = "
+      SELECT items.*, publishers.publisher_name AS pub, GROUP_CONCAT(DISTINCT creators.creator_name SEPARATOR ', ') AS creators
+      FROM items
+      JOIN item_creators ON items.item_id = item_creators.item_id
+      JOIN creators ON item_creators.creator_id = creators.creator_id
+	  JOIN publishers ON items.publisher_id = publishers.publisher_id
+	  WHERE
+		items.title LIKE ?
+		OR REPLACE(items.isbn, '-', '') = ?
+		OR CAST(items.publication_year AS CHAR) = ?
+		OR creators.creator_name LIKE ?
+      GROUP BY items.item_id
+    ";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param('ssss', $like, $isbn, $year, $like);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $results = [];
+    while ($row = $result->fetch_assoc()) {
+        $results[] = $row;
     }
-    if($postion_int > 999) {
-      $errors[] = "Position must be less than 999.";
-    }
-
-    // visible
-    // Make sure we are working with a string
-    $visible_str = (string) $subject['visible'];
-    if(!has_inclusion_of($visible_str, ["0","1"])) {
-      $errors[] = "Visible must be true or false.";
-    }
-
-    return $errors;
-  }
+    return $results;
+}
 	*/
-		
 
-?>	
+	// more advanced search allowing multiple terms and fuzzy matching and searching across multiple fields
+	
+	function keyword_search_items($db, $search, $fuzzy = false) {
+    // Split the search string into words (for multi-word search)
+    $words = preg_split('/\s+/', trim($search));
+    $where = [];
+    $params = [];
+    foreach ($words as $word) {
+        $word_conds = [];
+        // Search title
+        if ($fuzzy) {
+            $word_conds[] = "SOUNDEX(items.title) = SOUNDEX(?)";
+            $params[] = $word;
+        } else {
+            $word_conds[] = "items.title LIKE ?";
+            $params[] = "%$word%";
+        }
+        // Search creators
+        if ($fuzzy) {
+            $word_conds[] = "SOUNDEX(creators.creator_name) = SOUNDEX(?)";
+            $params[] = $word;
+        } else {
+            $word_conds[] = "creators.creator_name LIKE ?";
+            $params[] = "%$word%";
+        }
+        // Search publisher
+        if ($fuzzy) {
+            $word_conds[] = "SOUNDEX(publishers.publisher_name) = SOUNDEX(?)";
+            $params[] = $word;
+        } else {
+            $word_conds[] = "publishers.publisher_name LIKE ?";
+            $params[] = "%$word%";
+        }
+        // Search ISBN
+        $word_conds[] = "items.isbn LIKE ?";
+        $params[] = "%$word%";
+        // Combine all fields for this word as OR
+        $where[] = '(' . implode(' OR ', $word_conds) . ')';
+    }
+    // Final SQL
+    $sql = "
+        SELECT items.*, 
+               GROUP_CONCAT(DISTINCT creators.creator_name SEPARATOR ', ') AS creators, 
+               publishers.publisher_name AS pub
+        FROM items
+        LEFT JOIN item_creators ON items.item_id = item_creators.item_id
+        LEFT JOIN creators ON item_creators.creator_id = creators.creator_id
+        LEFT JOIN publishers ON items.publisher_id = publishers.publisher_id
+        WHERE " . implode(' AND ', $where) . "
+        GROUP BY items.item_id
+        ORDER BY items.title ASC
+    ";
+    $stmt = $db->prepare($sql);
+    $types = str_repeat('s', count($params));
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function advanced_search_items($db, $params) {
+    $where = [];
+    $sql_params = [];
+
+    // Title
+    if ($params['title']) {
+        if ($params['fuzzy']) {
+            $where[] = "SOUNDEX(items.title) = SOUNDEX(?)";
+            $sql_params[] = $params['title'];
+        } else {
+            $where[] = "items.title LIKE ?";
+            $sql_params[] = "%{$params['title']}%";
+        }
+    }
+    // Author/Creator
+    if ($params['author']) {
+        if ($params['fuzzy']) {
+            $where[] = "SOUNDEX(creators.creator_name) = SOUNDEX(?)";
+            $sql_params[] = $params['author'];
+        } else {
+            $where[] = "creators.creator_name LIKE ?";
+            $sql_params[] = "%{$params['author']}%";
+        }
+    }
+    // Year
+    if ($params['year']) {
+        $where[] = "items.publication_year = ?";
+        $sql_params[] = $params['year'];
+    }
+    // ISBN
+    if ($params['isbn']) {
+        $where[] = "items.isbn = ?";
+        $sql_params[] = $params['isbn'];
+    }
+    // Publisher
+    if ($params['publisher']) {
+        if ($params['fuzzy']) {
+            $where[] = "SOUNDEX(publishers.publisher_name) = SOUNDEX(?)";
+            $sql_params[] = $params['publisher'];
+        } else {    
+            $where[] = "publishers.publisher_name LIKE ?";
+            $sql_params[] = "%{$params['publisher']}%";
+        }
+    }
+
+    $sql = "
+        SELECT items.*, 
+               GROUP_CONCAT(creators.creator_name SEPARATOR ', ') AS creators, 
+               publishers.publisher_name AS pub
+        FROM items
+        LEFT JOIN item_creators ON items.item_id = item_creators.item_id
+        LEFT JOIN creators ON item_creators.creator_id = creators.creator_id
+        LEFT JOIN publishers ON items.publisher_id = publishers.publisher_id
+    ";
+    if ($where) {
+        $sql .= " WHERE " . implode(" AND ", $where);
+    }
+    $sql .= " GROUP BY items.item_id ORDER BY items.title ASC";
+
+    $stmt = $db->prepare($sql);
+    if ($sql_params) {
+        $types = str_repeat('s', count($sql_params));
+        $stmt->bind_param($types, ...$sql_params);
+    }
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}

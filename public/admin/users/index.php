@@ -15,25 +15,25 @@ $user_set = find_all_users();
     <h1>Users</h1>
     
     <div class="back-link-wrapper">
-      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
+      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>
     
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/users/new.php'); ?>">Add New user</a>
+      <a class="action1" href="<?php echo url_for('/admin/users/new.php'); ?>">Add New user</a>
     </div>
     
     <table class="list">
   	  <tr>
-        <th>user_id</th>
-        <th>first_name</th>
-        <th>last_name</th>
-  	    <th>user_start_date</th>
-  	    <th>user_end_date</th>
-  	    <th>user_type</th>
-  	    <th>email</th>
-  	    <th>course_id</th>
-  	    <th>created_at</th>
-  	    <th>updated_at</th>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+  	    <th>Start date</th>
+  	    <th>End date</th>
+  	    <th>Group</th>
+  	    <th>Email</th>
+  	    <th>Course ID</th>
+  	    <th>Created</th>
+  	    <th>Updated</th>
   	    <th>&nbsp;</th>
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -51,9 +51,9 @@ $user_set = find_all_users();
     	  <td><?php echo h($user['course_id']); ?></td>
     	  <td><?php echo h($user['created_at']); ?></td>
     	  <td><?php echo h($user['updated_at']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/users/show.php?user=1&id=' . h(u($user['user_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/users/edit.php?id=' . h(u($user['user_id']))); ?>">Edit</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/users/delete.php?id=' . h(u($user['user_id']))); ?>">Delete</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/users/show.php?user=1&id=' . h(u($user['user_id'])));?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/users/edit.php?id=' . h(u($user['user_id']))); ?>">Edit</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/users/delete.php?id=' . h(u($user['user_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

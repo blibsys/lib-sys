@@ -16,27 +16,27 @@ $item_set = find_all_items();
     <h1>Items</h1>
 
     <div class="back-link-wrapper">
-      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">&laquo; Back to List</a>
+      <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>
 
     <div class="actions">
-      <a class="action" href="<?php echo url_for('/admin/items/new.php'); ?>">Add New Item</a>
+      <a class="action1" href="<?php echo url_for('/admin/items/new.php'); ?>">Add New Item</a>
     </div>
 
   	<table class="list">
   	  <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>edition</th>
-  	    <th>isbn</th>
-  	    <th>type</th>
-        <th>publication_year</th>
-        <th>copy</th>
-  	    <th>publisher_id</th>
-  	    <th>category</th>
-  	    <th>status</th>
-  	    <th>created_at</th>
-  	    <th>updated_at</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Edition</th>
+  	    <th>ISBN</th>
+  	    <th>Type</th>
+        <th>Publication year</th>
+        <th>Copy</th>
+  	    <th>Publisher ID</th>
+  	    <th>Category</th>
+  	    <th>Status</th>
+  	    <th>Created</th>
+  	    <th>Updated</th>
   	    <th>&nbsp;</th>
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -56,9 +56,9 @@ $item_set = find_all_items();
           <td><?php echo h($item['item_status']); ?></td>
           <td><?php echo h($item['created_at']);?></td>
     	  <td><?php echo h($item['updated_at']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/admin/items/show.php?Page=1&id=' . h(u($item['item_id'])));?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/items/edit.php?id=' . h(u($item['item_id']))); ?>">Edit</a></td>
-          <td><a class="action" href="<?php echo url_for('/admin/items/delete.php?id=' . h(u($item['item_id']))); ?>">Delete</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/items/show.php?Page=1&id=' . h(u($item['item_id'])));?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/items/edit.php?id=' . h(u($item['item_id']))); ?>">Edit</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/items/delete.php?id=' . h(u($item['item_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php } ?>
   	</table>

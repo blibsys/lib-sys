@@ -1,8 +1,9 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../private/initialise.php'); ?>
 
 <?php
 
 $id = $_GET['id'] ?? '1';
+$main_search = $_GET['q'] ?? '';
 
 $item = find_item_by_id($id);
 /*if (!$item) {
@@ -13,13 +14,16 @@ $item = find_item_by_id($id);
 ?>
 
 	<?php $page_title = 'Show Item'; ?>
-	<?php include(SHARED_PATH . '/admin_header.php'); ?>
+	<?php include(SHARED_PATH . '/user_header.php'); ?>
 <main aria-label="main content">
 <div id="content">
 
-<a class="back-link" href="<?php echo url_for('admin/items/index.php'); ?>">← Back to List</a>
-	
-	<div class="item show">
+	<!--<a class="back-link" href="<?php echo url_for('/user/user_search.php?q=' . h(u($main_search))); ?>">← Back</a>-->
+	  
+	<?php $backurl = $_GET['backurl'] ?? url_for('/user/user_search.php'); ?>
+		<a class="back-to-results" href="<?php echo h($backurl); ?>">← Back to results</a>
+
+	<div class="item show"> 
 	
 	  <!--<h1>Item id: <?php echo h($item['item_id']); ?></h1>-->
 	  
@@ -67,14 +71,6 @@ $item = find_item_by_id($id);
 	    <dl>
 	      <dt>Number of copies</dt>
 	      <dd><?php echo h($item['item_copy']); ?></dd>
-	    </dl>
-        <dl>
-	      <dt>Created</dt>
-	      <dd><?php echo h($item['created_at'] ?? ''); ?></dd>
-	    </dl>
-	    <dl>
-	      <dt>Updated</dt>
-	      <dd><?php echo h($item['updated_at'] ?? ''); ?></dd>
 	    </dl> 
 	   </div>
 	  
@@ -82,6 +78,6 @@ $item = find_item_by_id($id);
   </div>
 </main>
 
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
 
 

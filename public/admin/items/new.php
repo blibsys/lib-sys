@@ -43,7 +43,7 @@ mysqli_free_result($item_set);
 <main aria-label="main content">
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/admin/items/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('admin/items/index.php'); ?>">← Back to List</a>
 
   <div class="item new">
     <h1>Add Item</h1>
@@ -73,7 +73,7 @@ mysqli_free_result($item_set);
         <dd>
           <select name="item_status" id="item_status">
         <option value="available" <?php if(($item['item_status'] ?? '') == 'available') echo 'selected'; ?>>Available</option>
-        <option value="on loan" <?php if(($item['item_status'] ?? '') == 'on loan') echo 'selected'; ?>>On-loan</option>
+        <option value="on loan" <?php if(($item['item_status'] ?? '') == 'on-loan') echo 'selected'; ?>>On-loan</option>
         <option value="missing" <?php if(($item['item_status'] ?? '') == 'missing') echo 'selected'; ?>>Missing</option>
           </select>
         </dd>
