@@ -1,6 +1,6 @@
  <?php
 
-require_once('../../../private/initialise.php'); 
+require_once('../../../private/init.php'); 
 
 if(is_post_request()) {
 
@@ -9,6 +9,7 @@ if(is_post_request()) {
 	
 	$result = insert_publisher($pub);
 	if($result === true) {
+    $_SESSION['message'] = 'Publisher added successfully.';
 		$new_id = mysqli_insert_id($db);
 		redirect_to(url_for('/admin/publishers/show.php?id=' . $new_id));
       } else {
@@ -35,21 +36,23 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/admin/publishers/index.php'); ?>">← Back to List</a>
 
   <div class="publisher new">
-    <h1>Add publisher</h1>
-    <h3>*Publisher id is automatically generated*</h3>
+    <h2>Add publisher</h2>
+    <h3>*Publisher ID is automatically generated*</h3>
     
    <?php echo display_errors($errors);?>
 
-    <form action="<?php echo url_for('/admin/publishers/new.php'); ?>" method="post">
-      <!--<dl>
-        <dt>publisher id</dt>
+    <form class="admin-form1" action="<?php echo url_for('/admin/publishers/new.php'); ?>" method="post">
+    
+    <dl>
         <dd><?php if(isset($pub['publisher_id'])) { echo h($pub['publisher_id']); } ?></dd>
-      </dl>-->
+      </dl>
+    </div>
+      <div class="form-row">
       <dl>
         <dt>Publisher Name</dt>
         <dd><input type="text" name="publisher_name" value="<?php echo h($pub['publisher_name'] ?? ''); ?>"" /></dd>
       </dl>
-    
+      </div>
       <div id="operations">
         <input type="submit" value="Add Publisher" />
       </div>

@@ -1,4 +1,4 @@
-<?php require_once('../../private/initialise.php'); ?>
+<?php require_once('../../private/init.php'); ?>
 
 <?php $page_title = 'Search'; ?>
 <?php include(SHARED_PATH . '/user_header.php'); ?>
@@ -31,12 +31,6 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
     $results = keyword_search_items($db, $main_search, $fuzzy);
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search Results</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo url_for('/styles/user_search.css'); ?>">
     <script>
       function showAdvanced() {
         document.getElementById('advanced-search').style.display='block';
@@ -45,13 +39,12 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
         document.getElementById('advanced-search').style.display='none';
       }
     </script>
-</head>
-<body>
+
 <main aria-label="main content">
   <section class="search-section" aria-label="Library catalogue search">
       <h1 id="searchbar-head">Search the Library Catalogue</h1>
     <!-- Main Search Bar -->
-<form class="search-form" action="user_search.php" method="get" role="search" aria-label="Catalogue search form">
+<form class="search-form" action="index.php" method="get" role="search" aria-label="Catalogue search form">
   <div class="search-bar-row">
     <input
       id="catalogue-search"
@@ -61,7 +54,7 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
       type="search" 
       placeholder="Search anything"
       aria-label="Search the library catalogue"
-      required>
+      required >
     <button class="search-submit" type="submit" aria-label="Search">Search</button>
   </div>
   <div class="advanced-btn-row">
@@ -73,9 +66,8 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
     <!-- Advanced Search Section (hidden by default) -->
 
     <div id="advanced-search" style="display:<?php echo ($use_advanced ? 'block':'none'); ?>">
-  <form class="advanced-search-form" action="user_search.php" method="get">
-    <input type="hidden" name="advanced" value="1">
-    
+  <form class="advanced-search-form" action="index.php" method="get">
+  <input type="hidden" name="advanced" value="1">
     <div class="form-row">
       <label for="search-title">Title:</label>
       <input type="text" id="search-title" name="title" value="<?php echo h($title); ?>">
@@ -96,17 +88,16 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
       <label for="search-publisher">Publisher:</label>
       <input type="text" id="search-publisher" name="publisher" value="<?php echo h($publisher); ?>">
     </div>
-    <div class="form-row">
-      <label>
-        <input type="checkbox" name="fuzzy" <?php if($fuzzy) echo "checked"; ?>> Fuzzy match (typo-tolerance)
-      </label>
+    <div class="form-row checkbox-row">
+        <input type="checkbox" id="search-fuzzy" name="fuzzy" <?php if($fuzzy) echo "checked"; ?>>
+        <label for="search-fuzzy">Fuzzy match (typo-tolerance)</label>
     </div>
-    <div class="form-row">
-      <button class="advanced-search-btn" type="submit">Search</button>
-      <button class="advanced-search-btn" type="button" onclick="hideAdvanced()">Close</button>
+    <div class="form-row button-row">
+        <button class="advanced-form-btn" type="submit">Search</button>
+        <button class="advanced-form-btn" type="button" onclick="hideAdvanced()">Close</button>
     </div>
-  </form>
-</div>
+    </form>
+    </div>
 
     <!-- Results -->
     <?php
@@ -131,14 +122,8 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
       <?php if ($count): ?>
         <div class="results-list">
           <?php foreach ($results as $item): ?>
-            <!--<a href="<?php echo url_for('/user/uitem_show.php?id=' . h(u($item['item_id']))); ?>" class="result-card" tabindex="0" aria-label="View details for <?php echo h($item['title']); ?>">-->
              <?php $backurl = urlencode($_SERVER['REQUEST_URI']);?>
                 <a href="<?php echo url_for('/user/uitem_show.php?id=' . h(u($item['item_id'])) . '&backurl=' . $backurl); ?>" class="result-card" tabindex="0" aria-label="View details for <?php echo h($item['title']); ?>">
-  
-            
-            
-            
-            
             <div class="item-type"><?php echo h($item['item_type']); ?></div>
               <div class="item-title"><?php echo h($item['title']); ?></div>
               <div class="item-creators"><?php echo h($item['creators']); ?></div>
@@ -162,6 +147,6 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
       <?php endif; ?>
     <?php endif; ?>
   </section>
+
 </main>
-</body>
-</html>
+<?php include(SHARED_PATH . '/user_footer.php'); ?>

@@ -1,6 +1,6 @@
  <?php
 
-require_once('../../../private/initialise.php');
+require_once('../../../private/init.php');
 
 if(is_post_request()) {
 
@@ -12,6 +12,7 @@ if(is_post_request()) {
 	
 	$result = insert_creator($creator);
 	if($result === true) {
+    $_SESSION['message'] = 'Creator added successfully.';
 	$new_id = mysqli_insert_id($db);
 	redirect_to(url_for('admin/creators/show.php?id=' . $creator['creator_id']));
 	
@@ -39,19 +40,23 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/admin/creators/index.php'); ?>">← Back to List</a>
 
   <div class="creator new">
-    <h1>Add Creator</h1>
+    <h2>Add Creator</h2>
     
     <?php echo display_errors($errors);?>
 
-    <form action="<?php echo url_for('/admin/creators/new.php'); ?>" method="post">
+    <form class="admin-form1" action="<?php echo url_for('/admin/creators/new.php'); ?>" method="post">
+      <div class="form-row">
       <dl>
-        <dt>Creator id</dt>
+        <dt>Creator ID</dt>
         <dd><input type="text" name="creator_id" value="<?php echo h($creator['creator_id'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>Creator Name</dt>
         <dd><input type="text" name="creator_name" value="<?php echo h($creator['creator_name'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
     
       <div id="operations">
         <input type="submit" value="Add Creator" />

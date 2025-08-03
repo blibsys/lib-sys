@@ -1,5 +1,5 @@
 <?php 
-require_once('../../../private/initialise.php'); 
+require_once('../../../private/init.php'); 
 
 if(!isset($_GET['id'])) {
 	redirect_to(url_for('/admin/creators/index.php'));
@@ -14,6 +14,7 @@ if(is_post_request()) {
 	$creator['creator_name']= $_POST['creator_name'] ?? '';
 	$result = update_creator($creator);
 	if($result === true) {
+    $_SESSION['message'] = 'Creator updated successfully.';
 	redirect_to(url_for('/admin/creators/show.php?id=' . $id));
 	   } else {
 	    $errors = $result;
@@ -38,20 +39,24 @@ if(is_post_request()) {
   <a class = "back-link" href="<?php echo url_for('/admin/creators/index.php') ?>">← Back to List</a>
   
   <div class="creator edit">
-    <h1>Edit Creator</h1>
+    <h2>Edit Creator</h2>
     
      <?php echo display_errors($errors); ?>
 
-    <form action="<?php echo url_for('/admin/creators/edit.php?id=' . h(u($id))); ?>" method="post">
-      <dl>
-        <dt>Creator id</dt>
+    <form class="admin-form1" action="<?php echo url_for('/admin/creators/edit.php?id=' . h(u($id))); ?>" method="post">
+    <div class="form-row">  
+    <dl>
+        <dt>Creator ID</dt>
         <!--cannot edit creator id, so it should be read only here -->
         <dd><?php echo h($creator['creator_id']); ?></dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>Creator name</dt>
         <dd><input type="text" name="creator_name" value="<?php echo h($creator['creator_name']); ?>" /></dd>
       </dl>
+      </div>
  	   <div id="operations">
         <input type="submit" value="Edit Creator" />
       </div>

@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php
 
@@ -19,15 +19,19 @@ $icreator = find_icreator_by_id($id);
 	<div class="item creator show">
 
 <div class="attributes">
+  <div class="form-row">
 	<dl>
 	  <dt>Item</dt>
 	  <dd><?php echo h($icreator['item_id'] . ' - ' . $icreator['title']); ?></dd>
     </dl>
+  </div>
+  <div class="form-row">
     <dl>
       <dt>Creator</dt>
       <dd><?php echo h($icreator['creator_id'] . ' - ' . $icreator['creator_name']); ?></dd>
     </dl>
     </div>
+</div>
 
 	</div>
 

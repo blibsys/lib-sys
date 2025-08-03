@@ -148,5 +148,52 @@
 
     return $user_count > 0;
   }
-?>
 
+  function has_unique_username($username, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT * FROM auth ";
+    $sql .= "WHERE username='" . db_escape($db, $username) . "' ";
+    $sql .= "AND auth_id != '" . db_escape($db, $current_id) . "'";
+
+    $auth_set = mysqli_query($db, $sql);
+    $auth_count = mysqli_num_rows($auth_set);
+    mysqli_free_result($auth_set);
+
+    return $auth_count === 0;
+  }
+
+  function has_unique_user_id($user_id, $current_id="0") {
+    global $db;
+    $sql = "SELECT * FROM auth ";
+    $sql .= "WHERE user_id='" . db_escape($db, $user_id) . "' ";
+    $sql .= "AND auth_id != '" . db_escape($db, $current_id) . "'";
+    $auth_set = mysqli_query($db, $sql);
+    $auth_count = mysqli_num_rows($auth_set);
+    mysqli_free_result($auth_set);
+
+    return $auth_count === 0;
+  }
+
+  /*function user_exists($user_id) {
+    global $db;
+
+    $sql = "SELECT * FROM users ";
+    $sql .= "WHERE user_id='" . db_escape($db, $user_id) . "'";
+    $user_set = mysqli_query($db, $sql);
+    $user_count = mysqli_num_rows($user_set);
+    mysqli_free_result($user_set);
+
+    return $user_count > 0;
+  } */
+   function user_exists($user_id) {
+    global $db;
+    $sql = "SELECT COUNT(*) FROM users WHERE user_id = ?";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $count);
+    mysqli_stmt_fetch($stmt);
+    return $count > 0;
+}
+  ?>

@@ -1,5 +1,5 @@
 
-<?php require_once('../../private/initialise.php'); ?>
+<?php require_once('../../private/init.php'); ?>
 
 <?php $page_title = 'Search'; ?>
 <?php include(SHARED_PATH . '/user_header.php'); ?>
@@ -28,7 +28,7 @@ if ($search) {
   <main aria-label="main content">
     <section class="search-section" aria-label="Library catalogue search">
       <label for="catalogue-search" class="search-label">Search the Library Catalogue</label>
-      <form class="search-form" action="user_search.php" method="get" role="search" aria-label="Catalogue search form">
+      <form class="search-form" action="index.php" method="get" role="search" aria-label="Catalogue search form">
         <input
           id="catalogue-search"
           name="q"

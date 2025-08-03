@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php
 
@@ -18,37 +18,51 @@ $user = find_user_by_id($id)
 	
 	<div class="user show">
 	
-	<!--<h1>User id: <?php echo h($user['user_id']); ?></h1>-->
+	<!--<h2>User id: <?php echo h($user['user_id']); ?></h2>-->
 	
-	<div class="attributes" >
+	<div class="attributes">
+	<div class="form-row">
 	<dl>
-	  <dt>User id</dt>
+	  <dt>User ID</dt>
 	  <dd><?php echo h($user['user_id']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Full name</dt>
 	  <dd><?php echo h($user['first_name'] . ' ' . $user['last_name']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Email</dt>
 	  <dd><?php echo h($user['email']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
-	  <dt>Type</dt>
-	  <dd><?php echo h($user['user_type']); ?></dd>
+	  <dt>Role</dt>
+	  <dd><?php echo h($user['role']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Course</dt>
 	  <dd><?php echo h($user['course_id'] . '-' . $user['course_name']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Start date</dt>
 	  <dd><?php echo h($user['user_start_date']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>End date</dt>
 	  <dd><?php echo h($user['user_end_date']); ?></dd>
 	</dl>
+  </div>
 	</div>
 	
 	

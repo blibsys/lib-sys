@@ -1,7 +1,7 @@
 
 
 <?php 
-require_once('../../../private/initialise.php'); 
+require_once('../../../private/init.php'); 
 
 if(!isset($_GET['id'])) {
 	redirect_to(url_for('/admin/courses/index.php'));
@@ -17,6 +17,7 @@ if(is_post_request()) {
 	
 	$result = update_course($course);
 	if($result === true) {
+    $_SESSION['message'] = 'Course updated successfully.';
 		redirect_to(url_for('/admin/courses/show.php?id=' . $id));
 	  } else {
 	    $errors = $result;
@@ -36,23 +37,27 @@ if(is_post_request()) {
 <!-- ("server side script for managing content") -->
 <main aria-label="main content">
 <div id="content">
-
+ 
   <a class = "back-link" href="<?php echo url_for('/admin/courses/index.php') ?>">← Back to List</a>
   
   <div class="course edit">
-    <h1>Edit Course</h1>
+    <h2>Edit Course</h2>
 
    <?php echo display_errors($errors); ?>
 
-    <form action="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($id))); ?>" method="post">
-      <dl>
-        <dt>Course id</dt>
+    <form class "admin-form1" action="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($id))); ?>" method="post">
+    <div class="form-row">  
+    <dl>
+        <dt>Course ID</dt>
         <dd><?php echo h($course['course_id']) ?></dd>
       </dl>
+    </div>
+    <div class="form-row">
       <dl>
         <dt>Course name</dt>
         <dd><input type="text" name="course_name" value="<?php echo h($course['course_name']); ?>" /></dd>
       </dl>
+    </div>
  	   <div id="operations">
         <input type="submit" value="Edit Course" />
       </div>

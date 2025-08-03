@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php if(!isset($_GET['id'])) {
   redirect_to(url_for('/admin/publishers/index.php'));
@@ -8,6 +8,7 @@ $id = $_GET['id'];
 if(is_post_request()) {
 	
 	$result = delete_publisher($id);
+  $_SESSION['message'] = 'Publisher deleted successfully.';
 	redirect_to(url_for('/admin/publishers/index.php'));
 	
 	} else {

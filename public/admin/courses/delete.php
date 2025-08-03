@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php if(!isset($_GET['id'])) {
   redirect_to(url_for('/admin/courses/index.php'));
@@ -10,6 +10,7 @@ if(is_post_request()) {
 	
 	$result = delete_course($id);
   if($result === true) {
+    $_SESSION['message'] = 'Course deleted successfully.';
 	redirect_to(url_for('/admin/courses/index.php'));
   } else {
     $errors = $result;

@@ -3,11 +3,14 @@
 html {
   height: 100%;
   width: 100%;
+  margin: 0;
 }
 
 body {
   font-family: 'roboto condensed', sans-serif;
   background: #fff;
+  height: 100%;
+  width: 100%;
   margin: 0;
   color: #222;
   min-height: 100vh;
@@ -24,7 +27,7 @@ main {
 
 /* Top navbar styles */
 .navbar {
-  background: #111;
+  background:#000000;
   color: #fff;
   display: flex;
   align-items: center;
@@ -39,6 +42,7 @@ main {
   align-items: center;
   min-width: 0;
 }
+
 .logo {
   width: 200px;
   height: 60px;
@@ -78,7 +82,7 @@ main {
   display: inline-block;
   width: 42px;
   height: 42px;
-  background: #ec2121; /* Changed to a more visible color */
+  background:#db3eb1;
   border-radius: 50%;
   text-align: center;
   line-height: 42px;
@@ -121,17 +125,18 @@ main {
 }
 footer {
   width: 100%;
-  padding: 20px 40px; /* remove height */
+  padding: 5px 40px; /* remove height */
   background: #000000;
   color: #fff; /* better contrast */
   box-sizing: border-box;
 }
 
 #content {
-  width: 920px;
+  width: 100;
   min-height: 500px;
   padding: 0 50px;
 }
+
 /* Notifications area */
 .notifications-area {
   background: #ffe9c8;
@@ -159,8 +164,16 @@ footer {
   margin-bottom: 1.5rem;
   color: #111;
 }
-
-  .search-bar-row {
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 56px;
+  margin-bottom: 32px;
+  min-height: 250px;
+}
+.search-bar-row {
   display: flex;
   align-items: center;
 }
@@ -168,7 +181,6 @@ footer {
   width: 100%;
   width: 760px; 
   margin-bottom: 2rem;
-  
   align-items: center;
   position: relative;
 }
@@ -211,7 +223,7 @@ footer {
   text-align: center;
 }
 .advanced-toggle {
-  border-radius: 30px;
+  border-radius: 6%;
   height: 30px;
   background-color: #fff;
   border: 0.1px solid #575758;
@@ -228,62 +240,92 @@ footer {
 
 .advanced-search-form {
   background: #f9fbfc;
-  border: 1px solid #575758;
+  border: 1px solid #757576;
   border-radius: 2px;
   padding: 1.2em 2em;
   margin: 1em 0 2em 0;
-  width: 600px;
-  height: 540px;
-  /* Add this for vertical stacking (optional if you use .form-row as below) */
+  width: 700px;
+  height: 310px;
   display: flex;
   flex-direction: column;
 }
 
+.advanced-search-form:hover, .advanced-search-form:focus {
+  border-color: #e3f5fb;
+  box-shadow: 0 4px 16px #199243;
+  outline: none;
+}
 .form-row {
   margin-bottom: 1em;
-  /* Make each row stack its children vertically */
   display: flex;
-  flex-direction: column;
-  /* Optional: ensure full width */
+  flex-direction: row;
+  align-items: center;
   width: 100%;
+  gap: 1em; /* Space between label and input */
 }
-.form-row input {
-  /* Ensure all inputs take full width */
+
+/* Label styling dl*/
+.form-row label {
+  min-width: 160px; /* Enough space for label text */
+  margin-bottom: 0;
+  font-weight: 400;
+  font-size: 1.1em;
+  color: #333;
+  /* Optional: right-align labels for neatness */
+  text-align: right;
+}
+
+/* Input styling */
+.form-row input[type="text"],
+.form-row select,
+.form-row textarea {
   height: 30px;
   width: 100%;
   box-sizing: border-box;
   padding: 0.5em;
   font-size: 1em;
-  border-radius: 2px;
+  border-radius: 6px;
   border: 1px solid #ccc;
 }
-.form-row label {
-  /* Ensure labels take full width */
-  margin-bottom: 0.5em;
+
+/* Checkbox and its label */
+.form-row input[type="checkbox"] {
+  margin-right: 0.5em;
+  width: auto;
+}
+
+.form-row.checkbox-row {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.form-row.checkbox-row label {
+  justify-content: center;
+  min-width: unset;
+  display: flex;
   font-weight: 400;
   font-size: 1.1em;
-  color: #333;
 }
 
-form-row input[type="checkbox"] {
-  margin: 0; /* Removes extra margin */
-}
-
-.form-row select,
-.form-row textarea {
-  /* Ensure all inputs and labels take full width */
-  height: 30px;
+/* Button row */
+.form-row.button-row {
+  justify-content: center;
+  gap: 1em;
+  display: flex;
   width: 100%;
-  box-sizing: border-box;
+  margin-top: 1em; /* optional, adds space above the buttons */
 }
-.advanced-search-btn {
+
+.advanced-form-btn {
   background: #ffffff;
   color: #221a1a;
   border: 1px solid #000000;
-  border-radius: 30px;
+  border-radius: 6px;
   padding: 1.5px;
   margin-bottom: 10px;
-  gap: 0.5em;
   font-weight: 400;
   font-family: 'roboto condensed', sans-serif;
   font-size: 1.1em;
@@ -292,44 +334,29 @@ form-row input[type="checkbox"] {
   height: 30px;
   transition: background-color 0.2s ease-in-out;
 }
-.advanced-search-btn:hover, .advanced-search-btn:focus {
+.advanced-form-btn:hover, .advanced-form-btn:focus {
   background: #0092bc;
   color: #ffffff;
   border: 1px solid #000000;
 }
 
-.search-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 56px;
-  margin-bottom: 32px;
-  min-height: 250px;
-}
-
-.item-creators {
-  flex: 1;
-  padding: 0.5em 1em;
-  font-size: 1.1em;
-  border-radius: 5px 0 0 5px;
-  border: 1px solid #ccc;
-  border-right: none;
-}*/
-
 #result-count {
   font-size: 1.2em;
   font-family: 'roboto condensed', sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   margin-top: 16px;
   color: #4a4a4b;
+  text-align: center;           /* Center the text */
+  width: 100%;                  /* Ensure it spans the container */
 }
 
 .results-list {
     display: flex;
     flex-direction: column;
+    align-items: center;        /* Center child elements horizontally */
     gap: 1rem;
     margin: 2rem 0;
+    width: 100%;
 }
 
 .result-card {
@@ -345,8 +372,9 @@ form-row input[type="checkbox"] {
     text-decoration: none;
     box-shadow: 0 2px 6px #eef8fb;
     cursor: pointer;
+    align-items: center;
+    margin: 0 auto;             /* Optional: ensures card is centered if parent is not flex */
 }
-
 .result-card:hover,
 .result-card:focus {
     border-color: #e3f5fb;
@@ -373,6 +401,7 @@ form-row input[type="checkbox"] {
     margin: 0;
     padding: 0;
 }
+
 .item-pub {
     font-size: 0.86em;
     color: #199243;

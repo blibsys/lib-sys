@@ -1,6 +1,6 @@
 <?php
 
-require_once('../../../private/initialise.php'); 
+require_once('../../../private/init.php'); 
 
 if(is_post_request()) {
 
@@ -11,12 +11,13 @@ if(is_post_request()) {
 	$user['last_name'] = $_POST['last_name'] ?? '';
 	$user['user_start_date'] = $_POST['user_start_date'] ?? '';
 	$user['user_end_date'] = $_POST['user_end_date'] ?? '';
-	$user['user_type'] = $_POST['user_type'] ?? '';
+	$user['role'] = $_POST['role'] ?? '';
 	$user['email'] = $_POST['email'] ?? '';
 	$user['course_id'] = $_POST['course_id'] ?? '';
 	
 	$result = insert_user($user);
 	if($result === true) {
+    $_SESSION['message'] = 'User added successfully.';
 		$new_id = mysqli_insert_id($db);
 		redirect_to(url_for('admin/users/show.php?id=' . $new_id));
 		} else {
@@ -43,28 +44,31 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/admin/users/index.php'); ?>">← Back to List</a>
 
   <div class="user new">
-    <h1>Add user</h1>
-    <h3>*User id is automatically generated*</h3>
+    <h2>Add user</h2>
+    <h3>*User ID is automatically generated*</h3>
     
     <?php echo display_errors($errors); ?>
 
-    <form action="<?php echo url_for('/admin/users/new.php'); ?>" method="post">
+    <form class="admin-form1" action="<?php echo url_for('/admin/users/new.php'); ?>" method="post">
       <!--<dl>
         <dt>User id</dt>
         <dd><input type="text" name="user_id" value="" /></dd>
       </dl>-->
+      <div class="form-row">
       <dl>
-        <dt>User type</dt>
-        <dd>
-          <select name="user_type" id="user_type">
-        <option value="student" <?php if(($user['user_type'] ?? '') == 'student') echo 'selected'; ?>>Student</option>
-        <option value="staff" <?php if(($user['user_type'] ?? '') == 'staff') echo 'selected'; ?>>Staff</option>
-        <option value="guest" <?php if(($user['user_type'] ?? '') == 'guest') echo 'selected'; ?>>Guest</option>
-        <option value="admin" <?php if(($user['user_type'] ?? '') == 'admin') echo 'selected'; ?>>Admin</option>
-        <option value="other" <?php if(($user['user_type'] ?? '') == 'other') echo 'selected'; ?>>Other</option>
-          </select>
-        </dd>
+        <dt>Role</dt>
+      <dd>  
+            <select name=role">
+        <?php foreach ($allowed_roles as $role): ?>
+       <option value="<?php echo htmlspecialchars($role); ?>"
+      <?php if (isset($user['role']) && $user['role'] === $role) echo 'selected'; ?>>
+      <?php echo htmlspecialchars($role); ?>
+      </option>
+      <?php endforeach; ?>
+       </select></dd>
       </dl>
+      </div>
+      <div class="form-row">
        <?php
     $result = mysqli_query($db, "SELECT course_id, course_name FROM courses");
         ?>
@@ -82,26 +86,37 @@ if(is_post_request()) {
           </select>
         </dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>First name</dt>
         <dd><input type="text" name="first_name" value="<?php echo h($user['first_name'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>Last name</dt>
         <dd><input type="text" name="last_name" value="<?php echo h($user['last_name'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>Start date</dt>
         <dd><input type="date" name="user_start_date" value="<?php echo h($user['user_start_date'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>End date</dt>
         <dd><input type="date" name="user_end_date" value="<?php echo h($user['user_end_date'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
+      <div class="form-row">
       <dl>
         <dt>Email</dt>
         <dd><input type="email" name="email" value="<?php echo h($user['email'] ?? ''); ?>" /></dd>
       </dl>
+      </div>
       <div id="operations">
         <input type="submit" value="Add User" />
       </div>

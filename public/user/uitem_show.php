@@ -1,4 +1,4 @@
-<?php require_once('../../private/initialise.php'); ?>
+<?php require_once('../../private/init.php'); ?>
 
 <?php
 
@@ -18,9 +18,9 @@ $item = find_item_by_id($id);
 <main aria-label="main content">
 <div id="content">
 
-	<!--<a class="back-link" href="<?php echo url_for('/user/user_search.php?q=' . h(u($main_search))); ?>">← Back</a>-->
+	<!--<a class="back-link" href="<?php echo url_for('/user/index.php?q=' . h(u($main_search))); ?>">← Back</a>-->
 	  
-	<?php $backurl = $_GET['backurl'] ?? url_for('/user/user_search.php'); ?>
+	<?php $backurl = $_GET['backurl'] ?? url_for('/user/index.php'); ?>
 		<a class="back-to-results" href="<?php echo h($backurl); ?>">← Back to results</a>
 
 	<div class="item show"> 

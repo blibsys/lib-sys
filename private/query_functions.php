@@ -73,6 +73,17 @@
 	confirm_result_set($result);
 	return $result;
 }
+
+	function find_all_auth() {
+	global $db;
+
+	$sql = "SELECT * FROM auth ";
+	$sql .= "ORDER BY auth_id ASC";
+	$result = mysqli_query($db, $sql);
+	confirm_result_set($result);
+	return $result;
+}
+
 	function find_all_cats() {
 	global $db;
 
@@ -92,8 +103,6 @@
 	confirm_result_set($result);
 	return $result;
 	}
-
-	
 
     //find single record 
 	function find_item_by_id($id) {
@@ -196,6 +205,18 @@
     return $icreator; // returns an assoc. array
 	} 
 	
+	function find_auth_by_id($id) {
+	global $db;
+
+	$sql = "SELECT * FROM auth ";
+	$sql .= "WHERE auth_id='" . db_escape($db, $id) . "'";
+	$result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+
+    $auth = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $auth; // returns an assoc. array
+	}
 
 	//INSERT
 	function insert_item($item)
@@ -242,13 +263,13 @@
     	}
 		
 		$sql = "INSERT INTO users ";
-		$sql .= "(first_name, last_name, user_start_date, user_end_date, user_type, email, course_id) ";
+		$sql .= "(first_name, last_name, user_start_date, user_end_date, role, email, course_id) ";
 		$sql .= "VALUES (";
 		$sql .= "'" . db_escape($db, $user['first_name']) . "',";
 		$sql .= "'" . db_escape($db, $user['last_name']) . "',";
 		$sql .= "'" . db_escape($db, $user['user_start_date']) . "',";
 		$sql .= "'" . db_escape($db, $user['user_end_date']) . "',";
-		$sql .= "'" . db_escape($db, $user['user_type']) . "',";
+		$sql .= "'" . db_escape($db, $user['role']) . "',";
 		$sql .= "'" . db_escape($db, $user['email']) . "',";
 		$sql .= "'" . db_escape($db, $user['course_id']) . "'";
 		$sql .= ")";
@@ -267,7 +288,7 @@
 	function insert_course($course){
 		global $db;
 		
-	 	$errors = validate_course($course);
+	 	$errors = validate_course_insert($course);
 	 	if(!empty($errors)) {
 	 	   return $errors;
 	    }
@@ -342,6 +363,33 @@
 		}
 	}
 	
+	function insert_auth($auth) {
+		global $db;
+
+		$errors = validate_auth($auth);
+		if(!empty($errors)) {
+			return $errors;
+		}
+
+		$sql = "INSERT INTO auth ";
+		$sql .= "(user_id, username, hashed_password) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . db_escape($db, $auth['user_id']) . "',";
+		$sql .= "'" . db_escape($db, $auth['username']) . "',";
+		$sql .= "'" . db_escape($db, $auth['hashed_password']) . "'";
+		$sql .= ")";
+		
+		 $result = mysqli_query($db, $sql);
+		 //for INSERT statements, $result is true/false
+		 if($result) {
+		  return true;
+		 } else {
+		  //INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		 }
+	}
 		
 	//UPDATE	
 	function update_item($item) {
@@ -391,7 +439,7 @@
 		$sql .= "last_name='" . db_escape($db, $user['last_name']) . "', ";
 		$sql .= "user_start_date='" . db_escape($db, $user['user_start_date']) . "', ";
 		$sql .= "user_end_date='" . db_escape($db, $user['user_end_date']) . "', ";
-		$sql .= "user_type='" . db_escape($db, $user['user_type']) . "', ";
+		$sql .= "role='" . db_escape($db, $user['role']) . "', ";
 		$sql .= "email='" . db_escape($db, $user['email']) . "', ";
 		$sql .= "course_id='" . db_escape($db, $user['course_id']) . "' ";
 		$sql .= "WHERE user_id='" . db_escape($db, $user['id']) . "'";
@@ -413,7 +461,7 @@
 	function update_course($course) {
 	 	global $db;
 	 	
-	 	$errors = validate_course($course);
+	 	$errors = validate_course_update($course);
 	 	if(!empty($errors)) {
 	 	   return $errors;
 	    }
@@ -484,10 +532,36 @@
 		  echo mysqli_error($db);
 		  db_disconnect($db);
 		  exit;
+		}
+	}
+
+	function update_auth($auth) {
+		global $db;
+
+		$errors = validate_auth($auth);
+		if(!empty($errors)) {
+			return $errors;
+		}
+
+		$sql = "UPDATE auth SET ";
+		$sql .= "user_id='" . db_escape($db, $auth['user_id']) . "', ";
+		$sql .= "username='" . db_escape($db, $auth['username']) . "', ";
+		$sql .= "hashed_password='" . db_escape($db, $auth['hashed_password']) . "' ";
+		$sql .= "WHERE auth_id='" . db_escape($db, $auth['auth_id']) . "'";
+		$sql .= "LIMIT 1";
+
+		$result = mysqli_query($db, $sql);
+		if($result) {
+		  return true;
+		} else {
+		  // update failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
 		  
 		}
 	}
-	
+
 	
 	//DELETE
 	function delete_item($id) {
@@ -528,9 +602,6 @@
 		 }
 	  }
 	
-	   
-	  
- 
 	  function delete_course($id) {
 	global $db;
 
@@ -688,6 +759,10 @@
      if (!has_valid_date_format($user['user_end_date'])) {
      $errors[] = "Use date format yyyy-mm-dd.";
      }
+	 // role
+	if (!in_array($user['role'], $allowed_roles)) {
+			$errors[] = "Invalid role selected.";
+	}
       //email
       if (!has_valid_email_format($user['email'])) {
       $errors[] = "Enter a valid email address.";
@@ -695,7 +770,7 @@
 	return $errors;
 	}
 	
-	function validate_course($course) {
+	function validate_course_insert($course) {
 	  $errors = [];
     // course_id
     if(is_blank($course['course_id'])) {
@@ -716,7 +791,23 @@
     if(!has_unique_course_id($course['course_id'], $current_id)) {
 	  $errors[] = "Course id must be unique.";
 	}
-    
+	return $errors; 
+	}	
+
+    function validate_course_update($course) {
+	  $errors = [];
+    // course_id
+    if(is_blank($course['course_id'])) {
+      $errors[] = "Course id cannot be blank.";
+    } elseif(!has_length($course['course_id'], ['min' => 4, 'max' => 20])) {
+      $errors[] = "Course id must be between 4 and 20 characters.";
+    }
+    // course_name
+    if(is_blank($course['course_name'])) {
+      $errors[] = "Course name cannot be blank.";
+    } elseif(!has_length($course['course_name'], ['min' => 4, 'max' => 80])) {
+      $errors[] = "Course name must be between 4 and 80 characters.";
+    }
     return $errors; 
     }
 	
@@ -762,6 +853,37 @@
     }
 	return $errors;
 	   }
+
+	function validate_auth($auth) {
+		$errors = [];
+
+		// user_id
+		if(!has_presence($auth['user_id'])) {
+			$errors[] = "User ID cannot be blank.";
+		} elseif(!has_length($auth['user_id'], ['min' => 1, 'max' => 20])) {
+			$errors[] = "User ID must be between 1 and 20 characters.";
+		} elseif(!user_exists($auth['user_id'])) {
+			$errors[] = "User ID does not exist.";
+		}
+		// username
+		if(!has_presence($auth['username'])) {
+			$errors[] = "Username cannot be blank.";
+		} elseif(!has_length($auth['username'], ['min' => 4, 'max' => 30])) {
+			$errors[] = "Username must be between 4 and 30 characters.";
+		} elseif(!has_unique_username($auth['username'], $auth['auth_id'] ?? null)) {
+			$errors[] = "Username must be unique.";
+		} 
+
+		// hashed_password
+		if(!has_presence($auth['hashed_password'])) {
+			$errors[] = "Password cannot be blank.";
+		} elseif(!has_length($auth['hashed_password'], ['min' => 12, 'max' => 255])) {
+			$errors[] = "Password must be at least 12 characters.";
+		}
+		return $errors;
+	}			
+
+
 	
 	function validate_course_delete($course_id) {
 		$errors = [];
@@ -939,3 +1061,4 @@ function advanced_search_items($db, $params) {
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+	

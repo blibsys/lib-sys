@@ -1,5 +1,5 @@
 
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php $publisher_set = find_all_pubs(); ?>
 

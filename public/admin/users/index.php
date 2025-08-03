@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php
 
@@ -29,7 +29,7 @@ $user_set = find_all_users();
         <th>Last name</th>
   	    <th>Start date</th>
   	    <th>End date</th>
-  	    <th>Group</th>
+  	    <th>Role</th>
   	    <th>Email</th>
   	    <th>Course ID</th>
   	    <th>Created</th>
@@ -46,7 +46,7 @@ $user_set = find_all_users();
           <td><?php echo h($user['last_name']); ?></td>
     	  <td><?php echo h($user['user_start_date']); ?></td>
     	  <td><?php echo h($user['user_end_date']); ?></td>
-          <td><?php echo h($user['user_type']); ?></td>
+          <td><?php echo h($user['role']); ?></td>
           <td><?php echo h($user['email']); ?></td>
     	  <td><?php echo h($user['course_id']); ?></td>
     	  <td><?php echo h($user['created_at']); ?></td>

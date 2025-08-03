@@ -10,7 +10,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   background: #fff;
   color: #000000;
 }
@@ -39,6 +39,22 @@ h1 {
   font-family: 'titillium web', sans-serif;
   color:#134653;
 }
+h2 {
+  margin: 0;
+  padding: 5px;
+  font-size: 2.2em;
+  font-weight: 200;
+  font-family: 'titillium web', sans-serif;
+  color: #134653;
+}
+h3 {
+  margin: 0;
+  padding: 5px;
+  font-size: 1.3em;
+  font-weight: 300;
+  font-family: 'titillium web', sans-serif;
+  color: #000000;
+}
 
 /* Top navbar styles */
     .navbar {
@@ -48,7 +64,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 50px;
+  height: 90px;
   width: 100%;
   box-sizing: border-box;
     
@@ -57,7 +73,6 @@ h1 {
   justify-content: space-between;
   position: relative;
 }
-
 
 .nav-title {
   font-size: 3em;
@@ -69,7 +84,6 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 .navbar .nav-left {
   display: flex;
@@ -107,7 +121,7 @@ h1 {
   display: inline-block;
   width: 42px;
   height: 42px;
-  background: #ec2121;
+  background:#db3eb1;
   border-radius: 50%;
   text-align: center;
   line-height: 42px;
@@ -129,7 +143,7 @@ h1 {
 }
 .login-btn:focus, .login-btn:hover {
   background:#f7d8f2;
-  outline: 2px solid #134653;
+  outline: 2px solid #999;
 }
 
 .user-home-btn {
@@ -147,7 +161,7 @@ h1 {
 }
 .user-home-btn:focus, .user-home-btn:hover {
   background:#f7d8f2;
-  outline: 2px solid #134653;
+  outline: 2px solid #999;
 }
 
 .menu-btn {
@@ -165,7 +179,6 @@ h1 {
   display: flex;
   margin: 0 2px;
 }
-
 
 header {
   width: 100%;
@@ -216,7 +229,7 @@ table {
   margin: 1em 0;
   font-size: 0.98em;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -249,9 +262,9 @@ table.list tr:hover {
 }
 
 /* Button styling for actions */
-a.action1 {
+a.action1,#operations input[type="submit"] {
   display: inline-block;
-  padding: 10px 14px;
+  padding: 6px 10px;
   margin: 10px 4px 12px 4px;
   font-size: 1.3rem;
   font-weight: 500;
@@ -264,11 +277,10 @@ a.action1 {
   transition: background-color 0.2s ease;
 }
 
-
 a.action2 {
   display: inline-block;
   margin: 0 4px;
-  padding: 3px 12px;
+  padding: 2px 12px;
   border:#134653 1px solid;
   border-radius: 4px;
   color: #134653;
@@ -279,13 +291,12 @@ a.action2 {
   transition: background-color 0.2s ease;
 }
 
-a.action1:hover {
+a.action1:hover, #operations input[type="submit"]:hover {
   background-color: #f7d8f2;
 }
 a.action2:hover {
   background-color: #f7d8f2;
 }
-
 
 /*
 table {
@@ -310,22 +321,83 @@ table.list tr th {
 }*/
 
 /* Forms */
+/*.admin-form1 {
+  background: #f9fbfc;
+  border: 1px solid #757576;
+  border-radius: 2px;
+  padding: 1.2em 2em;
+  margin: 1em 0 2em 0;
+  width: 50;
+  height: 100;
+  display: flex;
+  flex-direction: column;
+}*/
+
+.form-row {
+  margin-bottom: 0em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em; /* Space between label and input */
+}
+
+.form-row input[type="text"],
+.form-row input[type="email"],
+.form-row input[type="password"],
+.form-row input[type="number"],
+.form-row input[type="search"],
+.form-row input[type="date"] {
+  height: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em;
+  font-size: 0.9em;
+  font-family: 'inter', Courier, monospace;
+  font-weight: 200;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+ 
+}
+
+.wide-input {
+  width: 300%;
+}
+
+.form-row select {
+  height: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em;
+  font-size: 0.9em;
+  font-weight: 200;
+  font-family: 'inter', Courier, monospace;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff!important;
+  color: #000000;
+}
 
 dl {
-  clear: both;
-  overflow: hidden;
-  margin: 0.5em 0;
+  min-width: 160px; /* Enough space for label text */
+  margin-bottom: 0;
+  font-weight: 400;
+  font-size: 1.2em;
+  color: #333;
+  /* Optional: right-align labels for neatness */
+  text-align: right;
 }
 
 dt {
   float: left;
-  font-weight: bold;
+  font-weight: 700;
   width: 125px;
 }
 
 dd {
   float: left;
   margin-left: 1em;
+  font-weight: 300;
+  font-size: 1em;
 }
 
 #operations {
@@ -346,6 +418,17 @@ dd {
 .errors ul {
   margin-bottom: 0;
   padding-left: 1em;
+}
+
+#message {
+  background: #fff;
+  color: #134653;
+  border:#134653 1px solid;
+  padding: 1em 15px;
+  width: 890px;
+  border-radius: 4px;
+  margin: 1em 30px;
+  font-size: 1.2em;
 }
 
 #main-menu h2 {
@@ -372,7 +455,7 @@ dd {
   align-items: center;
   justify-content: center;
   background: #fff;
-  border-radius: 14px;
+  border-radius: 6%;
   box-shadow: 0 2px 10px 0 rgba(60,60,60,0.08), 0 1.5px 3px 0 rgba(100,120,180,0.13);
   text-decoration: none;
   color: #23395d;

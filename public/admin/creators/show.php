@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php
 
@@ -20,17 +20,20 @@ $creator = find_creator_by_id($id);
 	<!--Creator_ID: <?php echo h($id); ?>-->
 	
 	<div class="attributes">
+		<div class="form-row">
 	<dl>
-	  <dt>Creator id</dt>
+	  <dt>Creator ID</dt>
 	  <dd><?php echo h($creator['creator_id']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Creator name</dt>
 	  <dd><?php echo h($creator['creator_name']); ?></dd>
 	</dl>
 	</div>	  
-	  
-	</div>
+   </div>
+  </div>
 
 </div>
 </main>

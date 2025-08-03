@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php
 
@@ -18,16 +18,19 @@ $pub = find_pub_by_id($id);
 	<div class="publisher show">
 	
 	<div class="attributes">
+		<div class="form-row">
 	<dl>
 	  <dt>Publisher id</dt>
 	  <dd><?php echo h($pub['publisher_id']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Publisher name</dt>
 	  <dd><?php echo h($pub['publisher_name']); ?></dd>
 	</dl>
 	</div>
-	  
+</div>
 	</div>
 
 </div>

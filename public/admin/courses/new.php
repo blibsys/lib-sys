@@ -1,6 +1,6 @@
  <?php
 
-require_once('../../../private/initialise.php'); 
+require_once('../../../private/init.php'); 
 
 if(is_post_request()) {
 
@@ -12,6 +12,8 @@ if(is_post_request()) {
 
   $result = insert_course($course);
   if($result === true) {
+
+    $_SESSION['message'] = 'Course added successfully.';
   	$new_id = mysqli_insert_id($db);
   	redirect_to(url_for('/admin/courses/show.php?id=' . $course['course_id']));
   } else {
@@ -35,20 +37,23 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/admin/courses/index.php'); ?>">← Back to List</a>
 
   <div class="course new">
-    <h1>Add Course</h1>
+    <h2>Add Course</h2>
 
 	<?php echo display_errors($errors);?>
 	
-    <form action="<?php echo url_for('/admin/courses/new.php'); ?>" method="post">
+ <form class="admin-form1" action="<?php echo url_for('/admin/courses/new.php'); ?>" method="post">
+      <div class="form-row">
       <dl>
-        <dt>Course id</dt>
+        <dt>Course ID</dt>
         <dd><input type="text" name="course_id" value="<?php echo h($course['course_id'] ?? ''); ?>" /></dd>
       </dl>
+</div>
+<div class="form-row">
       <dl>
         <dt>Course name</dt>
         <dd><input type="text" name="course_name" value="<?php echo h($course['course_name'] ?? ''); ?>" /></dd>
       </dl>
-    
+</div>
       <div id="operations">
         <input type="submit" value="Add Course" />
       </div>

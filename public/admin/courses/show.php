@@ -1,4 +1,4 @@
-<?php require_once('../../../private/initialise.php'); ?>
+<?php require_once('../../../private/init.php'); ?>
 
 <?php
 
@@ -19,18 +19,20 @@ $course = find_course_by_id($id);
 	<div class="course show">
 	
 	<div class="attributes">
+	<div class="form-row">
 	<dl>
-	  <dt>Course id</dt>
+	  <dt>Course ID</dt>
 	  <dd><?php echo h($course['course_id']); ?></dd>
 	</dl>
+	</div>
+	<div class="form-row">
 	<dl>
 	  <dt>Course name</dt>
 	  <dd><?php echo h($course['course_name']); ?></dd>
 	</dl>
-	</div>
-	 
-	</div>
-
+   </div>
+  </div>
+ </div>
 </div>
 </main>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
