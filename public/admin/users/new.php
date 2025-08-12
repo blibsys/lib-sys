@@ -50,15 +50,12 @@ if(is_post_request()) {
     <?php echo display_errors($errors); ?>
 
     <form class="admin-form1" action="<?php echo url_for('/admin/users/new.php'); ?>" method="post">
-      <!--<dl>
-        <dt>User id</dt>
-        <dd><input type="text" name="user_id" value="" /></dd>
-      </dl>-->
+  
       <div class="form-row">
       <dl>
         <dt>Role</dt>
       <dd>  
-            <select name=role">
+            <select name="role">
         <?php foreach ($allowed_roles as $role): ?>
        <option value="<?php echo htmlspecialchars($role); ?>"
       <?php if (isset($user['role']) && $user['role'] === $role) echo 'selected'; ?>>

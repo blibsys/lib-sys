@@ -1,6 +1,6 @@
-<?php require_once('../../../private/init.php'); ?>
+<?php require_once('../../../private/init.php');
 
-<?php $itemcreator_set = find_all_itemcreators(); ?>
+$itemcreator_set = find_all_itemcreators(); ?>
 
 <?php $page_title = 'item creators'; ?>
 

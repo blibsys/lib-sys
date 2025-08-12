@@ -1,6 +1,6 @@
-<?php require_once('../../../private/init.php'); ?>
+<?php require_once('../../../private/init.php'); 
 
-<?php if(!isset($_GET['id'])) {
+if(!isset($_GET['id'])) {
   redirect_to(url_for('/admin/publishers/index.php'));
 }
 $id = $_GET['id'];

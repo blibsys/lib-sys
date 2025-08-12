@@ -66,7 +66,7 @@ if(is_post_request()) {
         <dt>Role</dt>
         <dd>
            <dd>  
-            <select name=role">
+            <select name="role">
         <?php foreach ($allowed_roles as $role): ?>
        <option value="<?php echo htmlspecialchars($role); ?>"
       <?php if (isset($user['role']) && $user['role'] === $role) echo 'selected'; ?>>

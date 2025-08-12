@@ -1,6 +1,4 @@
-<?php require_once('../../private/init.php'); ?>
-
-<?php
+<?php require_once('../../private/init.php'); 
 
 $id = $_GET['id'] ?? '1';
 $main_search = $_GET['q'] ?? '';

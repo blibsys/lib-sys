@@ -14,9 +14,14 @@
 	  }
 	}
 
-	function db_escape($connection, $string) {
+function db_escape($db, $string) {
+  // Defensive fix: cast null to empty string to avoid deprecation warning
+  return mysqli_real_escape_string($db, (string) $string);
+}
+
+	/*function db_escape($connection, $string) {
 		return mysqli_real_escape_string($connection, $string);
-		}
+		}*/
 	
 	function confirm_db_connect() {
 	if(mysqli_connect_errno()) {

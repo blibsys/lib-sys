@@ -1,6 +1,4 @@
-<?php require_once('../../../private/init.php'); ?>
-
-<?php
+<?php require_once('../../../private/init.php'); 
 
 $user_set = find_all_users();
 

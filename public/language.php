@@ -1,6 +1,4 @@
-<?php require_once('../private/init.php'); ?>
-
-<?php
+<?php require_once('../private/init.php'); 
 
 if(is_post_request()) {
   // Form was submitted

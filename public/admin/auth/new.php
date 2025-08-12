@@ -9,7 +9,8 @@ if(is_post_request()) {
   $auth = [];
   $auth['user_id'] = $_POST['user_id'] ?? '';
   $auth['username'] = $_POST['username'] ?? '';
-  $auth['hashed_password'] = $_POST['hashed_password'] ?? '';
+  $auth['password'] = $_POST['password'] ?? '';
+  $auth['confirm_password'] = $_POST['confirm_password'] ?? '';
   $auth['created_at'] = $_POST['created_at'] ?? '';
   $auth['updated_at'] = $_POST['updated_at'] ?? '';
 
@@ -60,10 +61,22 @@ if(is_post_request()) {
 </div>
 <div class="form-row">
       <dl>
-        <dt>Hashed password</dt>
-        <dd><input type="text" name="hashed password" value="<?php echo h($auth['hashed_password'] ?? ''); ?>" /></dd>
+        <dt>Password</dt>
+        <dd><input type="password" name="password" value="" /></dd>
       </dl>
 </div>
+<div class="form-row">
+      <dl>
+        <dt>Confirm Password</dt>
+        <dd><input type="password" name="confirm_password" value="" />
+      </dd>
+</dl>
+      <p>
+        Passwords should be at least 12 characters and include at least one uppercase
+        letter, lowercase letter, number and special character.
+</p>
+</div>
+
       <div id="operations">
         <input type="submit" value="Add User Login Credentials" />
       </div>

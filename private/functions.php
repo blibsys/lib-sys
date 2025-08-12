@@ -21,6 +21,7 @@ function h($string="") {
 }
 
 function error_404() {
+
   header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
   exit();
 }
@@ -66,7 +67,6 @@ function get_and_clear_session_message() {
   }
   return '';
 }
-
 
 function display_session_message() {
   $msg = get_and_clear_session_message();

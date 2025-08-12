@@ -1,10 +1,10 @@
 <?php 
 	if(!isset($page_title)) { $page_title = 'Admin Area'; }
 ?>
-<!--<?php
-// Sample user info - replace with real logic as needed
-$user_logged_in = true;
-$user_name = "Abbie Bowers";?>-->
+<?php
+$user_logged_in = isset($_SESSION['username']);
+$user_name = $_SESSION['username'] ?? '';
+?>
 
 <!doctype html>
 
@@ -18,7 +18,7 @@ $user_name = "Abbie Bowers";?>-->
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     
     
-  <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/admin.css?v=2.0'); ?>" />
+  <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/admin.css?v=2.2'); ?>" />
   </head>
 
   <body>
@@ -43,9 +43,7 @@ $user_name = "Abbie Bowers";?>-->
             <span class="user-icon" aria-hidden="true"> </span>
 
             <?php echo $_SESSION['username'] ?? '';?></span>
-
-          </span>
-        <a href="<?php echo url_for('/user/index.php'); ?>" class="user-home-btn" role="button" aria-label="user home">User home</a>
+          </span
 
           <form action="logout.php" method="post" style="margin:0;">
             <a href="<?php echo url_for('admin/logout.php');?>" class="login-btn" type="submit" aria-label="Log out">Log out</a>
@@ -55,7 +53,7 @@ $user_name = "Abbie Bowers";?>-->
             <a href="<?php echo url_for('admin/login.php');?>" class="login-btn" type="submit" aria-label="Log in">Log in</a>
           </form>
         <?php endif; ?>
-
+      <a href="<?php echo url_for('/user/index.php'); ?>" class="user-home-btn" role="button" aria-label="user home">User home</a>
       </div>
     </nav>
 

@@ -1,6 +1,4 @@
-<?php require_once('../../../private/init.php'); ?>
-
-<?php
+<?php require_once('../../../private/init.php'); 
 
 $id = $_GET['id'] ?? '1';
 // Check if the id is set and valid

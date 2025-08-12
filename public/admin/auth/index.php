@@ -1,7 +1,9 @@
 
-<?php require_once('../../../private/init.php'); ?>
+<?php require_once('../../../private/init.php');
 
-<?php $auth_set = find_all_auth(); ?>
+$auth_set = find_all_auth(); 
+
+?>
 
 <?php $page_title = 'user authentication'; ?>
 
@@ -23,8 +25,11 @@
       <tr>  
         <th>Authentication ID</th>
         <th>User ID</th>
+        <th>Role</th>
         <th>Username</th>
-        <th>Hashed Password</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
         <th>Created At</th>
         <th>Updated At</th>
   	    <th>&nbsp;</th>
@@ -36,10 +41,13 @@
         <tr>
           <td><?php echo h($auth['auth_id']); ?></td>
           <td><?php echo h($auth['user_id']); ?></td>
+          <td><?php echo h($auth['role']); ?></td>
           <td><?php echo h($auth['username']); ?></td>
-          <td><?php echo h($auth['hashed_password']); ?></td>
-          <td><?php echo h($auth['created_at']); ?></td>
-          <td><?php echo h($auth['updated_at']); ?></td>
+          <td><?php echo h($auth['first_name']); ?></td>
+          <td><?php echo h($auth['last_name']); ?></td>
+          <td><?php echo h($auth['email']); ?></td>
+          <td><?php echo h($auth['auth_created_at']); ?></td>
+          <td><?php echo h($auth['auth_updated_at']); ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/auth/show.php?Page=1&id=' . h(u($auth['auth_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/auth/edit.php?id=' . h(u($auth['auth_id']))); ?>""">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/auth/delete.php?id=' . h(u($auth['auth_id'])));?>">Delete</a></td>

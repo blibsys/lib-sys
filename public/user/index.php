@@ -1,4 +1,8 @@
-<?php require_once('../../private/init.php'); ?>
+<?php require_once('../../private/init.php');
+
+require_login(); 
+
+?>
 
 <?php $page_title = 'Search'; ?>
 <?php include(SHARED_PATH . '/user_header.php'); ?>

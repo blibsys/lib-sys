@@ -1,4 +1,7 @@
-<?php require_once('../../private/init.php'); ?>
+<?php require_once('../../private/init.php'); 
+
+require_login(); 
+?>
 
 <?php $page_title = 'Admin Menu'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>

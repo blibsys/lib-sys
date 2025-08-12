@@ -77,8 +77,13 @@
 	function find_all_auth() {
 	global $db;
 
-	$sql = "SELECT * FROM auth ";
-	$sql .= "ORDER BY auth_id ASC";
+	$sql = "SELECT a.auth_id, a.user_id, a.username, a.hashed_password, ";
+	$sql .= "a.created_at AS auth_created_at, a.updated_at AS auth_updated_at, ";
+	$sql .= "u.first_name, u.last_name, u.email, u.role ";
+	$sql .= "FROM auth a ";
+	$sql .= "LEFT JOIN users u ON u.user_id = a.user_id ";
+	$sql .= "ORDER BY a.auth_id ASC";
+
 	$result = mysqli_query($db, $sql);
 	confirm_result_set($result);
 	return $result;
@@ -89,6 +94,26 @@
 
 	$sql = "SELECT DISTINCT category FROM items ";
 	$sql .= "ORDER BY category ASC";
+	$result = mysqli_query($db, $sql);
+	confirm_result_set($result);
+	return $result;
+	}
+
+	function find_all_item_types() {
+	global $db;
+
+	$sql = "SELECT DISTINCT item_type FROM items ";
+	$sql .= "ORDER BY item_type ASC";
+	$result = mysqli_query($db, $sql);
+	confirm_result_set($result);
+	return $result;
+	}
+
+	function find_all_item_statuses() {
+	global $db;
+
+	$sql = "SELECT DISTINCT item_status FROM items ";
+	$sql .= "ORDER BY item_status ASC";
 	$result = mysqli_query($db, $sql);
 	confirm_result_set($result);
 	return $result;
@@ -204,19 +229,79 @@
     mysqli_free_result($result);
     return $icreator; // returns an assoc. array
 	} 
-	
+
 	function find_auth_by_id($id) {
 	global $db;
 
-	$sql = "SELECT * FROM auth ";
-	$sql .= "WHERE auth_id='" . db_escape($db, $id) . "'";
+	$sql = "SELECT a.auth_id, a.user_id, a.username, a.hashed_password, ";
+	$sql .= "a.created_at AS auth_created_at, a.updated_at AS auth_updated_at, ";
+	$sql .= "u.first_name, u.last_name, u.email, u.role, u.course_id ";
+	$sql .= "FROM auth a ";
+	$sql .= "LEFT JOIN users u ON u.user_id = a.user_id ";
+	$sql .= "WHERE a.auth_id='" . db_escape($db, $id) . "' ";
+	$sql .= "LIMIT 1";
+
 	$result = mysqli_query($db, $sql);
-    confirm_result_set($result);
+	confirm_result_set($result);
+
+	$auth = mysqli_fetch_assoc($result);
+	mysqli_free_result($result);
+	return $auth;
+}
+
+/*function find_auth_by_username($username) {
+	global $db;
+
+	$sql = "SELECT a.auth_id, a.user_id, a.username, a.hashed_password, ";
+	$sql .= "a.created_at AS auth_created_at, a.updated_at AS auth_updated_at, ";
+	$sql .= "u.first_name, u.last_name, u.email, u.role, u.course_id ";
+	$sql .= "FROM auth a ";
+	$sql .= "LEFT JOIN users u ON u.user_id = a.user_id ";
+	$sql .= "WHERE a.username='" . db_escape($db, $username) . "' ";
+	$sql .= "LIMIT 1";
+
+	$result = mysqli_query($db, $sql);
+	confirm_result_set($result);
+
+	$auth = mysqli_fetch_assoc($result);
+	mysqli_free_result($result);
+	return $auth;
+}*/
+
+function find_auth_by_username($username) {
+    global $db;
+
+    $sql = "SELECT a.auth_id, a.user_id, a.username, a.hashed_password,
+                   a.created_at AS auth_created_at, a.updated_at AS auth_updated_at,
+                   u.first_name, u.last_name, u.email, u.role, u.course_id
+            FROM auth a
+            LEFT JOIN users u ON u.user_id = a.user_id
+            WHERE a.username = ?
+            LIMIT 1";
+
+    $stmt = mysqli_prepare($db, $sql);
+    if (!$stmt) {
+        // Handle error appropriately
+        exit('Database error: ' . mysqli_error($db));
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    if (!$result) {
+        // Handle error appropriately
+        exit('Database error: ' . mysqli_error($db));
+    }
 
     $auth = mysqli_fetch_assoc($result);
+
     mysqli_free_result($result);
-    return $auth; // returns an assoc. array
-	}
+    mysqli_stmt_close($stmt);
+
+    return $auth;
+}
+
 
 	//INSERT
 	function insert_item($item)
@@ -256,8 +341,8 @@
 	
 	function insert_user($user)
    	{	global $db;
-   	
-   		$errors = validate_user($user);
+   		$allowed_roles = ['Student', 'Staff', 'Admin', 'Guest'];
+   		$errors = validate_user($user, $allowed_roles);
     	if(!empty($errors)) {
     		return $errors;
     	}
@@ -371,12 +456,14 @@
 			return $errors;
 		}
 
+		$hashed_password = password_hash($auth['password'], PASSWORD_BCRYPT);
+
 		$sql = "INSERT INTO auth ";
 		$sql .= "(user_id, username, hashed_password) ";
 		$sql .= "VALUES (";
 		$sql .= "'" . db_escape($db, $auth['user_id']) . "',";
 		$sql .= "'" . db_escape($db, $auth['username']) . "',";
-		$sql .= "'" . db_escape($db, $auth['hashed_password']) . "'";
+		$sql .= "'" . db_escape($db, $hashed_password) . "'";
 		$sql .= ")";
 		
 		 $result = mysqli_query($db, $sql);
@@ -428,8 +515,9 @@
 	
 	function update_user($user) {
     	global $db;
-    	
-    	$errors = validate_user($user);
+
+    	$allowed_roles = ['Student', 'Staff', 'Admin', 'Guest'];
+    	$errors = validate_user($user, $allowed_roles);
     	if(!empty($errors)) {
     		return $errors;
     	}
@@ -543,10 +631,12 @@
 			return $errors;
 		}
 
+		$hashed_password = password_hash($auth['password'], PASSWORD_BCRYPT);
+
 		$sql = "UPDATE auth SET ";
 		$sql .= "user_id='" . db_escape($db, $auth['user_id']) . "', ";
 		$sql .= "username='" . db_escape($db, $auth['username']) . "', ";
-		$sql .= "hashed_password='" . db_escape($db, $auth['hashed_password']) . "' ";
+		$sql .= "hashed_password='" . db_escape($db, $hashed_password) . "' ";
 		$sql .= "WHERE auth_id='" . db_escape($db, $auth['auth_id']) . "'";
 		$sql .= "LIMIT 1";
 
@@ -562,7 +652,6 @@
 		}
 	}
 
-	
 	//DELETE
 	function delete_item($id) {
 		global $db;
@@ -664,7 +753,23 @@
 		  exit;
 	   }
 	}
-	
+	function delete_auth($id) {
+		global $db;
+
+		$sql = "DELETE FROM auth ";
+		$sql .= "WHERE auth_id='" . db_escape($db, $id) . "' ";
+		$sql .= "LIMIT 1";
+
+		$result = mysqli_query($db, $sql);
+
+		if ($result) {
+			return true;
+		} else {
+			echo mysqli_error($db);
+			db_disconnect($db);
+			exit;
+		}
+	}
 	
 	//validation
 	
@@ -737,7 +842,9 @@
 	return $errors;
 	}	
 
-	function validate_user($user) {
+	
+	function validate_user($user, $allowed_roles) {
+	  $allowed_roles = ['Student', 'Staff', 'Admin', 'Guest'];
 	  $errors = [];
 	  //first_name
 	  if(!has_presence($user['first_name'])) {
@@ -875,15 +982,28 @@
 		} 
 
 		// hashed_password
-		if(!has_presence($auth['hashed_password'])) {
+		if(!has_presence($auth['password'])) {
 			$errors[] = "Password cannot be blank.";
-		} elseif(!has_length($auth['hashed_password'], ['min' => 12, 'max' => 255])) {
+		} elseif(!has_length($auth['password'], ['min' => 12, 'max' => 255])) {
 			$errors[] = "Password must be at least 12 characters.";
+		} elseif(!preg_match('/[A-Z]/', $auth['password'])) {
+			$errors[] = "Password must contain at least 1 uppercase letter.";
+		} elseif(!preg_match('/[a-z]/', $auth['password'])) {
+			$errors[] = "Password must contain at least 1 lowercase letter.";
+		} elseif(!preg_match('/[0-9]/', $auth['password'])) {
+			$errors[] = "Password must contain at least 1 number.";
+		} elseif(!preg_match('/[\W_]/', $auth['password'])) {
+			$errors[] = "Password must contain at least 1 special character.";
+		} 
+
+		// confirm_password
+		if(is_blank($auth['confirm_password'])) {
+			$errors[] = "Confirm password cannot be blank.";
+		} elseif($auth['password'] !== $auth['confirm_password']) {
+			$errors[] = "Password and confirm password do not match.";
 		}
 		return $errors;
-	}			
-
-
+	}
 	
 	function validate_course_delete($course_id) {
 		$errors = [];

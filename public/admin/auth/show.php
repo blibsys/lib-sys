@@ -1,6 +1,4 @@
-<?php require_once('../../../private/init.php'); ?>
-
-<?php
+<?php require_once('../../../private/init.php');
 
 $id = $_GET['id'] ?? '1';
 
@@ -38,17 +36,31 @@ $auth = find_auth_by_id($id);
       <dd><?php echo h($auth['username']); ?></dd>
     </dl>
     </div>
-    <div class="form-row">
-    <dl>
-      <dt>Created At</dt>
-      <dd><?php echo h($auth['created_at']); ?></dd>
+  <div class="form-row">
+	<dl>
+	  <dt>First name</dt>
+      <dd><?php echo h($auth['first_name']); ?></dd>
     </dl>
-</div>
+    </div>
+<div class="form-row">
+	<dl>
+	  <dt>Last name</dt>
+      <dd><?php echo h($auth['last_name']); ?></dd>
+    </dl>
+    </div>
     <div class="form-row">
-    <dl>
-      <dt>Updated At</dt>
-      <dd><?php echo h($auth['updated_at']); ?></dd>
-    </dl>  
+	<dl>
+	  <dt>Role</dt>
+      <dd><?php echo h($auth['role']); ?></dd>
+    </dl>
+    </div>
+<div class="form-row">
+	<dl>
+	  <dt>Email</dt>
+      <dd><?php echo h($auth['email']); ?></dd>
+    </dl>
+    </div>
+   
 
   </div>
  </div>

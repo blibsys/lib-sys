@@ -14,7 +14,8 @@ if(is_post_request()) {
   $auth['user_id'] = $_POST['user_id'] ?? '';
 	$auth['username']= $_POST['username'] ?? '';
 	$auth['hashed_password']= $_POST['hashed_password'] ?? '';
-	
+	$auth['confirm_password']= $_POST['confirm_password'] ?? '';
+
 	$result = update_auth($auth);
   if($result === true) {
     $_SESSION['message'] = 'User credentials updated successfully.';
@@ -67,10 +68,21 @@ if(is_post_request()) {
       </div>
       <div class="form-row">
       <dl>
-        <dt>Hashed password</dt>
-        <dd><input type="text" name="hashed_password" value="<?php echo h($auth['hashed_password']); ?>" /></dd>
+        <dt>Password</dt>
+        <dd><input type="password" name="hashed_password" value="<?php echo h($auth['hashed_password']); ?>" /></dd>
       </dl>
       </div>
+      <div class="form-row">
+      <dl>
+        <dt>Confirm Password</dt>
+        <dd><input type="password" name="confirm_password" value="" /></dd>
+      </dl>
+      <p>
+        Passwords should be at least 12 characters and include at least one uppercase
+        letter, lowercase letter, number and special character.
+      </p>
+      </div>
+
         <div id="operations">
         <input type="submit" value="Edit User Credentials" />
       </div>

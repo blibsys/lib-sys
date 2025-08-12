@@ -1,7 +1,5 @@
 
-<?php require_once('../../../private/init.php'); ?>
-
-<?php
+<?php require_once('../../../private/init.php');
 
 $circulation_set = find_all_circ();
 

@@ -1,7 +1,11 @@
 
-<?php require_once('../../../private/init.php'); ?>
+<?php 
 
-<?php $course_set = find_all_courses(); ?>
+require_once('../../../private/init.php');
+
+$course_set = find_all_courses(); 
+
+?>
 
 <?php $page_title = 'courses'; ?>
 
