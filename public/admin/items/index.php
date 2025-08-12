@@ -84,8 +84,19 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
         <input type="text" name="search" placeholder="Search items..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
         <input type="submit" value="Search">
         <?php if(isset($_GET['search']) && !empty($_GET['search'])): ?>
-          <a href="<?php echo url_for('/admin/items/index.php'); ?>">Clear</a>
+          <a class="clear-link"href="<?php echo url_for('/admin/items/index.php'); ?>">Clear</a>
         <?php endif; ?>
+
+ <?php 
+          // Count results based on whether we have search/filter results or all items
+          if($search_results !== null) {
+              $count = count($search_results);
+          } else {
+              // For mysqli result, we need to count the rows
+              $count = mysqli_num_rows($item_set);
+          }
+          echo h($count) . ' ' . ($count === 1 ? 'Result' : 'Results') ; ?>
+
       </form>
     </div>
 
@@ -95,9 +106,9 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
         <?php if(!empty($search_term)): ?>
           <input type="hidden" name="search" value="<?php echo h($search_term); ?>">
         <?php endif; ?>
-        
+        <p> Filter by... </p>
         <select name="type" onchange="this.form.submit()">
-          <option value="">All Types</option>
+          <option value="">Type</option>
           <?php
           $types_result = find_all_item_types();
           while($type_row = mysqli_fetch_assoc($types_result)): ?>
@@ -109,7 +120,7 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
         </select>
         
         <select name="status" onchange="this.form.submit()">
-          <option value="">All Status</option>
+          <option value="">Status</option>
           <?php
           $statuses_result = find_all_item_statuses();
           while($status_row = mysqli_fetch_assoc($statuses_result)): ?>
@@ -121,7 +132,7 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
         </select>
         
         <select name="category" onchange="this.form.submit()">
-          <option value="">All Categories</option>
+          <option value="">Category</option>
           <?php
           $categories_result = find_all_cats();
           while($category_row = mysqli_fetch_assoc($categories_result)): ?>
@@ -174,8 +185,8 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
     	  <td><?php echo h($item['publisher_id']); ?></td>
     	  <td><?php echo h($item['category']); ?></td>
           <td><?php echo h($item['item_status']); ?></td>
-          <td><?php echo h($item['created_at']);?></td>
-    	  <td><?php echo h($item['updated_at']); ?></td>
+          <td><?php echo $item['created_at'] ? h(date('d/m/Y', strtotime($item['created_at']))) : ''; ?></td>
+    	  <td><?php echo $item['updated_at'] ? h(date('d/m/Y', strtotime($item['updated_at']))) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/show.php?Page=1&id=' . h(u($item['item_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/edit.php?id=' . h(u($item['item_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/delete.php?id=' . h(u($item['item_id']))); ?>">Delete</a></td>
@@ -197,8 +208,8 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
     	  <td><?php echo h($item['publisher_id']); ?></td>
     	  <td><?php echo h($item['category']); ?></td>
           <td><?php echo h($item['item_status']); ?></td>
-          <td><?php echo h($item['created_at']);?></td>
-    	  <td><?php echo h($item['updated_at']); ?></td>
+          <td><?php echo $item['created_at'] ? h(date('d/m/Y', strtotime($item['created_at']))) : ''; ?></td>
+    	  <td><?php echo $item['updated_at'] ? h(date('d/m/Y', strtotime($item['updated_at']))) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/show.php?Page=1&id=' . h(u($item['item_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/edit.php?id=' . h(u($item['item_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/delete.php?id=' . h(u($item['item_id']))); ?>">Delete</a></td>

@@ -26,13 +26,13 @@ require_login();
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title">Publishers</span>
       </a>
-     <a class="tile" href="<?php echo url_for('/admin/creators/index.php'); ?>">
+     <a class="tile" href="<?php echo url_for('/admin/contributors/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
-        <span class="tile-title">Creators</span>
+        <span class="tile-title">Contributors</span>
       </a>
-      <a class="tile" href="<?php echo url_for('/admin/itemcreators/index.php'); ?>">
+      <a class="tile" href="<?php echo url_for('/admin/itemcontributors/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
-        <span class="tile-title">Item Creators</span>
+        <span class="tile-title">Item Contributors</span>
       </a>
       <a class="tile" href="<?php echo url_for('/admin/circulation/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
@@ -40,7 +40,7 @@ require_login();
       </a>
        <a class="tile" href="<?php echo url_for('/admin/auth/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
-        <span class="tile-title">User Authentication</span>
+        <span class="tile-title">User Logins</span>
       </a>
        </a>
        <a class="tile" href="">

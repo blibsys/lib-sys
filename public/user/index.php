@@ -77,7 +77,7 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
       <input type="text" id="search-title" name="title" value="<?php echo h($title); ?>">
     </div>
     <div class="form-row">
-      <label for="search-author">Author/Creator:</label>
+      <label for="search-author">Author/contributor:</label>
       <input type="text" id="search-author" name="author" value="<?php echo h($author); ?>">
     </div>
     <div class="form-row">
@@ -130,7 +130,7 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
                 <a href="<?php echo url_for('/user/uitem_show.php?id=' . h(u($item['item_id'])) . '&backurl=' . $backurl); ?>" class="result-card" tabindex="0" aria-label="View details for <?php echo h($item['title']); ?>">
             <div class="item-type"><?php echo h($item['item_type']); ?></div>
               <div class="item-title"><?php echo h($item['title']); ?></div>
-              <div class="item-creators"><?php echo h($item['creators']); ?></div>
+              <div class="item-contributors"><?php echo h($item['contributors']); ?></div>
               <div class="item-pub">
                 <?php echo h($item['pub'] . ', '); ?>
                 <?php echo h($item['publication_year']); ?>

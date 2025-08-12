@@ -36,8 +36,8 @@ $item = find_item_by_id($id);
 		</div>
 		<div class="form-row">
 	    <dl>
-	      <dt>Creators</dt>
-	      <dd><?php echo h($item['creators']); ?></dd>
+	      <dt>Contributors</dt>
+	      <dd><?php echo h($item['contributors']); ?></dd>
 	    </dl>
 		</div>
 		<div class="form-row">

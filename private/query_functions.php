@@ -34,11 +34,11 @@
 	return $result;
 }
 
-	function find_all_creators() {
+	function find_all_contributors() {
 	global $db;
 	
-	$sql = "SELECT * FROM creators ";
-	$sql .= "ORDER BY creator_id ASC";
+	$sql = "SELECT * FROM contributors ";
+	$sql .= "ORDER BY contributor_id ASC";
 	$result = mysqli_query($db, $sql);
 	confirm_result_set($result);
 	return $result;
@@ -64,10 +64,10 @@
 	return $result;
 }
 
-	function find_all_itemcreators() {
+	function find_all_itemcontributors() {
 	global $db;
 	
-	$sql = "SELECT * FROM item_creators ";
+	$sql = "SELECT * FROM item_contributors ";
 	$sql .= "ORDER BY item_id ASC";
 	$result = mysqli_query($db, $sql);
 	confirm_result_set($result);
@@ -134,10 +134,10 @@
     global $db;
 	$sql  = "SELECT i.item_id, i.title, i.item_status, i.item_edition, i.isbn, i.item_type, ";
 	$sql .= "i.publication_year, i.item_copy, i.publisher_id, i.category, i.created_at, i.updated_at, ";
-	$sql .= "GROUP_CONCAT(c.creator_name ORDER BY c.creator_name SEPARATOR ', ') AS creators ";
+	$sql .= "GROUP_CONCAT(c.contributor_name ORDER BY c.contributor_name SEPARATOR ', ') AS contributors ";
 	$sql .= "FROM items i ";
-	$sql .= "LEFT JOIN item_creators ic ON ic.item_id = i.item_id ";
-	$sql .= "LEFT JOIN creators c ON c.creator_id = ic.creator_id ";
+	$sql .= "LEFT JOIN item_contributors ic ON ic.item_id = i.item_id ";
+	$sql .= "LEFT JOIN contributors c ON c.contributor_id = ic.contributor_id ";
 	$sql .= "WHERE i.item_id='" . db_escape($db, $id) . "' ";
 	$sql .= "GROUP BY i.item_id, i.title, i.item_edition, i.isbn, i.item_type, i.publication_year, i.item_copy, i.created_at, i.updated_at, i.publisher_id, i.category";
 	$result = mysqli_query($db, $sql);
@@ -175,17 +175,17 @@
     return $course; // returns an assoc. array
 	}
 	
-	function find_creator_by_id($id) {
-		//show single creator record via 'view' link 
+	function find_contributor_by_id($id) {
+		//show single contributor record via 'view' link 
 	global $db;
 	
-	$sql = "SELECT * FROM creators ";
-	$sql .= "WHERE creator_id='" . db_escape($db, $id) . "'";
+	$sql = "SELECT * FROM contributors ";
+	$sql .= "WHERE contributor_id='" . db_escape($db, $id) . "'";
 	$result = mysqli_query($db, $sql);
     confirm_result_set($result);
-    $creator = mysqli_fetch_assoc($result);
+    $contributor = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
-    return $creator; // returns an assoc. array
+    return $contributor; // returns an assoc. array
 	}
 	
 	function find_pub_by_id($id) {
@@ -213,21 +213,21 @@
     return $circ; // returns an assoc. array
 	}
 	
-	function find_icreator_by_id($id) {
-	//show single itemcreator record via 'view' link (add item title and creator name) need to change this so we see all item creators in one view
+	function find_icontributor_by_id($id) {
+	//show single itemcontributor record via 'view' link (add item title and contributor name) need to change this so we see all item contributors in one view
 	global $db;
 	
-	$sql = "SELECT * FROM item_creators ic ";
+	$sql = "SELECT * FROM item_contributors ic ";
 	$sql .= "LEFT JOIN items i on i.item_id = ic.item_id ";
-	$sql .= "LEFT JOIN creators c on c.creator_id = ic.creator_id ";
+	$sql .= "LEFT JOIN contributors c on c.contributor_id = ic.contributor_id ";
 	$sql .= "WHERE ic.item_id='" . db_escape($db, $id) . "' ";
 	//$sql .= "GROUP BY ic.item_id";
 	$result = mysqli_query($db, $sql);
     confirm_result_set($result);
     
-    $icreator = mysqli_fetch_assoc($result);
+    $icontributor = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
-    return $icreator; // returns an assoc. array
+    return $icontributor; // returns an assoc. array
 	} 
 
 	function find_auth_by_id($id) {
@@ -396,19 +396,19 @@ function find_auth_by_username($username) {
 		}
 	}
 	
-	function insert_creator($creator){
+	function insert_contributor($contributor){
 		global $db;
 		
-		$errors = validate_creator_insert($creator);
+		$errors = validate_contributor_insert($contributor);
 		if(!empty($errors)) {
 	 	   return $errors;
 	    }
 	    
-		$sql = "INSERT INTO creators ";
-		$sql .= "(creator_id, creator_name) ";
+		$sql = "INSERT INTO contributors ";
+		$sql .= "(contributor_id, contributor_name) ";
 		$sql .= "VALUES (";
-		$sql .= "'" . db_escape($db, $creator['creator_id']) . "',";
-		$sql .= "'" . db_escape($db, $creator['creator_name']) . "'";
+		$sql .= "'" . db_escape($db, $contributor['contributor_id']) . "',";
+		$sql .= "'" . db_escape($db, $contributor['contributor_name']) . "'";
 		$sql .= ")";
 		$result = mysqli_query($db, $sql);
 		//for INSERT statements, $result is true/false
@@ -572,17 +572,17 @@ function find_auth_by_username($username) {
 		}
 	}
 			
-	function update_creator($creator) {
+	function update_contributor($contributor) {
 		global $db;
 		
-		$errors = validate_creator_update($creator);
+		$errors = validate_contributor_update($contributor);
 		if(!empty($errors)) {
 	 	   return $errors;
 	    }
 		
-		$sql = "UPDATE creators SET ";
-		$sql .= "creator_name='" . db_escape($db, $creator['creator_name']) . "' ";
-		$sql .= "WHERE creator_id='" . db_escape($db, $creator['creator_id']) . "'";
+		$sql = "UPDATE contributors SET ";
+		$sql .= "contributor_name='" . db_escape($db, $contributor['contributor_name']) . "' ";
+		$sql .= "WHERE contributor_id='" . db_escape($db, $contributor['contributor_id']) . "'";
 		$sql .= "LIMIT 1";
 	
 		$result = mysqli_query($db, $sql);
@@ -714,11 +714,11 @@ function find_auth_by_username($username) {
 	}
 }
 
-    function delete_creator($id){
+    function delete_contributor($id){
      	global $db;
 	
-		$sql = "DELETE FROM creators ";
-		$sql .= "WHERE creator_id='" . db_escape($db, $id) . "' ";
+		$sql = "DELETE FROM contributors ";
+		$sql .= "WHERE contributor_id='" . db_escape($db, $id) . "' ";
 		$sql .= "LIMIT 1";
 		
 		$result = mysqli_query($db, $sql);
@@ -918,34 +918,34 @@ function find_auth_by_username($username) {
     return $errors; 
     }
 	
-	function validate_creator_insert($creator) {
+	function validate_contributor_insert($contributor) {
 	  $errors = [];
-   // creator_id
-    if(is_blank($creator['creator_id'])) {
-      $errors[] = "Creator id cannot be blank.";
-    } elseif(!has_length($creator['creator_id'], ['min' => 4, 'max' => 20])) {
-      $errors[] = "Creator id must be between 4 and 20 characters.";
+   // contributor_id
+    if(is_blank($contributor['contributor_id'])) {
+      $errors[] = "contributor id cannot be blank.";
+    } elseif(!has_length($contributor['contributor_id'], ['min' => 4, 'max' => 20])) {
+      $errors[] = "contributor id must be between 4 and 20 characters.";
     }
-    $current_id = $creator['id'] ?? '0';
-    if(!has_unique_creator_id($creator['creator_id'], $current_id)) {
-	  $errors[] = "Creator id must be unique.";
+    $current_id = $contributor['id'] ?? '0';
+    if(!has_unique_contributor_id($contributor['contributor_id'], $current_id)) {
+	  $errors[] = "contributor id must be unique.";
 	}
-    // creator_name
-    if(is_blank($creator['creator_name'])) {
-      $errors[] = "Creator name cannot be blank.";
-    } elseif(!has_length($creator['creator_name'], ['min' => 2, 'max' => 100])) {
-      $errors[] = "Creator name must be between 2 and 100 characters.";
+    // contributor_name
+    if(is_blank($contributor['contributor_name'])) {
+      $errors[] = "contributor name cannot be blank.";
+    } elseif(!has_length($contributor['contributor_name'], ['min' => 2, 'max' => 100])) {
+      $errors[] = "contributor name must be between 2 and 100 characters.";
     }
     return $errors; 
     }
 
-	function validate_creator_update($creator) {
+	function validate_contributor_update($contributor) {
 	  $errors = [];
-    // creator_name
-    if(is_blank($creator['creator_name'])) {
-      $errors[] = "Creator name cannot be blank.";
-    } elseif(!has_length($creator['creator_name'], ['min' => 2, 'max' => 100])) {
-      $errors[] = "Creator name must be between 2 and 100 characters.";
+    // contributor_name
+    if(is_blank($contributor['contributor_name'])) {
+      $errors[] = "contributor name cannot be blank.";
+    } elseif(!has_length($contributor['contributor_name'], ['min' => 2, 'max' => 100])) {
+      $errors[] = "contributor name must be between 2 and 100 characters.";
     }
     return $errors; 
     }
@@ -1027,16 +1027,16 @@ function find_auth_by_username($username) {
     $isbn = preg_replace('/-/', '', $search);
 
     $sql = "
-      SELECT items.*, publishers.publisher_name AS pub, GROUP_CONCAT(DISTINCT creators.creator_name SEPARATOR ', ') AS creators
+      SELECT items.*, publishers.publisher_name AS pub, GROUP_CONCAT(DISTINCT contributors.contributor_name SEPARATOR ', ') AS contributors
       FROM items
-      JOIN item_creators ON items.item_id = item_creators.item_id
-      JOIN creators ON item_creators.creator_id = creators.creator_id
+      JOIN item_contributors ON items.item_id = item_contributors.item_id
+      JOIN contributors ON item_contributors.contributor_id = contributors.contributor_id
 	  JOIN publishers ON items.publisher_id = publishers.publisher_id
 	  WHERE
 		items.title LIKE ?
 		OR REPLACE(items.isbn, '-', '') = ?
 		OR CAST(items.publication_year AS CHAR) = ?
-		OR creators.creator_name LIKE ?
+		OR contributors.contributor_name LIKE ?
       GROUP BY items.item_id
     ";
 
@@ -1070,12 +1070,12 @@ function find_auth_by_username($username) {
             $word_conds[] = "items.title LIKE ?";
             $params[] = "%$word%";
         }
-        // Search creators
+        // Search contributors
         if ($fuzzy) {
-            $word_conds[] = "SOUNDEX(creators.creator_name) = SOUNDEX(?)";
+            $word_conds[] = "SOUNDEX(contributors.contributor_name) = SOUNDEX(?)";
             $params[] = $word;
         } else {
-            $word_conds[] = "creators.creator_name LIKE ?";
+            $word_conds[] = "contributors.contributor_name LIKE ?";
             $params[] = "%$word%";
         }
         // Search publisher
@@ -1095,11 +1095,11 @@ function find_auth_by_username($username) {
     // Final SQL
     $sql = "
         SELECT items.*, 
-               GROUP_CONCAT(DISTINCT creators.creator_name SEPARATOR ', ') AS creators, 
+               GROUP_CONCAT(DISTINCT contributors.contributor_name SEPARATOR ', ') AS contributors, 
                publishers.publisher_name AS pub
         FROM items
-        LEFT JOIN item_creators ON items.item_id = item_creators.item_id
-        LEFT JOIN creators ON item_creators.creator_id = creators.creator_id
+        LEFT JOIN item_contributors ON items.item_id = item_contributors.item_id
+        LEFT JOIN contributors ON item_contributors.contributor_id = contributors.contributor_id
         LEFT JOIN publishers ON items.publisher_id = publishers.publisher_id
         WHERE " . implode(' AND ', $where) . "
         GROUP BY items.item_id
@@ -1128,13 +1128,13 @@ function advanced_search_items($db, $params) {
             $sql_params[] = "%{$params['title']}%";
         }
     }
-    // Author/Creator
+    // Author/contributor
     if ($params['author']) {
         if ($params['fuzzy']) {
-            $where[] = "SOUNDEX(creators.creator_name) = SOUNDEX(?)";
+            $where[] = "SOUNDEX(contributors.contributor_name) = SOUNDEX(?)";
             $sql_params[] = $params['author'];
         } else {
-            $where[] = "creators.creator_name LIKE ?";
+            $where[] = "contributors.contributor_name LIKE ?";
             $sql_params[] = "%{$params['author']}%";
         }
     }
@@ -1161,11 +1161,11 @@ function advanced_search_items($db, $params) {
 
     $sql = "
         SELECT items.*, 
-               GROUP_CONCAT(creators.creator_name SEPARATOR ', ') AS creators, 
+               GROUP_CONCAT(contributors.contributor_name SEPARATOR ', ') AS contributors, 
                publishers.publisher_name AS pub
         FROM items
-        LEFT JOIN item_creators ON items.item_id = item_creators.item_id
-        LEFT JOIN creators ON item_creators.creator_id = creators.creator_id
+        LEFT JOIN item_contributors ON items.item_id = item_contributors.item_id
+        LEFT JOIN contributors ON item_contributors.contributor_id = contributors.contributor_id
         LEFT JOIN publishers ON items.publisher_id = publishers.publisher_id
     ";
     if ($where) {
@@ -1180,5 +1180,62 @@ function advanced_search_items($db, $params) {
     }
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+// Keyword search for users (searches first name, last name, email)
+function keyword_search_users($db, $search, $fuzzy = false) {
+    // Split the search string into words (for multi-word search)
+    $words = preg_split('/\s+/', trim($search));
+    $where = [];
+    $params = [];
+    
+    foreach ($words as $word) {
+        $word_conds = [];
+        // Search first name
+        if ($fuzzy) {
+            $word_conds[] = "SOUNDEX(users.first_name) = SOUNDEX(?)";
+            $params[] = $word;
+        } else {
+            $word_conds[] = "users.first_name LIKE ?";
+            $params[] = "%$word%";
+        }
+        // Search last name
+        if ($fuzzy) {
+            $word_conds[] = "SOUNDEX(users.last_name) = SOUNDEX(?)";
+            $params[] = $word;
+        } else {
+            $word_conds[] = "users.last_name LIKE ?";
+            $params[] = "%$word%";
+        }
+        // Search email
+        $word_conds[] = "users.email LIKE ?";
+        $params[] = "%$word%";
+        
+        // Combine all fields for this word as OR
+        $where[] = '(' . implode(' OR ', $word_conds) . ')';
+    }
+    
+    // Final SQL with JOIN to get course name
+    $sql = "
+        SELECT users.*, 
+               courses.course_name AS course_name
+        FROM users
+        LEFT JOIN courses ON users.course_id = courses.course_id
+        WHERE " . implode(' AND ', $where) . "
+        ORDER BY users.last_name ASC, users.first_name ASC
+    ";
+    
+    $stmt = $db->prepare($sql);
+    $types = str_repeat('s', count($params));
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+// Get distinct user roles for filter dropdown
+function find_all_user_roles() {
+    return ['Student', 'Staff', 'Admin', 'Guest'];
 }
 	

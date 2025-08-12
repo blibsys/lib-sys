@@ -35,8 +35,8 @@ $item = find_item_by_id($id);
 	      <dd><?php echo h($item['title']); ?></dd>
 	    </dl>
 	    <dl>
-	      <dt>Creators</dt>
-	      <dd><?php echo h($item['creators']); ?></dd>
+	      <dt>contributors</dt>
+	      <dd><?php echo h($item['contributors']); ?></dd>
 	    </dl>
 		<dl>
 	      <dt>Type</dt>

@@ -122,18 +122,18 @@
     return $course_count === 0;
   }
 
-   function has_unique_creator_id($creator_id, $current_id="0") {
+   function has_unique_contributor_id($contributor_id, $current_id="0") {
     global $db;
 
-    $sql = "SELECT * FROM creators ";
-    $sql .= "WHERE creator_id='" . db_escape($db, $creator_id) . "' ";
-    $sql .= "AND creator_id != '" . db_escape($db, $current_id) . "'";
+    $sql = "SELECT * FROM contributors ";
+    $sql .= "WHERE contributor_id='" . db_escape($db, $contributor_id) . "' ";
+    $sql .= "AND contributor_id != '" . db_escape($db, $current_id) . "'";
 
-    $creator_set = mysqli_query($db, $sql);
-    $creator_count = mysqli_num_rows($creator_set);
-    mysqli_free_result($creator_set);
+    $contributor_set = mysqli_query($db, $sql);
+    $contributor_count = mysqli_num_rows($contributor_set);
+    mysqli_free_result($contributor_set);
 
-    return $creator_count === 0;
+    return $contributor_count === 0;
   }
 
   function has_users_with_course_id($course_id) {
