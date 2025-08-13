@@ -38,8 +38,7 @@ if(!empty($search_term)) {
 <main aria-label="main content">
 <div id="content">
   <div class="item contributors listing">
-    <h1>Item Authors & Contributors</h1>
-
+    <h1>Item Contributors</h1>
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>

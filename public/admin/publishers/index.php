@@ -45,7 +45,7 @@ if(!empty($search_term)) {
     </div>
 
     <div class="actions">
-      <a class="action1" href="<?php echo url_for('/admin/publishers/new.php'); ?>">Add New publisher</a>
+      <a class="action1" href="<?php echo url_for('/admin/publishers/new.php'); ?>">＋ Add New publisher</a>
       <form class="search-form" method="GET" action="">
         <input type="text" name="search" placeholder="Search publishers..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
         <input type="submit" value="Search">

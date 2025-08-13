@@ -9,22 +9,17 @@ $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // Build the query based on filters and search
 if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date) || !empty($filter_due_date)) {
-    // Get all circulation records first
-    $circulation_set = find_all_circ();
-    $temp_circulations = [];
-    while($row = mysqli_fetch_assoc($circulation_set)) {
-        $temp_circulations[] = $row;
-    }
-    mysqli_free_result($circulation_set);
-    
-    // Apply search filtering if search term exists
+    // Use search results if search term provided
     if(!empty($search_term)) {
-        $temp_circulations = array_filter($temp_circulations, function($circulation) use ($search_term) {
-            return stripos($circulation['circulation_id'], $search_term) !== false || 
-                   stripos($circulation['user_id'], $search_term) !== false ||
-                   stripos($circulation['item_id'], $search_term) !== false ||
-                   stripos($circulation['item_circulation_status'], $search_term) !== false;
-        });
+        $temp_circulations = keyword_search_circulation($db, $search_term);
+    } else {
+        // Get all circulation records for filtering
+        $circulation_set = find_all_circulation();
+        $temp_circulations = [];
+        while($row = mysqli_fetch_assoc($circulation_set)) {
+            $temp_circulations[] = $row;
+        }
+        mysqli_free_result($circulation_set);
     }
     
     // Apply filters
@@ -64,7 +59,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
     $circulation_set = null;
     $search_results = $temp_circulations;
 } else {
-    $circulation_set = find_all_circ();
+    $circulation_set = find_all_circulation();
     $search_results = null;
 }
 
@@ -83,7 +78,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
     </div>
 
     <div class="actions">
-      <!--<a class="action1" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New Circulation</a>-->
+      <!--<a class="action1" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New circulation</a>-->
       <form class="search-form" method="GET" action="">
         <!-- Preserve filter values when searching -->
         <?php if(!empty($filter_status)): ?>
@@ -125,7 +120,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
           <option value="">Status</option>
           <?php
           // Get distinct statuses from circulation records
-          $temp_set = find_all_circ();
+          $temp_set = find_all_circulation();
           $statuses = [];
           while($row = mysqli_fetch_assoc($temp_set)) {
               if(!in_array($row['item_circulation_status'], $statuses)) {
@@ -142,9 +137,11 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
           <?php endforeach; ?>
         </select>
         
-        <input type="date" name="borrow_date" value="<?php echo h($filter_borrow_date); ?>" onchange="this.form.submit()" title="Filter by borrow date">
+        <label for="borrow_date">Borrow Date:</label>
+        <input type="date" id="borrow_date" name="borrow_date" value="<?php echo h($filter_borrow_date); ?>" onchange="this.form.submit()" title="Filter by borrow date">
         
-        <input type="date" name="due_date" value="<?php echo h($filter_due_date); ?>" onchange="this.form.submit()" title="Filter by due date">
+        <label for="due_date">Due Date:</label>
+        <input type="date" id="due_date" name="due_date" value="<?php echo h($filter_due_date); ?>" onchange="this.form.submit()" title="Filter by due date">
         
         <?php if(!empty($filter_status) || !empty($filter_borrow_date) || !empty($filter_due_date)): ?>
           <a href="<?php echo url_for('/admin/circulation/index.php' . (!empty($search_term) ? '?search=' . urlencode($search_term) : '')); ?>" class="clear-filters">Clear Filters</a>
@@ -173,42 +170,42 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
       // Handle different result types
       if($search_results !== null) {
           // Search results (array format)
-          foreach($search_results as $circ) {
+          foreach($search_results as $circulation) {
       ?>
         <tr>
-          <td><?php echo h($circ['circulation_id']); ?></td>
-          <td><?php echo h($circ['user_id']); ?></td>
-          <td><?php echo h($circ['item_id']);?></td>
-    	  <td><?php echo $circ['borrow_date'] ? h(date('d/m/Y', strtotime($circ['borrow_date']))) : ''; ?></td>
-    	  <td><?php echo $circ['date_due_back'] ? h(date('d/m/Y', strtotime($circ['date_due_back']))) : ''; ?></td>
-          <td><?php echo ($circ['returned_date'] ?? '') ? h(date('d/m/Y', strtotime($circ['returned_date']))) : ''; ?></td>
-          <td><?php echo $circ['next_reminder_date'] ? h(date('d/m/Y', strtotime($circ['next_reminder_date']))) : ''; ?></td>
-          <td><?php echo h($circ['item_circulation_status']); ?></td>
-          <td><?php echo $circ['created_at'] ? h(date('d/m/Y', strtotime($circ['created_at']))) : ''; ?></td>
-    	  <td><?php echo $circ['updated_at'] ? h(date('d/m/Y', strtotime($circ['updated_at']))) : ''; ?></td>
-          <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circ['circulation_id'])));?>">View</a></td>
-          <td><a class="action2" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circ['circulation_id']))); ?>">Edit</a></td>
+          <td><?php echo h($circulation['circulation_id']); ?></td>
+          <td><?php echo h($circulation['user_id']); ?></td>
+          <td><?php echo h($circulation['item_id']);?></td>
+    	  <td><?php echo $circulation['borrow_date'] ? h(date('d/m/Y', strtotime($circulation['borrow_date']))) : ''; ?></td>
+    	  <td><?php echo $circulation['date_due_back'] ? h(date('d/m/Y', strtotime($circulation['date_due_back']))) : ''; ?></td>
+          <td><?php echo ($circulation['returned_date'] ?? '') ? h(date('d/m/Y', strtotime($circulation['returned_date']))) : ''; ?></td>
+          <td><?php echo $circulation['next_reminder_date'] ? h(date('d/m/Y', strtotime($circulation['next_reminder_date']))) : ''; ?></td>
+          <td><?php echo h($circulation['item_circulation_status']); ?></td>
+          <td><?php echo $circulation['created_at'] ? h(date('d/m/Y', strtotime($circulation['created_at']))) : ''; ?></td>
+    	  <td><?php echo $circulation['updated_at'] ? h(date('d/m/Y', strtotime($circulation['updated_at']))) : ''; ?></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circulation['circulation_id'])));?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circulation['circulation_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="">Delete</a></td>
     	  </tr>
       <?php 
           }
       } else {
           // Regular results (mysqli result format)
-          while($circ = mysqli_fetch_assoc($circulation_set)) { 
+          while($circulation = mysqli_fetch_assoc($circulation_set)) { 
       ?>
         <tr>
-          <td><?php echo h($circ['circulation_id']); ?></td>
-          <td><?php echo h($circ['user_id']); ?></td>
-          <td><?php echo h($circ['item_id']);?></td>
-    	  <td><?php echo $circ['borrow_date'] ? h(date('d/m/Y', strtotime($circ['borrow_date']))) : ''; ?></td>
-    	  <td><?php echo $circ['date_due_back'] ? h(date('d/m/Y', strtotime($circ['date_due_back']))) : ''; ?></td>
-          <td><?php echo ($circ['returned_date'] ?? '') ? h(date('d/m/Y', strtotime($circ['returned_date']))) : ''; ?></td>
-          <td><?php echo $circ['next_reminder_date'] ? h(date('d/m/Y', strtotime($circ['next_reminder_date']))) : ''; ?></td>
-          <td><?php echo h($circ['item_circulation_status']); ?></td>
-          <td><?php echo $circ['created_at'] ? h(date('d/m/Y', strtotime($circ['created_at']))) : ''; ?></td>
-    	  <td><?php echo $circ['updated_at'] ? h(date('d/m/Y', strtotime($circ['updated_at']))) : ''; ?></td>
-          <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circ['circulation_id'])));?>">View</a></td>
-          <td><a class="action2" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circ['circulation_id']))); ?>">Edit</a></td>
+          <td><?php echo h($circulation['circulation_id']); ?></td>
+          <td><?php echo h($circulation['user_id']); ?></td>
+          <td><?php echo h($circulation['item_id']);?></td>
+    	  <td><?php echo $circulation['borrow_date'] ? h(date('d/m/Y', strtotime($circulation['borrow_date']))) : ''; ?></td>
+    	  <td><?php echo $circulation['date_due_back'] ? h(date('d/m/Y', strtotime($circulation['date_due_back']))) : ''; ?></td>
+          <td><?php echo ($circulation['returned_date'] ?? '') ? h(date('d/m/Y', strtotime($circulation['returned_date']))) : ''; ?></td>
+          <td><?php echo $circulation['next_reminder_date'] ? h(date('d/m/Y', strtotime($circulation['next_reminder_date']))) : ''; ?></td>
+          <td><?php echo h($circulation['item_circulation_status']); ?></td>
+          <td><?php echo $circulation['created_at'] ? h(date('d/m/Y', strtotime($circulation['created_at']))) : ''; ?></td>
+    	  <td><?php echo $circulation['updated_at'] ? h(date('d/m/Y', strtotime($circulation['updated_at']))) : ''; ?></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circulation['circulation_id'])));?>">View</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circulation['circulation_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="">Delete</a></td>
     	  </tr>
       <?php 

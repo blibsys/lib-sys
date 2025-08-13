@@ -63,7 +63,7 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
     </div>
     
     <div class="actions">
-      <a class="action1" href="<?php echo url_for('/admin/users/new.php'); ?>">Add New user</a>
+      <a class="action1" href="<?php echo url_for('/admin/users/new.php'); ?>">＋ Add New User</a>
       <form class="search-form" method="GET" action="">
         <!-- Preserve filter values when searching -->
         <?php if(!empty($filter_role)): ?>

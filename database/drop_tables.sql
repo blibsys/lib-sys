@@ -1,0 +1,8 @@
+USE bovtslibsys;
+DROP TABLE IF EXISTS circulation;
+DROP TABLE IF EXISTS item_creators;
+DROP TABLE IF EXISTS creators;
+DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS publishers;

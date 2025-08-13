@@ -2,6 +2,8 @@
 
 require_once('../../../private/init.php');
 
+$errors = [];
+
 if(is_post_request()) {
 
     // Handle form values sent by edit/new.php
@@ -21,6 +23,7 @@ if(is_post_request()) {
   }
   	} else {
   	  // display blank form
+  	  $contributor = [];
   }
   	$contributor_set = find_all_contributors();
 	$contributor_count = mysqli_num_rows($contributor_set) + 1;

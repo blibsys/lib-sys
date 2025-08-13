@@ -2,7 +2,7 @@
 
 $id = $_GET['id'] ?? '1';
 
-$circ = find_circ_by_id($id);
+$circulation = find_circulation_by_id($id);
 
 ?>
 
@@ -16,63 +16,60 @@ $circ = find_circ_by_id($id);
 	
 	<div class="circulation show">
 	
-	  <h2>Circulation ID: <?php echo h($circ['circulation_id']); ?></h2>
+	  <h2>Circulation Record Detail</h2>
 	  
 	  <div class="attributes" >
-		<div class="form-row">
+
+	  <div class="form-row">
+	  <dl>
+	    <dt>Circulation ID</dt>
+	    <dd><?php echo h($circulation['circulation_id']); ?></dd>
+	  </dl>
+	  </div>
+
+	  <div class="form-row">
 	  <dl>
 	    <dt>User</dt>
-	    <dd><?php echo h($circ['user_id'] . ' - ' . $circ['first_name'] . ' ' . $circ['last_name'] . ' (' . $circ['email'] . ')'); ?></dd>
+	    <dd><?php echo h($circulation['user_id'] . ' - ' . $circulation['first_name'] . ' ' . $circulation['last_name'] . ' (' . $circulation['email'] . ')'); ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">
 	  <dl>
 	    <dt>Item</dt>
-	    <dd><?php echo h($circ['item_id'] . ' - ' . $circ['title']); ?></dd>
+	    <dd><?php echo h($circulation['item_id'] . ' - ' . $circulation['title']); ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">
 	  <dl>
 	    <dt>Status</dt>
-	    <dd><?php echo h($circ['item_circulation_status']); ?></dd>
+	    <dd><?php echo h($circulation['item_circulation_status']); ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">
 	  <dl>
 	    <dt>Borrow date</dt>
-	    <dd><?php echo h($circ['borrow_date']); ?></dd>
+	    <dd><?php echo h($circulation['borrow_date']); ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">
 	  <dl>
 	    <dt>Date due back</dt>
-	    <dd><?php echo h($circ['date_due_back']); ?></dd>
+	    <dd><?php echo h($circulation['date_due_back']); ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">	
 	  <dl>
 	    <dt>Returned date</dt>
-	    <dd><?php echo h($circ['returned_date'] ?? 'NULL'); ?></dd>
+	    <dd><?php echo h($circulation['returned_date'] ?? 'NULL'); ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">
 	  <dl>
 	    <dt>Next reminder</dt>
-	    <dd><?php echo h($circ['next_reminder_date']); ?></dd>
+	    <dd><?php echo h($circulation['next_reminder_date']); ?></dd>
 	  </dl>
 	  </div>
-	  <div class="form-row">
-	  <dl>
-	    <dt>Created</dt>
-	    <dd><?php echo h($circ['created_at']); ?></dd>
-	  </dl>
-	  </div>
-	  <div class="form-row">
-	  <dl>
-	    <dt>Updated</dt>
-	    <dd><?php echo h($circ['updated_at']); ?></dd>
-	  </dl>
-	 </div>
+	 
 	 </div>	
 	</div>
    </div>

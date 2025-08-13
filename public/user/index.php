@@ -56,7 +56,7 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
       value="<?php echo h($main_search); ?>"
       class="search-input"
       type="search" 
-      placeholder="Search anything"
+      placeholder="Search anything..."
       aria-label="Search the library catalogue"
       required >
     <button class="search-submit" type="submit" aria-label="Search">Search</button>

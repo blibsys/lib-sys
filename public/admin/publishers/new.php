@@ -2,6 +2,8 @@
 
 require_once('../../../private/init.php'); 
 
+$errors = [];
+
 if(is_post_request()) {
 
 	$pub = [];
@@ -18,6 +20,7 @@ if(is_post_request()) {
     }	
 	  } else {
 		// display blank form
+		$pub = [];
 }
 	$pub_set = find_all_pubs();
 	$pub_count = mysqli_num_rows($pub_set) + 1;

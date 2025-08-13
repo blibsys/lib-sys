@@ -11,14 +11,14 @@ $auth_set = find_all_auth();
 <main aria-label="main content">
 <div id="content">
   <div class="auths listing">
-    <h1>User Login Credentials</h1>
+    <h1>User Login</h1>
 
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('/admin/index.php'); ?>">← Back to List</a>
     </div>
 
     <div class="actions">
-      <a class="action1" href="<?php echo url_for('/admin/auth/new.php'); ?>">Add New Credentials</a>
+      <a class="action1" href="<?php echo url_for('/admin/auth/new.php'); ?>">＋ Add New Login Details</a>
     </div>
       
     <table class = "list">

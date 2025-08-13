@@ -5,25 +5,9 @@ $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // Build the query based on search
 if(!empty($search_term)) {
-    // Use search results (filter manually)
-    $contributor_set = find_all_contributors();
-    $temp_contributors = [];
-    while($row = mysqli_fetch_assoc($contributor_set)) {
-        $temp_contributors[] = $row;
-    }
-    mysqli_free_result($contributor_set);
-    
-    // Manual search filtering
-    $contributors = [];
-    foreach($temp_contributors as $contributor) {
-        if(stripos($contributor['contributor_name'], $search_term) !== false || 
-           stripos($contributor['contributor_id'], $search_term) !== false) {
-            $contributors[] = $contributor;
-        }
-    }
-    
+    // Use search results
+    $search_results = keyword_search_contributors($db, $search_term);
     $contributor_set = null;
-    $search_results = $contributors;
 } else {
     $contributor_set = find_all_contributors();
     $search_results = null;
@@ -45,7 +29,7 @@ if(!empty($search_term)) {
     </div>
     
     <div class="actions">
-      <a class="action1" href="<?php echo url_for('/admin/contributors/new.php'); ?>">Add New Contributor</a>
+      <a class="action1" href="<?php echo url_for('/admin/contributors/new.php'); ?>">＋ Add New Contributor</a>
       <form class="search-form" method="GET" action="">
         <input type="text" name="search" placeholder="Search contributors..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
         <input type="submit" value="Search">
@@ -69,6 +53,7 @@ if(!empty($search_term)) {
       <tr>  
         <th>ID</th>
         <th>Name</th>
+        <th>Role</th>
   	    <th>&nbsp;</th>
   	    <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -83,6 +68,7 @@ if(!empty($search_term)) {
         <tr>
           <td><?php echo h($contributor['contributor_id']); ?></td>
           <td><?php echo h($contributor['contributor_name']); ?></td>
+          <td><?php echo isset($contributor['roles']) ? h($contributor['roles']) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/show.php?Page=1&id=' . h(u($contributor['contributor_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/edit.php?id=' . h(u($contributor['contributor_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/delete.php?id=' . h(u($contributor['contributor_id']))); ?>">Delete</a></td>
@@ -96,6 +82,7 @@ if(!empty($search_term)) {
         <tr>
           <td><?php echo h($contributor['contributor_id']); ?></td>
           <td><?php echo h($contributor['contributor_name']); ?></td>
+          <td><?php echo isset($contributor['roles']) ? h($contributor['roles']) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/show.php?Page=1&id=' . h(u($contributor['contributor_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/edit.php?id=' . h(u($contributor['contributor_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/delete.php?id=' . h(u($contributor['contributor_id']))); ?>">Delete</a></td>

@@ -10,10 +10,11 @@ require_login();
   <div id="main-menu">
     <h1>Modules</h1>
     <div class="module-tiles">
+
       <a class="tile" href="<?php echo url_for('/admin/items/index.php'); ?>">
         <!--<span class="tile-icon"></span>-->
         <span class="tile-title">Items</span>
-      </a>
+</a>
       <a class="tile" href="<?php echo url_for('/admin/users/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title">Users</span>
@@ -30,10 +31,6 @@ require_login();
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title">Contributors</span>
       </a>
-      <a class="tile" href="<?php echo url_for('/admin/itemcontributors/index.php'); ?>">
-       <!-- <span class="tile-icon"></span>-->
-        <span class="tile-title">Item Contributors</span>
-      </a>
       <a class="tile" href="<?php echo url_for('/admin/circulation/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title">Circulation</span>
@@ -41,16 +38,23 @@ require_login();
        <a class="tile" href="<?php echo url_for('/admin/auth/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title">User Logins</span>
-      </a>
        </a>
        <a class="tile" href="">
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title"></span>
       </a>
-       </a>
        <a class="tile" href="">
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title"></span>
+      </a>
+        <a class="tile" href="">
+       <!-- <span class="tile-icon"></span>-->
+        <span class="tile-title"></span>
+      </a>
+        <!--<a class="tile" href="<?php echo url_for('/admin/itemcontributors/index.php'); ?>">
+       <span class="tile-icon"></span>
+        <span class="tile-title">Item Contributors</span>
+      </a>-->
       </a>
     </div>
   </div>

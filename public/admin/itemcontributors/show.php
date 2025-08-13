@@ -25,7 +25,7 @@ $icontributor = find_icontributor_by_id($id);
   </div>
   <div class="form-row">
     <dl>
-      <dt>contributor</dt>
+      <dt>Contributor</dt>
       <dd><?php echo h($icontributor['contributor_id'] . ' - ' . $icontributor['contributor_name']); ?></dd>
     </dl>
     </div>

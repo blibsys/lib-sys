@@ -1,6 +1,8 @@
- <?php
+<?php
 
 require_once('../../../private/init.php'); 
+
+$errors = [];
 
 if(is_post_request()) {
 
@@ -21,6 +23,7 @@ if(is_post_request()) {
 }
    } else {
 	 // display blank form
+	 $course = [];
 }
 	$course_set = find_all_courses();
 	$course_count = mysqli_num_rows($course_set) + 1;

@@ -54,7 +54,7 @@
 	return $result;
 }
 
-	function find_all_circ() {
+	function find_all_circulation() {
 	global $db;
 	
 	$sql = "SELECT * FROM circulation ";
@@ -199,7 +199,7 @@
     return $pub; // returns an assoc. array
 	}
 
-	function find_circ_by_id($id) {
+	function find_circulation_by_id($id) {
 	global $db;
 	$sql = "SELECT * FROM circulation c ";
 	$sql .="JOIN users u ON u.user_id = c.user_id ";
@@ -208,9 +208,9 @@
 	// .= "GROUP BY c.user_id";
 	$result = mysqli_query($db, $sql);
     confirm_result_set($result);
-    $circ = mysqli_fetch_assoc($result);
+    $circulation = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
-    return $circ; // returns an assoc. array
+    return $circulation; // returns an assoc. array
 	}
 	
 	function find_icontributor_by_id($id) {
@@ -1012,6 +1012,77 @@ function find_auth_by_username($username) {
 			$errors[] = "Cannot delete course with users assigned to it.";
 		}
 		return $errors;
+	}
+
+	function validate_circulation($circulation) {
+		global $db;
+		$errors = [];
+		
+		// Validate borrow_date
+		if(!has_presence($circulation['borrow_date'])) {
+			$errors[] = "Borrow date cannot be blank.";
+		} elseif(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['borrow_date'])) {
+			$errors[] = "Borrow date must be in YYYY-MM-DD format.";
+		}
+		
+		// Validate date_due_back (if provided)
+		if(has_presence($circulation['date_due_back'])) {
+			if(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['date_due_back'])) {
+				$errors[] = "Due date must be in YYYY-MM-DD format.";
+			} elseif(has_presence($circulation['borrow_date']) && $circulation['date_due_back'] < $circulation['borrow_date']) {
+				$errors[] = "Due date must be on or after the borrow date.";
+			}
+		}
+		
+		// Validate returned_date (if provided)
+		if(has_presence($circulation['returned_date'])) {
+			if(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['returned_date'])) {
+				$errors[] = "Returned date must be in YYYY-MM-DD format.";
+			} elseif(has_presence($circulation['borrow_date']) && $circulation['returned_date'] < $circulation['borrow_date']) {
+				$errors[] = "Returned date must be on or after the borrow date.";
+			}
+		}
+		
+		return $errors;
+	}
+
+	function update_circulation($circulation) {
+		global $db;
+
+		$errors = validate_circulation($circulation);
+		if(!empty($errors)) {
+			return $errors;
+		}	
+		
+		$sql = "UPDATE circulation SET ";
+		$sql .= "borrow_date='" . db_escape($db, $circulation['borrow_date']) . "', ";
+		
+		// Handle date_due_back - if provided, use it, otherwise let MySQL handle the generated column
+		if(has_presence($circulation['date_due_back'])) {
+			$sql .= "date_due_back='" . db_escape($db, $circulation['date_due_back']) . "', ";
+		}
+		
+		// Handle returned_date - can be NULL
+		if(has_presence($circulation['returned_date'])) {
+			$sql .= "returned_date='" . db_escape($db, $circulation['returned_date']) . "' ";
+		} else {
+			$sql .= "returned_date=NULL ";
+		}
+		
+		$sql .= "WHERE circulation_id='" . db_escape($db, $circulation['circulation_id']) . "' ";
+		$sql .= "LIMIT 1";
+	
+		$result = mysqli_query($db, $sql);
+		// for UPDATE statements, $result is true/false
+		if($result) {
+		  return true;
+		} else {
+		  // update failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		 // echo $sql;
+		  exit;
+		}
 	}	
 
 	//SEARCH QUERIES
@@ -1182,60 +1253,133 @@ function advanced_search_items($db, $params) {
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-// Keyword search for users (searches first name, last name, email)
-function keyword_search_users($db, $search, $fuzzy = false) {
-    // Split the search string into words (for multi-word search)
-    $words = preg_split('/\s+/', trim($search));
-    $where = [];
-    $params = [];
+// Search functions for users, contributors, and circulation
+
+function keyword_search_users($db, $search_term) {
+    global $db;
     
-    foreach ($words as $word) {
-        $word_conds = [];
-        // Search first name
-        if ($fuzzy) {
-            $word_conds[] = "SOUNDEX(users.first_name) = SOUNDEX(?)";
-            $params[] = $word;
-        } else {
-            $word_conds[] = "users.first_name LIKE ?";
-            $params[] = "%$word%";
-        }
-        // Search last name
-        if ($fuzzy) {
-            $word_conds[] = "SOUNDEX(users.last_name) = SOUNDEX(?)";
-            $params[] = $word;
-        } else {
-            $word_conds[] = "users.last_name LIKE ?";
-            $params[] = "%$word%";
-        }
-        // Search email
-        $word_conds[] = "users.email LIKE ?";
-        $params[] = "%$word%";
-        
-        // Combine all fields for this word as OR
-        $where[] = '(' . implode(' OR ', $word_conds) . ')';
+    $sql = "SELECT u.*, c.course_name ";
+    $sql .= "FROM users u ";
+    $sql .= "LEFT JOIN courses c ON c.course_id = u.course_id ";
+    $sql .= "WHERE u.first_name LIKE ? ";
+    $sql .= "OR u.last_name LIKE ? ";
+    $sql .= "OR u.email LIKE ? ";
+    $sql .= "OR c.course_name LIKE ? ";
+    $sql .= "ORDER BY u.last_name, u.first_name ASC";
+    
+    $search_param = '%' . $search_term . '%';
+    
+    $stmt = mysqli_prepare($db, $sql);
+    if (!$stmt) {
+        exit('Database error: ' . mysqli_error($db));
     }
     
-    // Final SQL with JOIN to get course name
-    $sql = "
-        SELECT users.*, 
-               courses.course_name AS course_name
-        FROM users
-        LEFT JOIN courses ON users.course_id = courses.course_id
-        WHERE " . implode(' AND ', $where) . "
-        ORDER BY users.last_name ASC, users.first_name ASC
-    ";
+    mysqli_stmt_bind_param($stmt, "ssss", $search_param, $search_param, $search_param, $search_param);
+    mysqli_stmt_execute($stmt);
     
-    $stmt = $db->prepare($sql);
-    $types = str_repeat('s', count($params));
-    if ($params) {
-        $stmt->bind_param($types, ...$params);
+    $result = mysqli_stmt_get_result($stmt);
+    if (!$result) {
+        exit('Database error: ' . mysqli_error($db));
     }
-    $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    
+    // Convert mysqli result to array
+    $users = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+    
+    mysqli_free_result($result);
+    mysqli_stmt_close($stmt);
+    return $users; // Return array instead of result resource
 }
 
-// Get distinct user roles for filter dropdown
+function keyword_search_contributors($db, $search_term) {
+    global $db;
+    
+    $sql = "SELECT * FROM contributors ";
+    $sql .= "WHERE contributor_name LIKE ? ";
+    $sql .= "OR contributor_id LIKE ? ";
+    $sql .= "ORDER BY contributor_name ASC";
+    
+    $search_param = '%' . $search_term . '%';
+    
+    $stmt = mysqli_prepare($db, $sql);
+    if (!$stmt) {
+        exit('Database error: ' . mysqli_error($db));
+    }
+    
+    mysqli_stmt_bind_param($stmt, "ss", $search_param, $search_param);
+    mysqli_stmt_execute($stmt);
+    
+    $result = mysqli_stmt_get_result($stmt);
+    if (!$result) {
+        exit('Database error: ' . mysqli_error($db));
+    }
+    
+    // Convert mysqli result to array
+    $contributors = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $contributors[] = $row;
+    }
+    
+    mysqli_free_result($result);
+    mysqli_stmt_close($stmt);
+    return $contributors; // Return array instead of result resource
+}
+
+function keyword_search_circulation($db, $search_term) {
+    global $db;
+    
+    $sql = "SELECT c.* ";
+    $sql .= "FROM circulation c ";
+    $sql .= "JOIN users u ON u.user_id = c.user_id ";
+    $sql .= "JOIN items i ON i.item_id = c.item_id ";
+    $sql .= "WHERE u.first_name LIKE ? ";
+    $sql .= "OR u.last_name LIKE ? ";
+    $sql .= "OR u.email LIKE ? ";
+    $sql .= "OR i.title LIKE ? ";
+    $sql .= "OR c.borrow_date LIKE ? ";
+    $sql .= "ORDER BY c.borrow_date DESC";
+    
+    $search_param = '%' . $search_term . '%';
+    
+    $stmt = mysqli_prepare($db, $sql);
+    if (!$stmt) {
+        exit('Database error: ' . mysqli_error($db));
+    }
+    
+    mysqli_stmt_bind_param($stmt, "sssss", $search_param, $search_param, $search_param, $search_param, $search_param);
+    mysqli_stmt_execute($stmt);
+    
+    $result = mysqli_stmt_get_result($stmt);
+    if (!$result) {
+        exit('Database error: ' . mysqli_error($db));
+    }
+    
+    // Convert mysqli result to array
+    $circulation_records = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $circulation_records[] = $row;
+    }
+    
+    mysqli_free_result($result);
+    mysqli_stmt_close($stmt);
+    return $circulation_records; // Return array instead of result resource
+}
+
 function find_all_user_roles() {
-    return ['Student', 'Staff', 'Admin', 'Guest'];
+    global $db;
+    
+    $sql = "SELECT DISTINCT role FROM users ";
+    $sql .= "ORDER BY role ASC";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    
+    $roles = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $roles[] = $row['role'];
+    }
+    mysqli_free_result($result);
+    return $roles;
 }
 	
