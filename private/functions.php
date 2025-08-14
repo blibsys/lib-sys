@@ -75,4 +75,33 @@ function display_session_message() {
   }
   return '';
 }
+
+/**
+ * Highlights search terms in text with HTML mark tags
+ * @param string $text The text to search in
+ * @param string $search_terms The search terms to highlight (space-separated)
+ * @param string $css_class The CSS class to apply to highlighted terms
+ * @return string The text with highlighted search terms
+ */
+function highlight_search_terms($text, $search_terms, $css_class = 'search-highlight') {
+    if (empty($search_terms) || empty($text)) {
+        return $text;
+    }
+    
+    // Split search terms into individual words
+    $words = preg_split('/\s+/', trim($search_terms));
+    $highlighted_text = $text;
+    
+    foreach ($words as $word) {
+        // Only highlight words with 2+ characters to avoid highlighting common words
+        if (strlen($word) > 1) {
+            // Use word boundaries to match whole words and partial matches
+            $pattern = '/(' . preg_quote($word, '/') . ')/i';
+            $replacement = '<mark class="' . $css_class . '">$1</mark>';
+            $highlighted_text = preg_replace($pattern, $replacement, $highlighted_text);
+        }
+    }
+    
+    return $highlighted_text;
+}
 ?>

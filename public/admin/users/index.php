@@ -148,17 +148,17 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
       <?php 
       // Handle different result types
       if($search_results !== null) {
-          // Search results (array format)
+          // Search results (array format) - Apply highlighting when search term exists
           foreach($search_results as $user) {
       ?>
         <tr>
           <td><?php echo h($user['user_id']); ?></td>
-          <td><?php echo h($user['first_name']); ?></td>
-          <td><?php echo h($user['last_name']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($user['first_name']), $search_term) : h($user['first_name']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($user['last_name']), $search_term) : h($user['last_name']); ?></td>
     	  <td><?php echo $user['user_start_date'] ? h(date('d/m/Y', strtotime($user['user_start_date']))) : ''; ?></td>
     	  <td><?php echo $user['user_end_date'] ? h(date('d/m/Y', strtotime($user['user_end_date']))) : ''; ?></td>
-          <td><?php echo h($user['role']); ?></td>
-          <td><?php echo h($user['email']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($user['role']), $search_term) : h($user['role']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($user['email']), $search_term) : h($user['email']); ?></td>
     	  <td><?php echo h($user['course_id']); ?></td>
     	  <td><?php echo $user['created_at'] ? h(date('d/m/Y', strtotime($user['created_at']))) : ''; ?></td>
     	  <td><?php echo $user['updated_at'] ? h(date('d/m/Y', strtotime($user['updated_at']))) : ''; ?></td>
@@ -169,7 +169,7 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
       <?php 
           }
       } else {
-          // Regular results (mysqli result format)
+          // Regular results (mysqli result format) - no search term, so no highlighting needed
           while($user = mysqli_fetch_assoc($user_set)) { 
       ?>
         <tr>

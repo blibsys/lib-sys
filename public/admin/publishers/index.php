@@ -77,12 +77,12 @@ if(!empty($search_term)) {
       <?php 
       // Handle different result types
       if($search_results !== null) {
-          // Search results (array format)
+          // Search results (array format) - Apply highlighting when search term exists
           foreach($search_results as $pub) {
       ?>
         <tr>
           <td><?php echo h($pub['publisher_id']); ?></td>
-          <td><?php echo h($pub['publisher_name']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($pub['publisher_name']), $search_term) : h($pub['publisher_name']); ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/publishers/show.php?Page=1&id=' . h(u($pub['publisher_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/publishers/edit.php?id=' . h(u($pub['publisher_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/publishers/delete.php?id=' . h(u($pub['publisher_id']))); ?>">Delete</a></td>

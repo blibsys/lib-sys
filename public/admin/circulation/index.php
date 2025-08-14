@@ -3,6 +3,8 @@
 
 // Get filter and search values
 $filter_status = isset($_GET['status']) ? trim($_GET['status']) : '';
+$filter_item_id = isset($_GET['item_id']) ? trim($_GET['item_id']) : '';
+$filter_user_id = isset($_GET['user_id']) ? trim($_GET['user_id']) : '';
 $filter_borrow_date = isset($_GET['borrow_date']) ? trim($_GET['borrow_date']) : '';
 $filter_due_date = isset($_GET['due_date']) ? trim($_GET['due_date']) : '';
 $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
@@ -31,7 +33,8 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
             if(!empty($filter_status) && $circulation['item_circulation_status'] !== $filter_status) {
                 $include = false;
             }
-            
+
+  
             // Improved date filtering - extract date part and compare
             if(!empty($filter_borrow_date)) {
                 $db_borrow_date = date('Y-m-d', strtotime($circulation['borrow_date']));
@@ -78,12 +81,14 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
     </div>
 
     <div class="actions">
-      <!--<a class="action1" href="<?php echo url_for('/admin/circulation/new.php'); ?>">Add New circulation</a>-->
+      <a class="action1" href="<?php echo url_for('/admin/circulation/new.php'); ?>">＋ Add New Circulation Record</a>
       <form class="search-form" method="GET" action="">
         <!-- Preserve filter values when searching -->
         <?php if(!empty($filter_status)): ?>
           <input type="hidden" name="status" value="<?php echo h($filter_status); ?>">
         <?php endif; ?>
+       
+
         <?php if(!empty($filter_borrow_date)): ?>
           <input type="hidden" name="borrow_date" value="<?php echo h($filter_borrow_date); ?>">
         <?php endif; ?>
@@ -135,7 +140,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
               <?php echo h(ucfirst($status)); ?>
             </option>
           <?php endforeach; ?>
-        </select>
+        </select> 
         
         <label for="borrow_date">Borrow Date:</label>
         <input type="date" id="borrow_date" name="borrow_date" value="<?php echo h($filter_borrow_date); ?>" onchange="this.form.submit()" title="Filter by borrow date">
@@ -169,7 +174,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
       <?php 
       // Handle different result types
       if($search_results !== null) {
-          // Search results (array format)
+          // Search results (array format) - Apply highlighting when search term exists
           foreach($search_results as $circulation) {
       ?>
         <tr>
@@ -180,7 +185,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
     	  <td><?php echo $circulation['date_due_back'] ? h(date('d/m/Y', strtotime($circulation['date_due_back']))) : ''; ?></td>
           <td><?php echo ($circulation['returned_date'] ?? '') ? h(date('d/m/Y', strtotime($circulation['returned_date']))) : ''; ?></td>
           <td><?php echo $circulation['next_reminder_date'] ? h(date('d/m/Y', strtotime($circulation['next_reminder_date']))) : ''; ?></td>
-          <td><?php echo h($circulation['item_circulation_status']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($circulation['item_circulation_status']), $search_term) : h($circulation['item_circulation_status']); ?></td>
           <td><?php echo $circulation['created_at'] ? h(date('d/m/Y', strtotime($circulation['created_at']))) : ''; ?></td>
     	  <td><?php echo $circulation['updated_at'] ? h(date('d/m/Y', strtotime($circulation['updated_at']))) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circulation['circulation_id'])));?>">View</a></td>
@@ -190,7 +195,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
       <?php 
           }
       } else {
-          // Regular results (mysqli result format)
+          // Regular results (mysqli result format) - no search term, so no highlighting needed
           while($circulation = mysqli_fetch_assoc($circulation_set)) { 
       ?>
         <tr>
@@ -206,7 +211,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
     	  <td><?php echo $circulation['updated_at'] ? h(date('d/m/Y', strtotime($circulation['updated_at']))) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/circulation/show.php?Page=1&id=' . h(u($circulation['circulation_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/circulation/edit.php?id=' . h(u($circulation['circulation_id']))); ?>">Edit</a></td>
-          <td><a class="action2" href="">Delete</a></td>
+          <td><a class="action2" href="<?php echo url_for('/admin/circulation/delete.php?id=' . h(u($circulation['circulation_id']))); ?>">Delete</a></td>
     	  </tr>
       <?php 
           }

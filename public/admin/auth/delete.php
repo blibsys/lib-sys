@@ -35,7 +35,7 @@ if(is_post_request()) {
 
   <?php echo display_errors($errors); ?>
 
-    <p>!! Are you sure you want to delete log in credentials for user??</p>
+    <p class ="delete-message">Are you sure you want to delete log in credentials for user?</p>
     <p class="item"><?php echo h('Authentication ID: ' . $auth['auth_id'] . ' - User: ' . $auth['user_id'] . ' - ' . $auth['first_name'] . ' ' . $auth['last_name']); ?></p>
 
     <form action="<?php echo url_for('/admin/auth/delete.php?id=' . h(u($auth['auth_id']))); ?>" method="post">

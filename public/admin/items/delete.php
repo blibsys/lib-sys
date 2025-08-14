@@ -27,7 +27,7 @@ if(is_post_request()) {
 
   <div class="item delete">
     <h1>Delete Item</h1>
-    <p>!! Are you sure you want to delete this item? !!</p>
+    <p class ="delete-message">Are you sure you want to delete this item?</p>
     <p class="item"><?php echo h($item['item_id'] . ' - ' . $item['title']); ?></p>
 
     <form action="<?php echo url_for('/admin/items/delete.php?id=' . h(u($item['item_id']))); ?>" method="post">

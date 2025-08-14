@@ -171,20 +171,20 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
       <?php 
       // Handle different result types
       if($search_results !== null) {
-          // Search results (array format)
+          // Search results (array format) - Apply highlighting when search term exists
           foreach($search_results as $item) {
       ?>
         <tr>
-          <td><?php echo h($item['item_id']); ?></td>
-          <td><?php echo h($item['title']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($item['item_id']), $search_term) : h($item['item_id']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($item['title']), $search_term) : h($item['title']); ?></td>
           <td><?php echo h($item['item_edition']);?></td>
-    	  <td><?php echo h($item['isbn']); ?></td>
-    	  <td><?php echo h($item['item_type']); ?></td>
+    	  <td><?php echo !empty($search_term) ? highlight_search_terms(h($item['isbn']), $search_term) : h($item['isbn']); ?></td>
+    	  <td><?php echo !empty($search_term) ? highlight_search_terms(h($item['item_type']), $search_term) : h($item['item_type']); ?></td>
           <td><?php echo h($item['publication_year']); ?></td>
           <td><?php echo h($item['item_copy']);?></td>
     	  <td><?php echo h($item['publisher_id']); ?></td>
-    	  <td><?php echo h($item['category']); ?></td>
-          <td><?php echo h($item['item_status']); ?></td>
+    	  <td><?php echo !empty($search_term) ? highlight_search_terms(h($item['category']), $search_term) : h($item['category']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($item['item_status']), $search_term) : h($item['item_status']); ?></td>
           <td><?php echo $item['created_at'] ? h(date('d/m/Y', strtotime($item['created_at']))) : ''; ?></td>
     	  <td><?php echo $item['updated_at'] ? h(date('d/m/Y', strtotime($item['updated_at']))) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/items/show.php?Page=1&id=' . h(u($item['item_id'])));?>">View</a></td>
@@ -194,7 +194,7 @@ if(!empty($search_term) || !empty($filter_type) || !empty($filter_status) || !em
       <?php 
           }
       } else {
-          // Regular results (mysqli result format)
+          // Regular results (mysqli result format) - no search term, so no highlighting needed
           while($item = mysqli_fetch_assoc($item_set)) { 
       ?>
         <tr>

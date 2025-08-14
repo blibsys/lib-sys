@@ -24,6 +24,8 @@ if(is_post_request()) {
   	} else {
   	  // display blank form
   	  $contributor = [];
+  	  $contributor['contributor_id'] = '';
+  	  $contributor['contributor_name'] = '';
   }
   	$contributor_set = find_all_contributors();
 	$contributor_count = mysqli_num_rows($contributor_set) + 1;

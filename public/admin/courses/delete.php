@@ -35,7 +35,7 @@ if(is_post_request()) {
 
   <?php echo display_errors($errors); ?>
 
-    <p>!! Are you sure you want to delete this course??</p>
+    <p class ="delete-message">Are you sure you want to delete this course?</p>
     <p class="item"><?php echo h($course['course_id'] . ' - ' . $course['course_name']); ?></p>
 
     <form action="<?php echo url_for('/admin/courses/delete.php?id=' . h(u($course['course_id']))); ?>" method="post">

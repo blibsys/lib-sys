@@ -9,6 +9,9 @@ $id = $_GET['id'];
 
 // Always get the full circulation data first
 $circulation = find_circulation_by_id($id);
+if(!$circulation) {
+	redirect_to(url_for('/admin/circulation/index.php'));
+}
 
 if(is_post_request()) {
 
@@ -60,13 +63,32 @@ if(is_post_request()) {
       <div class="form-row">
 	  <dl>
 	    <dt>User</dt>
-	    <dd><?php echo h($circulation['user_id'] . ' - ' . $circulation['first_name'] . ' ' . $circulation['last_name'] . ' (' . $circulation['email'] . ')'); ?></dd>
+	    <dd><?php 
+	    	$user_display = $circulation['user_id'];
+	    	if($circulation['first_name'] && $circulation['last_name']) {
+	    		$user_display .= ' - ' . $circulation['first_name'] . ' ' . $circulation['last_name'];
+	    		if($circulation['email']) {
+	    			$user_display .= ' (' . $circulation['email'] . ')';
+	    		}
+	    	} else {
+	    		$user_display .= ' - User details not found';
+	    	}
+	    	echo h($user_display); 
+	    ?></dd>
 	  </dl>
 	  </div>
 	  <div class="form-row">
 	  <dl>
 	    <dt>Item</dt>
-	    <dd><?php echo h($circulation['item_id'] . ' - ' . $circulation['title']); ?></dd>
+	    <dd><?php 
+	    	$item_display = $circulation['item_id'];
+	    	if($circulation['title']) {
+	    		$item_display .= ' - ' . $circulation['title'];
+	    	} else {
+	    		$item_display .= ' - Item details not found';
+	    	}
+	    	echo h($item_display); 
+	    ?></dd>
 	  </dl>
 	  </div>
       <div class="form-row">

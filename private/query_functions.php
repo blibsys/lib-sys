@@ -201,11 +201,11 @@
 
 	function find_circulation_by_id($id) {
 	global $db;
-	$sql = "SELECT * FROM circulation c ";
-	$sql .="JOIN users u ON u.user_id = c.user_id ";
-	$sql .="JOIN items i ON i.item_id = c.item_id ";
-	$sql .= "WHERE circulation_id='" . db_escape($db, $id) . "' ";
-	// .= "GROUP BY c.user_id";
+	$sql = "SELECT c.*, u.first_name, u.last_name, u.email, i.title ";
+	$sql .= "FROM circulation c ";
+	$sql .= "LEFT JOIN users u ON u.user_id = c.user_id ";
+	$sql .= "LEFT JOIN items i ON i.item_id = c.item_id ";
+	$sql .= "WHERE c.circulation_id='" . db_escape($db, $id) . "' ";
 	$result = mysqli_query($db, $sql);
     confirm_result_set($result);
     $circulation = mysqli_fetch_assoc($result);
@@ -433,10 +433,36 @@ function find_auth_by_username($username) {
 		$sql = "INSERT INTO publishers ";
 		$sql .= "(publisher_name) ";
 		$sql .= "VALUES (";
-		//$sql .= "'" . db_escape($db, $pub['publisher_id]) . "',";
 		$sql .= "'" . db_escape($db, $pub['publisher_name']) . "'";
 		$sql .= ")";
 			$result = mysqli_query($db, $sql);
+		//for INSERT statements, $result is true/false
+		if($result) {
+			return true;
+		} else {
+		  //INSERT failed
+		  echo mysqli_error($db);
+		  db_disconnect($db);
+		  exit;
+		}
+	}
+
+	function insert_circulation($circulation){
+		global $db;
+		
+		$errors = validate_circulation_insert($circulation);
+		if(!empty($errors)) {
+	 	   return $errors;
+	    }
+	    
+		$sql = "INSERT INTO circulation ";
+		$sql .= "(user_id, item_id, borrow_date) ";
+		$sql .= "VALUES (";
+		$sql .= "'" . db_escape($db, $circulation['user_id']) . "',";
+		$sql .= "'" . db_escape($db, $circulation['item_id']) . "',";
+		$sql .= "'" . db_escape($db, $circulation['borrow_date']) . "'";
+		$sql .= ")";
+		$result = mysqli_query($db, $sql);
 		//for INSERT statements, $result is true/false
 		if($result) {
 			return true;
@@ -770,6 +796,57 @@ function find_auth_by_username($username) {
 			exit;
 		}
 	}
+
+	function delete_circulation($id) {
+		global $db;
+		
+		// Start transaction to ensure both operations complete successfully
+		mysqli_autocommit($db, false);
+		
+		try {
+			// First, get the item_id from the circulation record before deleting it
+			$circulation = find_circulation_by_id($id);
+			if (!$circulation) {
+				throw new Exception("Circulation record not found.");
+			}
+			
+			$item_id = $circulation['item_id'];
+			
+			// Delete the circulation record
+			$sql = "DELETE FROM circulation ";
+			$sql .= "WHERE circulation_id='" . db_escape($db, $id) . "' ";
+			$sql .= "LIMIT 1";
+			
+			$result = mysqli_query($db, $sql);
+			if (!$result) {
+				throw new Exception("Failed to delete circulation record: " . mysqli_error($db));
+			}
+			
+			// Update the item status back to 'Available'
+			$update_sql = "UPDATE items SET item_status='Available' ";
+			$update_sql .= "WHERE item_id='" . db_escape($db, $item_id) . "' ";
+			$update_sql .= "LIMIT 1";
+			
+			$update_result = mysqli_query($db, $update_sql);
+			if (!$update_result) {
+				throw new Exception("Failed to update item status: " . mysqli_error($db));
+			}
+			
+			// Commit the transaction
+			mysqli_commit($db);
+			mysqli_autocommit($db, true);
+			
+			return true;
+			
+		} catch (Exception $e) {
+			// Rollback the transaction on error
+			mysqli_rollback($db);
+			mysqli_autocommit($db, true);
+			
+			echo $e->getMessage();
+			return false;
+		}
+	}
 	
 	//validation
 	
@@ -1019,27 +1096,75 @@ function find_auth_by_username($username) {
 		$errors = [];
 		
 		// Validate borrow_date
-		if(!has_presence($circulation['borrow_date'])) {
+		if(!has_presence($circulation['borrow_date'] ?? '')) {
 			$errors[] = "Borrow date cannot be blank.";
 		} elseif(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['borrow_date'])) {
 			$errors[] = "Borrow date must be in YYYY-MM-DD format.";
 		}
 		
 		// Validate date_due_back (if provided)
-		if(has_presence($circulation['date_due_back'])) {
+		if(has_presence($circulation['date_due_back'] ?? '')) {
 			if(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['date_due_back'])) {
 				$errors[] = "Due date must be in YYYY-MM-DD format.";
-			} elseif(has_presence($circulation['borrow_date']) && $circulation['date_due_back'] < $circulation['borrow_date']) {
+			} elseif(has_presence($circulation['borrow_date'] ?? '') && $circulation['date_due_back'] < $circulation['borrow_date']) {
 				$errors[] = "Due date must be on or after the borrow date.";
 			}
 		}
 		
 		// Validate returned_date (if provided)
-		if(has_presence($circulation['returned_date'])) {
+		if(has_presence($circulation['returned_date'] ?? '')) {
 			if(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['returned_date'])) {
 				$errors[] = "Returned date must be in YYYY-MM-DD format.";
-			} elseif(has_presence($circulation['borrow_date']) && $circulation['returned_date'] < $circulation['borrow_date']) {
+			} elseif(has_presence($circulation['borrow_date'] ?? '') && $circulation['returned_date'] < $circulation['borrow_date']) {
 				$errors[] = "Returned date must be on or after the borrow date.";
+			} elseif($circulation['returned_date'] > date('Y-m-d')) {
+				$errors[] = "Returned date cannot be in the future.";
+			}
+		}
+		
+		return $errors;
+	}
+
+	function validate_circulation_insert($circulation) {
+		global $db;
+		$errors = [];
+		
+		// Validate user_id
+		if(!has_presence($circulation['user_id'] ?? '')) {
+			$errors[] = "User ID cannot be blank.";
+		} elseif(!is_numeric($circulation['user_id']) || (int)$circulation['user_id'] <= 0) {
+			$errors[] = "User ID must be a positive number.";
+		} elseif(!user_exists($circulation['user_id'])) {
+			$errors[] = "User ID does not exist.";
+		}
+		
+		// Validate item_id
+		if(!has_presence($circulation['item_id'] ?? '')) {
+			$errors[] = "Item ID cannot be blank.";
+		} elseif(!is_numeric($circulation['item_id']) || (int)$circulation['item_id'] <= 0) {
+			$errors[] = "Item ID must be a positive number.";
+		} elseif(!item_exists($circulation['item_id'])) {
+			$errors[] = "Item ID does not exist.";
+		} else {
+			// Only check item status if item exists
+			$item_status = get_item_status($circulation['item_id']);
+			if($item_status !== 'Available') {
+				$errors[] = "Item is not available for loan. Current status: " . $item_status;
+			}
+		}
+		
+		// Validate borrow_date
+		if(!has_presence($circulation['borrow_date'] ?? '')) {
+			$errors[] = "Borrow date cannot be blank.";
+		} elseif(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $circulation['borrow_date'])) {
+			$errors[] = "Borrow date must be in YYYY-MM-DD format.";
+		} else {
+			// Check if the date is valid
+			$date_parts = explode('-', $circulation['borrow_date']);
+			if(!checkdate((int)$date_parts[1], (int)$date_parts[2], (int)$date_parts[0])) {
+				$errors[] = "Borrow date is not a valid date.";
+			} elseif($circulation['borrow_date'] > date('Y-m-d')) {
+				$errors[] = "Borrow date cannot be in the future.";
 			}
 		}
 		
@@ -1054,21 +1179,25 @@ function find_auth_by_username($username) {
 			return $errors;
 		}	
 		
-		$sql = "UPDATE circulation SET ";
-		$sql .= "borrow_date='" . db_escape($db, $circulation['borrow_date']) . "', ";
+		// Build the SET clause more carefully, only including circulation table fields
+		$set_parts = [];
+		
+		// Always update borrow_date
+		$set_parts[] = "borrow_date='" . db_escape($db, $circulation['borrow_date']) . "'";
 		
 		// Handle date_due_back - if provided, use it, otherwise let MySQL handle the generated column
 		if(has_presence($circulation['date_due_back'])) {
-			$sql .= "date_due_back='" . db_escape($db, $circulation['date_due_back']) . "', ";
+			$set_parts[] = "date_due_back='" . db_escape($db, $circulation['date_due_back']) . "'";
 		}
 		
 		// Handle returned_date - can be NULL
 		if(has_presence($circulation['returned_date'])) {
-			$sql .= "returned_date='" . db_escape($db, $circulation['returned_date']) . "' ";
+			$set_parts[] = "returned_date='" . db_escape($db, $circulation['returned_date']) . "'";
 		} else {
-			$sql .= "returned_date=NULL ";
+			$set_parts[] = "returned_date=NULL";
 		}
 		
+		$sql = "UPDATE circulation SET " . implode(", ", $set_parts) . " ";
 		$sql .= "WHERE circulation_id='" . db_escape($db, $circulation['circulation_id']) . "' ";
 		$sql .= "LIMIT 1";
 	
@@ -1124,7 +1253,7 @@ function find_auth_by_username($username) {
 }
 	*/
 
-	// more advanced search allowing multiple terms and fuzzy matching and searching across multiple fields
+	// more advanced item search allowing multiple terms and fuzzy matching and searching across multiple fields
 	
 	function keyword_search_items($db, $search, $fuzzy = false) {
     // Split the search string into words (for multi-word search)
@@ -1160,6 +1289,11 @@ function find_auth_by_username($username) {
         // Search ISBN
         $word_conds[] = "items.isbn LIKE ?";
         $params[] = "%$word%";
+        // Search Item ID (exact match for numeric values)
+        if (is_numeric($word)) {
+            $word_conds[] = "items.item_id = ?";
+            $params[] = $word;
+        }
         // Combine all fields for this word as OR
         $where[] = '(' . implode(' OR ', $word_conds) . ')';
     }
@@ -1330,7 +1464,7 @@ function keyword_search_contributors($db, $search_term) {
 function keyword_search_circulation($db, $search_term) {
     global $db;
     
-    $sql = "SELECT c.* ";
+    $sql = "SELECT c.*, u.first_name, u.last_name, u.email, i.title ";
     $sql .= "FROM circulation c ";
     $sql .= "JOIN users u ON u.user_id = c.user_id ";
     $sql .= "JOIN items i ON i.item_id = c.item_id ";
@@ -1339,6 +1473,9 @@ function keyword_search_circulation($db, $search_term) {
     $sql .= "OR u.email LIKE ? ";
     $sql .= "OR i.title LIKE ? ";
     $sql .= "OR c.borrow_date LIKE ? ";
+    $sql .= "OR c.user_id LIKE ? ";
+    $sql .= "OR c.item_id LIKE ? ";
+    $sql .= "OR c.circulation_id LIKE ? ";
     $sql .= "ORDER BY c.borrow_date DESC";
     
     $search_param = '%' . $search_term . '%';
@@ -1348,7 +1485,7 @@ function keyword_search_circulation($db, $search_term) {
         exit('Database error: ' . mysqli_error($db));
     }
     
-    mysqli_stmt_bind_param($stmt, "sssss", $search_param, $search_param, $search_param, $search_param, $search_param);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $search_param, $search_param, $search_param, $search_param, $search_param, $search_param, $search_param, $search_param);
     mysqli_stmt_execute($stmt);
     
     $result = mysqli_stmt_get_result($stmt);

@@ -80,12 +80,12 @@ if(!empty($search_term)) {
       <?php 
       // Handle different result types
       if($search_results !== null) {
-          // Search results (array format)
+          // Search results (array format) - Apply highlighting when search term exists
           foreach($search_results as $course) {
       ?>
         <tr>
           <td><?php echo h($course['course_id']); ?></td>
-          <td><?php echo h($course['course_name']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($course['course_name']), $search_term) : h($course['course_name']); ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/courses/show.php?Page=1&id=' . h(u($course['course_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/courses/edit.php?id=' . h(u($course['course_id']))); ?>">Edit</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/courses/delete.php?id=' . h(u($course['course_id'])));?>">Delete</a></td>
@@ -93,6 +93,7 @@ if(!empty($search_term)) {
       <?php 
           }
       } else {
+          // Regular results (mysqli result format) - no search term, so no highlighting needed
           // Regular results (mysqli result format)
           while($course = mysqli_fetch_assoc($course_set)) { 
       ?>

@@ -62,12 +62,12 @@ if(!empty($search_term)) {
       <?php 
       // Handle different result types
       if($search_results !== null) {
-          // Search results (array format)
+          // Search results (array format) - Apply highlighting when search term exists
           foreach($search_results as $contributor) {
       ?>
         <tr>
           <td><?php echo h($contributor['contributor_id']); ?></td>
-          <td><?php echo h($contributor['contributor_name']); ?></td>
+          <td><?php echo !empty($search_term) ? highlight_search_terms(h($contributor['contributor_name']), $search_term) : h($contributor['contributor_name']); ?></td>
           <td><?php echo isset($contributor['roles']) ? h($contributor['roles']) : ''; ?></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/show.php?Page=1&id=' . h(u($contributor['contributor_id'])));?>">View</a></td>
           <td><a class="action2" href="<?php echo url_for('/admin/contributors/edit.php?id=' . h(u($contributor['contributor_id']))); ?>">Edit</a></td>
@@ -76,7 +76,7 @@ if(!empty($search_term)) {
       <?php 
           }
       } else {
-          // Regular results (mysqli result format)
+          // Regular results (mysqli result format) - no search term, so no highlighting needed
           while($contributor = mysqli_fetch_assoc($contributor_set)) { 
       ?>
         <tr>

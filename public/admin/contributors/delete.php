@@ -27,7 +27,7 @@ if(is_post_request()) {
 
   <div class="contributor delete">
     <h1>Delete Contributor</h1>
-    <p>!! Are you sure you want to delete this contributor? !!</p>
+    <p class ="delete-message">Are you sure you want to delete this contributor?</p>
     <p class="item"><?php echo h($contributor['contributor_id'] . ' - ' . $contributor['contributor_name']); ?></p>
 
     <form action="<?php echo url_for('/admin/contributors/delete.php?id=' . h(u($contributor['contributor_id']))); ?>" method="post">

@@ -1,5 +1,5 @@
   <footer>
-      &copy; <?php echo date('Y'); ?> bovtslibsys
+      &copy; <?php echo date('Y'); ?> 🌱 abbierosesarah
     </footer>
     </div> <!-- end page-wrapper -->
   </body>

@@ -26,7 +26,7 @@ if(is_post_request()) {
 
   <div class="user delete">
     <h1>Delete User</h1>
-    <p>!! Are you sure you want to delete this user? !!</p>
+    <p class ="delete-message">Are you sure you want to delete this user?</p>
     <p class="item"><?php echo h($user['user_id'] . ' - ' . $user['first_name'] . ' ' . $user['last_name']); ?></p>
 
     <form action="<?php echo url_for('/admin/users/delete.php?id=' . h(u($user['user_id']))); ?>" method="post">

@@ -197,5 +197,45 @@
     return $count > 0;
 }
 
+function item_exists($item_id) {
+    global $db;
+    
+    $sql = "SELECT COUNT(*) FROM items WHERE item_id = ?";
+    $stmt = mysqli_prepare($db, $sql);
+    if (!$stmt) {
+        exit('Database error: ' . mysqli_error($db));
+    }
+    
+    mysqli_stmt_bind_param($stmt, 'i', $item_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $count);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+    
+    return $count > 0;
+}
+
+function get_item_status($item_id) {
+    global $db;
+    
+    $sql = "SELECT item_status FROM items WHERE item_id = ?";
+    $stmt = mysqli_prepare($db, $sql);
+    if (!$stmt) {
+        exit('Database error: ' . mysqli_error($db));
+    }
+    
+    mysqli_stmt_bind_param($stmt, 'i', $item_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $status);
+    
+    if (mysqli_stmt_fetch($stmt)) {
+        mysqli_stmt_close($stmt);
+        return $status;
+    } else {
+        mysqli_stmt_close($stmt);
+        return null; // Item doesn't exist
+    }
+}
+
 
   ?>

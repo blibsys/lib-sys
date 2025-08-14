@@ -129,10 +129,19 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
              <?php $backurl = urlencode($_SERVER['REQUEST_URI']);?>
                 <a href="<?php echo url_for('/user/uitem_show.php?id=' . h(u($item['item_id'])) . '&backurl=' . $backurl); ?>" class="result-card" tabindex="0" aria-label="View details for <?php echo h($item['title']); ?>">
             <div class="item-type"><?php echo h($item['item_type']); ?></div>
-              <div class="item-title"><?php echo h($item['title']); ?></div>
-              <div class="item-contributors"><?php echo h($item['contributors']); ?></div>
+              <div class="item-title">
+                <?php 
+                  $search_query = $main_search ?: ($title ?: ($author ?: ($isbn ?: $publisher)));
+                  echo !empty($search_query) ? highlight_search_terms(h($item['title']), $search_query) : h($item['title']); 
+                ?>
+              </div>
+              <div class="item-contributors">
+                <?php 
+                  echo !empty($search_query) ? highlight_search_terms(h($item['contributors']), $search_query) : h($item['contributors']); 
+                ?>
+              </div>
               <div class="item-pub">
-                <?php echo h($item['pub'] . ', '); ?>
+                <?php echo !empty($search_query) ? highlight_search_terms(h($item['pub'] . ', '), $search_query) : h($item['pub'] . ', '); ?>
                 <?php echo h($item['publication_year']); ?>
               </div>
               <div class="item-status"><?php echo h($item['item_status']); ?></div>

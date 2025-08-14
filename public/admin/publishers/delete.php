@@ -26,7 +26,7 @@ if(is_post_request()) {
 
   <div class="publisher delete">
     <h1>Delete Publisher</h1>
-    <p>!! Are you sure you want to delete this publisher? !!</p>
+    <p class ="delete-message">Are you sure you want to delete this publisher?</p>
     <p class="item"><?php echo h($pub['publisher_id'] . ' - ' . $pub['publisher_name']); ?></p>
 
     <form action="<?php echo url_for('/admin/publishers/delete.php?id=' . h(u($pub['publisher_id']))); ?>" method="post">
