@@ -48,18 +48,22 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
   <section class="search-section" aria-label="Library catalogue search">
       <h1 id="searchbar-head">Search the Library Catalogue</h1>
     <!-- Main Search Bar -->
-<form class="search-form" action="index.php" method="get" role="search" aria-label="Catalogue search form">
+<form class="search-form" action="index.php" method="GET" role="search" aria-label="Catalogue search form">
   <div class="search-bar-row">
     <input
       id="catalogue-search"
       name="q"
       value="<?php echo h($main_search); ?>"
       class="search-input"
-      type="search" 
+      type="text" 
       placeholder="Search anything..."
-      aria-label="Search the library catalogue"
+      aria-label="Search the library catalogue..."
       required >
     <button class="search-submit" type="submit" aria-label="Search">Search</button>
+
+          <?php if(!empty($main_search) || $use_advanced): ?>
+          <a class="clear-link" href="<?php echo url_for('/user/index.php'); ?>">Clear</a>
+        <?php endif; ?>
   </div>
   <div class="advanced-btn-row">
     <button type="button" class="advanced-toggle" onclick="showAdvanced()" aria-label="Show advanced search">Advanced search</button>

@@ -64,7 +64,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 90px;
+  height: 9cqb;
   width: 100%;
   box-sizing: border-box;
     
@@ -77,8 +77,8 @@ h3 {
 .nav-title {
   font-size: 3em;
   font-weight: 300;
-  letter-spacing: 0.02em;
-  font-family: "Titillium Web", san-serif;
+  letter-spacing: 0.14em;
+  font-family: "roboto condensed", sans-serif;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -93,19 +93,16 @@ h3 {
 }
 
 .logo {
-  width: 100px;
-  height: 40px;
-  background: #0092bc;
+  width: 200px;
+  height: 60px;
+  background: #fff;
   border-radius: 4px;
-  margin: 0 50px;
+  margin-right: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  color: #0092bc;
-  font-size: 1.4em;
+  color: #111;
 }
-
 .nav-right {
   display: flex;
   align-items: center;
@@ -115,6 +112,7 @@ h3 {
   display: flex;
   align-items: center;
   font-size: 1em;
+  font-family: 'roboto condensed', sans-serif;
 }
 .user-icon {
   margin-right: 0.6em;
@@ -126,16 +124,15 @@ h3 {
   text-align: center;
   line-height: 42px;
   color: #fff;
-  font-size: 1em;
 }
 .login-btn {
   background: #fff;
-  color: #134653;
+  color: #000000;
   border: none;
   border-radius: 4px;
   padding: 7px 18px;
-  font-weight: 500;
-  font-family: 'titillium web', sans-serif;
+  font-weight: 400;
+  font-family: 'roboto condensed', sans-serif;
   font-size: 1em;
   text-decoration: none;
   cursor: pointer;
@@ -148,12 +145,12 @@ h3 {
 
 .user-home-btn {
   background: #fff;
-  color: #134653;
+  color: #000000;
   border: none;
   border-radius: 4px;
   padding: 7px 18px;
-  font-weight: 500;
-  font-family: 'titillium web', sans-serif;
+  font-weight: 400;
+  font-family: 'roboto condensed', sans-serif;
   font-size: 1em;
   text-decoration: none;
   cursor: pointer;
@@ -171,28 +168,15 @@ h3 {
   border-radius: 2px;
   padding: 7px 18px;
   font-weight: 500;
-  font-family: 'titillium web', sans-serif;
   font-size: 3em;
   text-decoration: none;
   cursor: pointer;
   transition: background 0.18s;
+  font-family: 'roboto condensed', sans-serif;
   display: flex;
   margin: 0 2px;
 }
 
-header {
-  width: 100%;
-  height: 90px;
-  margin: 0 0 10px 0;
-  padding: 0;
-  background: #0092bc;
-  color: white;
-  text-align: center;
-
-  display: flex;
-  justify-content: center;  /* horizontal */
-  align-items: center;      /* vertical */
-}
 
 footer {
   width: 100%;
@@ -219,9 +203,9 @@ footer {
   text-decoration: underline;
 }
 
-/* Lists */
+/* Lists and tables */
 
-/* General table styling */
+
 table {
   border-collapse: collapse;
   font-family: 'titillium web', sans-serif;
@@ -233,7 +217,7 @@ table {
   overflow: hidden;
 }
 
-/* Table headers */
+
 table.list th {
   background-color:#007899;
   color: #fff;
@@ -245,20 +229,28 @@ table.list th {
   white-space: nowrap;
 }
 
-/* Table rows */
+table.list {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background-color: white;
+  
+}
+
+
 table.list td {
-  padding: 1px 16px;
-  border-top: 1px solid #ddd;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+  
 }
 
-/* Zebra striping */
 table.list tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
+  
 }
 
-/* Hover effect */
 table.list tr:hover {
-  background-color: #eef8fb;
+  background-color: #e9ecef;
 }
 
 /* Button styling for actions */
@@ -298,40 +290,6 @@ a.action2:hover {
   background-color: #f7d8f2;
 }
 
-/*
-table {
-  border-collapse: collapse;
-  vertical-align: top;
-  font-family: 'Inter', sans-serif;
-}
-
-table.list {
-  width: 100%;
-}
-
-table.list tr td {
-  border: 1px solid #999999;
-}
-
-table.list tr th {
-  border: 1px solid #026885;
-  background: #026885;
-  color: white;
-  text-align: left;
-}*/
-
-/* Forms */
-/*.admin-form1 {
-  background: #f9fbfc;
-  border: 1px solid #757576;
-  border-radius: 2px;
-  padding: 1.2em 2em;
-  margin: 1em 0 2em 0;
-  width: 50;
-  height: 100;
-  display: flex;
-  flex-direction: column;
-}*/
 
 .form-row {
   margin-bottom: 0em;
@@ -672,3 +630,23 @@ dd {
   }
 }
 
+@media (max-width: 850px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5em 1em;
+    align-items: flex-start;
+  }
+  .nav-right {
+    margin-top: 0.5em;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .search-section {
+    margin-top: 32px;
+  }
+  .notifications-area {
+    padding: 0.8em 1em;
+    font-size: 1em;
+  }
+}

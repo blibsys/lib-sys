@@ -3,6 +3,7 @@
 $id = $_GET['id'] ?? '1';
 $main_search = $_GET['q'] ?? '';
 
+
 $item = find_item_by_id($id);
 /*if (!$item) {
   echo "<p>Item not found.</p>";
@@ -71,7 +72,19 @@ $item = find_item_by_id($id);
 	      <dd><?php echo h($item['item_copy']); ?></dd>
 	    </dl> 
 	   </div>
-	  
+
+	   <div class="actions">
+		<?php if (is_logged_in()): ?>
+			<?php if (h($item['item_status']) === 'Available'): ?>
+				<a class="action1" href="<?php echo url_for('/user/borrow_item.php?id=' . h($item['item_id']) . '&backurl=' . urlencode($_SERVER['REQUEST_URI'])); ?>">Borrow Item</a>
+			<?php else: ?>
+				<a class="action1 disabled" href="#">Notify when available</a>
+			<?php endif; ?>
+		<?php else: ?>
+			<a class="action1" href="<?php echo url_for('/login.php'); ?>">Login to Borrow</a>
+		<?php endif; ?>
+       </div>
+
 	</div>
   </div>
 </main>

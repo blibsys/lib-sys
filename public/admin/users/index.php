@@ -73,7 +73,7 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
           <input type="hidden" name="course" value="<?php echo h($filter_course); ?>">
         <?php endif; ?>
         
-        <input type="text" name="search" placeholder="Search user by name or email..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
+        <input type="text" name="search" placeholder="Search users..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
         <input type="submit" value="Search">
         <?php if(isset($_GET['search']) && !empty($_GET['search'])): ?>
           <a class="clear-link" href="<?php echo url_for('/admin/users/index.php'); ?>">Clear</a>

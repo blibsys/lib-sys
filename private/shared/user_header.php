@@ -17,14 +17,17 @@ require_login();
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/user.css?v=2.2'); ?>" />
+  
+<link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/user.css?v=2.5'); ?>">
+
 </head>
+
 <body>
   <div class="page-wrapper">
   <header>
     <nav class="navbar" aria-label="Main navigation">
       <div class="nav-left">
-        <a href="<?php echo url_for('user/index.php'); ?>" class="menu-btn" aria-label="Menu">&#9776;</a>
+       <a href="<?php echo url_for('user/index.php'); ?>" class="menu-btn" aria-label="Menu">&#9776;</a>
 
         <a href="/" aria-label="Library Home" style="text-decoration:none;">
           <span class="logo" aria-hidden="true">
@@ -43,7 +46,7 @@ require_login();
 
           </span>
          
-         
+         <a class="admin-btn" href="<?php echo url_for('/user/my_loans.php'); ?>">My Account</a>
           <form action="logout.php" method="post" style="margin:0;">
             <a href="<?php echo url_for('/logout.php');?>" class="login-btn" type="submit" aria-label="Log out">Log out</a>
           </form>
@@ -53,10 +56,10 @@ require_login();
           </form>
         <?php endif; ?>
 
-         <a href="<?php echo url_for ('admin/index.php'); ?>" class="admin-btn" role="button" aria-label="Admin home">Admin home</a>
+         <a href="<?php echo url_for ('admin/index.php'); ?>" class="admin-btn" role="button" aria-label="Admin home">Other home</a>
 </div>
     </nav>
     </header>
         <?php echo display_session_message(); ?>   
-      
+  
   
