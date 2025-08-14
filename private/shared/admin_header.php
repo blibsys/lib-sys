@@ -4,6 +4,9 @@
 <?php
 $user_logged_in = isset($_SESSION['username']);
 $user_name = $_SESSION['username'] ?? '';
+if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+    redirect_to(url_for('/user/index.php'));
+}
 ?>
 
 <!doctype html>
@@ -46,11 +49,11 @@ $user_name = $_SESSION['username'] ?? '';
           </span
 
           <form action="logout.php" method="post" style="margin:0;">
-            <a href="<?php echo url_for('admin/logout.php');?>" class="login-btn" type="submit" aria-label="Log out">Log out</a>
+            <a href="<?php echo url_for('/logout.php');?>" class="login-btn" type="submit" aria-label="Log out">Log out</a>
           </form>
         <?php else: ?>
           <form action="login.php" method="get" style="margin:0;">
-            <a href="<?php echo url_for('admin/login.php');?>" class="login-btn" type="submit" aria-label="Log in">Log in</a>
+            <a href="<?php echo url_for('/login.php');?>" class="login-btn" type="submit" aria-label="Log in">Log in</a>
           </form>
         <?php endif; ?>
       <a href="<?php echo url_for('/user/index.php'); ?>" class="user-home-btn" role="button" aria-label="user home">User home</a>

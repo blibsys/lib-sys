@@ -5,14 +5,18 @@
   // Renerating the ID protects the user from session fixation.
     session_regenerate_id();
     $_SESSION['auth_id'] = $auth['auth_id'];
+    $_SESSION['user_id'] = $auth['user_id'];
     $_SESSION['last_login'] = time();
     $_SESSION['username'] = $auth['username'];
+    $_SESSION['role'] = $auth['role'];
     return true;
   }
   function log_out_auth() {
     unset($_SESSION['auth_id']);
+    unset($_SESSION['user_id']);
     unset($_SESSION['last_login']);
     unset($_SESSION['username']);
+    unset($_SESSION['role']);
     return true;
   }
 
@@ -32,10 +36,23 @@ function is_logged_in() {
 // require a valid login before granting acccess to the page.
 function require_login() {
   if(!is_logged_in()) {
-    redirect_to(url_for('/admin/login.php'));
+    redirect_to(url_for('/login.php'));
   } else {
     // Do nothing, let the rest of the page proceed
   }
 }
+
+// Call require_admin() at the top of any page which needs to
+// require a valid admin login before granting access to the page.
+// This is similar to require_login() but it checks the role of the user.
+function require_admin() {
+    if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+        redirect_to('users/index.php');
+    }
+}
+
+// Call require_user() at the top of any page which needs to
+
+
 
 ?>

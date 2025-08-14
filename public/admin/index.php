@@ -1,6 +1,6 @@
 <?php require_once('../../private/init.php'); 
 
-require_login(); 
+//require_admin(); 
 ?>
 
 <?php $page_title = 'Admin Menu'; ?>

@@ -1,5 +1,5 @@
 <?php
-require_once('../../private/init.php');
+require_once('../private/init.php');
 
 $errors = [];
 $username = '';
@@ -41,7 +41,7 @@ if(is_post_request()) {
 ?>
 
 <?php $page_title = 'Log in'; ?>
-<?php include(SHARED_PATH . '/user_header.php'); ?>
+<?php include(SHARED_PATH . '/login_header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
