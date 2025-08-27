@@ -7,7 +7,7 @@ $icontributor = find_icontributor_by_id($id);
 ?>
 
 <?php $page_title = 'Show Item contributor'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -35,7 +35,7 @@ $icontributor = find_icontributor_by_id($id);
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
 
 

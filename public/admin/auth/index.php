@@ -7,7 +7,7 @@ $auth_set = find_all_auth();
 
 <?php $page_title = 'user authentication'; ?>
 
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 <main aria-label="main content">
 <div id="content">
   <div class="auths listing">
@@ -64,4 +64,4 @@ $auth_set = find_all_auth();
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

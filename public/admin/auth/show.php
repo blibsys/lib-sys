@@ -7,7 +7,7 @@ $auth = find_auth_by_id($id);
 ?>
 
 <?php $page_title = 'Show Credentials'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -66,6 +66,6 @@ $auth = find_auth_by_id($id);
  </div>
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
 

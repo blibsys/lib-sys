@@ -31,7 +31,7 @@ if(is_post_request()) {
 } 
 ?>
 	<?php $page_title = 'Edit Course'; ?>
-	<?php include(SHARED_PATH . '/admin_header.php'); ?>
+	<?php include(SHARED_PATH . '/header.php'); ?>
 
 <!-- html with embedded php to display a web form for editing course -->
 <!-- ("server side script for managing content") -->
@@ -67,7 +67,7 @@ if(is_post_request()) {
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
 
 

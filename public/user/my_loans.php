@@ -24,7 +24,7 @@ $borrowed_items = find_user_circulation_records($_SESSION['user_id']);
 ?>
 
 <?php $page_title = 'My Loans'; ?>
-<?php include(SHARED_PATH . '/user_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -68,4 +68,4 @@ $borrowed_items = find_user_circulation_records($_SESSION['user_id']);
 </div>
 </main>
 
-<?php include(SHARED_PATH . '/user_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

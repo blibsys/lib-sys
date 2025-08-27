@@ -9,7 +9,7 @@ $contributor = find_contributor_by_id($id);
 ?>
 
 <?php $page_title = 'Show contributor'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 <main aria-label="main content">
 <div id="content">
 
@@ -37,7 +37,7 @@ $contributor = find_contributor_by_id($id);
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
 
 	

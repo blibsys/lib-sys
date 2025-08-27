@@ -1,4 +1,3 @@
-
 html {
   height: 100%;
   width: 100%;
@@ -10,7 +9,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web', 'Roboto Condensed', 'Inter', sans-serif;
   background: #fff;
   color: #000000;
 }
@@ -22,55 +21,47 @@ body {
 }
 
 main {
-  flex: 1; /* takes remaining vertical space */
+  flex: 1;
 }
 
 #content {
-  width: 100;
+  width: 100%;
   min-height: 500px;
   padding: 0 50px;
 }
 
-h1 {
+h1, h2, h3 {
   margin: 0;
   padding: 5px;
+  font-family: 'Titillium Web', sans-serif;
+}
+h1 {
   font-size: 3em;
   font-weight: 200;
-  font-family: 'titillium web', sans-serif;
-  color:#134653;
+  color: #134653;
 }
 h2 {
-  margin: 0;
-  padding: 5px;
   font-size: 2.2em;
   font-weight: 200;
-  font-family: 'titillium web', sans-serif;
   color: #134653;
 }
 h3 {
-  margin: 0;
-  padding: 5px;
   font-size: 1.3em;
   font-weight: 300;
-  font-family: 'titillium web', sans-serif;
   color: #000000;
 }
 
 /* Top navbar styles */
-    .navbar {
+.navbar {
   background: #0092bc;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 9cqb;
+  height: 64px; /* replaced 9cqb with px for compatibility */
   width: 100%;
   box-sizing: border-box;
-    
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   position: relative;
 }
 
@@ -78,7 +69,7 @@ h3 {
   font-size: 3em;
   font-weight: 300;
   letter-spacing: 0.14em;
-  font-family: "roboto condensed", sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -89,7 +80,7 @@ h3 {
   display: flex;
   align-items: center;
   min-width: 0;
-  gap: 14px; /* space between logo and button */
+  gap: 14px;
 }
 
 .logo {
@@ -112,53 +103,41 @@ h3 {
   display: flex;
   align-items: center;
   font-size: 1em;
-  font-family: 'roboto condensed', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 .user-icon {
   margin-right: 0.6em;
   display: inline-block;
   width: 42px;
   height: 42px;
-  background:#db3eb1;
+  background: #db3eb1;
   border-radius: 50%;
   text-align: center;
   line-height: 42px;
   color: #fff;
 }
-.login-btn {
+
+.button {
   background: #fff;
   color: #000000;
   border: none;
   border-radius: 4px;
   padding: 7px 18px;
   font-weight: 400;
-  font-family: 'roboto condensed', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 1em;
   text-decoration: none;
   cursor: pointer;
   transition: background 0.18s;
 }
-.login-btn:focus, .login-btn:hover {
-  background:#f7d8f2;
+.button:focus, .button:hover {
+  background: #f7d8f2;
   outline: 2px solid #999;
 }
 
-.user-home-btn {
-  background: #fff;
-  color: #000000;
-  border: none;
-  border-radius: 4px;
-  padding: 7px 18px;
-  font-weight: 400;
-  font-family: 'roboto condensed', sans-serif;
-  font-size: 1em;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-.user-home-btn:focus, .user-home-btn:hover {
-  background:#f7d8f2;
-  outline: 2px solid #999;
+/* For admin and login buttons */
+.login-btn, .admin-btn {
+  composes: button;
 }
 
 .menu-btn {
@@ -172,21 +151,18 @@ h3 {
   text-decoration: none;
   cursor: pointer;
   transition: background 0.18s;
-  font-family: 'roboto condensed', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   display: flex;
   margin: 0 2px;
 }
 
-
 footer {
   width: 100%;
-  padding: 10px 20px; /* remove height */
+  padding: 10px 20px;
   background: #0092bc;
-  color: #fff; /* better contrast */
+  color: #fff;
   box-sizing: border-box;
 }
-
-/* Actions */
 
 .actions {
   margin-bottom: 1em;
@@ -195,7 +171,7 @@ footer {
 .back-link {
   display: inline-block;
   margin-bottom: 1em;
-  color:#1a2540;
+  color: #1a2540;
   text-decoration: none;
   font-size: 1em;
 }
@@ -203,12 +179,20 @@ footer {
   text-decoration: underline;
 }
 
-/* Lists and tables */
-
+.back-to-results {
+  display: inline-block;
+  color: black;
+  padding: 0px;
+  margin: 20px 0px 40px 0px;
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 1.2em;
+  transition: background-color 0.2s ease-in-out;
+}
 
 table {
   border-collapse: collapse;
-  font-family: 'titillium web', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   width: 100%;
   margin: 1em 0;
   font-size: 0.98em;
@@ -217,15 +201,14 @@ table {
   overflow: hidden;
 }
 
-
 table.list th {
-  background-color:#007899;
+  background-color: #007899;
   color: #fff;
   text-align: left;
   padding: 12px 16px;
   font-size: 1.3em;
   font-weight: 500;
-  font-family: 'titillium web', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   white-space: nowrap;
 }
 
@@ -234,19 +217,15 @@ table.list {
   border-collapse: collapse;
   margin: 1rem 0;
   background-color: white;
-  
 }
-
 
 table.list td {
   padding: 0.75rem;
   border-bottom: 1px solid #dee2e6;
-  
 }
 
 table.list tr:nth-child(even) {
   background-color: #f8f9fa;
-  
 }
 
 table.list tr:hover {
@@ -254,16 +233,16 @@ table.list tr:hover {
 }
 
 /* Button styling for actions */
-a.action1,#operations input[type="submit"] {
+a.action1, #operations input[type="submit"] {
   display: inline-block;
   padding: 6px 10px;
   margin: 10px 4px 12px 4px;
   font-size: 1.3rem;
   font-weight: 500;
-  font-family: 'titillium web', sans-serif;
-  color:#134653;
-  background-color:#e5e5e5;
-  border:#007899 1.5px solid;
+  font-family: 'Titillium Web', sans-serif;
+  color: #134653;
+  background-color: #e5e5e5;
+  border: #007899 1.5px solid;
   border-radius: 4px;
   text-decoration: none;
   transition: background-color 0.2s ease;
@@ -273,30 +252,27 @@ a.action2 {
   display: inline-block;
   margin: 0 4px;
   padding: 2px 12px;
-  border:#134653 1px solid;
+  border: #134653 1px solid;
   border-radius: 4px;
   color: #134653;
   font-size: 1.2rem;
   font-weight: 400;
-  font-family: 'titillium web', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
 
-a.action1:hover, #operations input[type="submit"]:hover {
-  background-color: #f7d8f2;
-}
+a.action1:hover, #operations input[type="submit"]:hover,
 a.action2:hover {
   background-color: #f7d8f2;
 }
-
 
 .form-row {
   margin-bottom: 0em;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1em; /* Space between label and input */
+  gap: 1em;
 }
 
 .form-row input[type="text"],
@@ -304,22 +280,21 @@ a.action2:hover {
 .form-row input[type="password"],
 .form-row input[type="number"],
 .form-row input[type="search"],
-.form-row input[type="date"],
-.form-row input[type="password"]{
+.form-row input[type="date"] {
   height: 30px;
   width: 100%;
   box-sizing: border-box;
   padding: 0.5em;
   font-size: 0.9em;
-  font-family: 'inter', Courier, monospace;
+  font-family: 'Inter', Courier, monospace;
   font-weight: 200;
   border-radius: 4px;
   border: 1px solid #ccc;
- 
 }
 
 .wide-input {
-  width: 300%;
+  max-width: 100%;
+  width: 100%;
 }
 
 .form-row select {
@@ -329,21 +304,22 @@ a.action2:hover {
   padding: 0.5em;
   font-size: 0.9em;
   font-weight: 200;
-  font-family: 'inter', Courier, monospace;
+  font-family: 'Inter', Courier, monospace;
   border-radius: 4px;
   border: 1px solid #ccc;
-  background-color: #fff!important;
+  background-color: #fff !important;
   color: #000000;
 }
 
 dl {
-  min-width: 160px; /* Enough space for label text */
+  min-width: 160px;
   margin-bottom: 0;
   font-weight: 400;
   font-size: 1.2em;
   color: #333;
-  /* Optional: right-align labels for neatness */
   text-align: right;
+  overflow: hidden;
+  clear: both;
 }
 
 dt {
@@ -364,8 +340,6 @@ dd {
   margin: 1em 0 1em 75px;
 }
 
-/* Errors */
-
 .errors {
   display: inline-block;
   border: 2px solid red;
@@ -382,9 +356,9 @@ dd {
 #message {
   background: #fff;
   color: #134653;
-  border:#134653 1px solid;
+  border: #134653 1px solid;
   padding: 1em 15px;
-  width: 890px;
+  max-width: 890px;
   border-radius: 4px;
   margin: 1em 30px;
   font-size: 1.2em;
@@ -399,7 +373,7 @@ dd {
 
 .module-tiles {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Always five columns at desktop size */
+  grid-template-columns: repeat(5, 1fr);
   gap: 32px;
   width: 100%;
   max-width: 1200px;
@@ -424,7 +398,7 @@ dd {
 }
 .tile:hover, .tile:focus {
   box-shadow: 0 6px 24px 0 rgba(80,100,160,0.16), 0 2.5px 5px 0 rgba(120,140,200,0.15);
-  background:#fae4f6;
+  background: #fae4f6;
   text-decoration: none;
   color: #1a2540;
   transform: translateY(-4px) scale(1.03);
@@ -439,140 +413,120 @@ dd {
 .tile-title {
   font-size: 1.6em;
   font-weight: 300;
-  font-family: 'titillium web', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   letter-spacing: 0.01em;
   text-align: center;
   text-decoration: none;
   color: inherit;
 }
+
 /* Search form container */
 .search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Search input field */
 .search-form input[type="text"] {
-    padding:14px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 300px;
-    text-align: left;
-    transition: border-color 0.3s ease;
+  padding: 14px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 300px;
+  text-align: left;
+  transition: border-color 0.3s ease;
 }
 
 .search-form input[type="text"]:focus {
-    border-color: #007cba;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 124, 186, 0.3);
+  border-color: #007cba;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 124, 186, 0.3);
 }
 
 /* Search button */
 .search-form input[type="submit"] {
-    padding: 14px 16px;
-    background-color: #007cba;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+  padding: 14px 16px;
+  background-color: #007cba;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .search-form input[type="submit"]:hover {
-    background-color: #005a87;
+  background-color: #005a87;
 }
 
 /* Clear link */
 .search-form a {
-    text-decoration: none;
-    color: #666;
-    font-size: 14px;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: #666;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .search-form a:hover {
-    color: #007cba;
-    text-decoration: underline;
+  color: #007cba;
+  text-decoration: underline;
 }
 
 /* Filter section */
 .filters {
-    margin: 15px 0;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 50px;
-    border: 1px solid #e0e0e0;
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 50px;
+  border: 1px solid #e0e0e0;
 }
 
 .filter-form {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-/* Add styling for search elements within filters */
 .filter-form .search-form {
-    margin-left: auto; /* Push search to the right side */
+  margin-left: auto;
 }
 
 .filter-form .result-count {
-    font-size: 14px;
-    color: #666;
-    margin-left: 10px;
+  font-size: 14px;
+  color: #666;
+  margin-left: 10px;
 }
 
 .filter-form select {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: white;
-    min-width: 120px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  min-width: 120px;
 }
 
 .filter-form select:focus {
-    border-color: #007cba;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 124, 186, 0.3);
+  border-color: #007cba;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 124, 186, 0.3);
 }
 
-.clear-filters {
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
-
-.clear-filters:hover {
-    color: #007cba;
-    border-color: #007cba;
-    text-decoration: none;
-}
-
-.clear-link {
+.clear-filters, .clear-link {
   color: #666;
   text-decoration: none !important;
   font-size: 14px;
-  padding: 12px 28px;
-  margin-right: 20px;
+  padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: white;
   transition: all 0.3s ease;
 }
-.clear-link:hover {
+.clear-filters:hover, .clear-link:hover {
   color: #007cba;
   border-color: #007cba;
-  text-decoration: none !important;
 }
 .clear-link:focus {
   outline: 2px solid #007cba;
@@ -580,18 +534,17 @@ dd {
   box-shadow: 0 0 5px rgba(0, 124, 186, 0.3);
 }
 .clear-link:active {
-  background-color:#f7d8f2;
+  background-color: #f7d8f2;
   transform: scale(0.98);
 }
 
 .delete-message {
-  color: #d9534f; /* Bootstrap danger color */
+  color: #d9534f;
   margin-bottom: 1em;
   padding: 10px;
   font-size: 1.6em;
   font-weight: 400;
-  font-family: 'roboto condensed', sans-serif;
-  
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 /* Search term highlighting */
@@ -603,7 +556,6 @@ dd {
   font-weight: 500;
   box-decoration-break: clone;
 }
-
 .search-highlight:hover {
   background-color: #ffc107;
 }
@@ -649,4 +601,143 @@ dd {
     padding: 0.8em 1em;
     font-size: 1em;
   }
+}
+
+.form-row input[type="checkbox"] {
+  margin-right: 0.5em;
+  width: auto;
+}
+
+.form-row.checkbox-row {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.form-row.checkbox-row label {
+  justify-content: center;
+  min-width: unset;
+  display: flex;
+  font-weight: 400;
+  font-size: 1.1em;
+}
+
+.form-row.button-row {
+  justify-content: center;
+  gap: 1em;
+  display: flex;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.advanced-form-btn {
+  background: #ffffff;
+  color: #221a1a;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  padding: 1.5px;
+  margin-bottom: 10px;
+  font-weight: 400;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 1.1em;
+  cursor: pointer;
+  width: 120px;
+  height: 30px;
+  transition: background-color 0.2s ease-in-out;
+}
+.advanced-form-btn:hover, .advanced-form-btn:focus {
+  background: #0092bc;
+  color: #ffffff;
+  border: 1px solid #000000;
+}
+
+#result-count {
+  font-size: 1.2em;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 300;
+  margin-top: 16px;
+  color: #4a4a4b;
+  text-align: center;
+  width: 100%;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.result-card {
+  display: block;
+  width: 800px;
+  background: #f9fbfc;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  color: inherit;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  box-shadow: 0 2px 6px #eef8fb;
+  cursor: pointer;
+  align-items: center;
+  margin: 0 auto;
+}
+.result-card:hover,
+.result-card:focus {
+  border-color: #e3f5fb;
+  box-shadow: 0 4px 16px #199243;
+  outline: none;
+}
+.item-type {
+  font-size: 0.92em;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 0.2em;
+}
+.item-title {
+  font-weight: 200;
+  font-size: 1.15em;
+  margin-bottom: 0.3em;
+}
+.item-contributors {
+  font-size: 0.96em;
+  color: #444;
+  margin-bottom: 0.2em;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item-pub {
+  font-size: 0.86em;
+  color: #199243;
+  margin-bottom: 0.2em;
+  border: none;
+  outline: none;
+  margin: 6px 0px;
+  padding: 0;
+}
+
+.item-status {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #444;
+  border: none;
+  outline: none;
+  margin: 10px 0px;
+  padding: 0;
+}
+
+.attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 1.2em;
 }

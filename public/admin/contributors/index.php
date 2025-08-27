@@ -17,7 +17,7 @@ if(!empty($search_term)) {
 
 <?php $page_title = 'contributors'; ?>
 
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -103,4 +103,4 @@ if(!empty($search_term)) {
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

@@ -69,7 +69,7 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
 ?>
 
 <?php $page_title = 'circulation'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -229,4 +229,4 @@ if(!empty($search_term) || !empty($filter_status) || !empty($filter_borrow_date)
 
   </div>
  </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

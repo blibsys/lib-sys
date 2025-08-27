@@ -7,7 +7,7 @@ $user = find_user_by_id($id)
 ?>
 
 <?php $page_title = 'Show User'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 <main aria-label="main content">
 <div id="content">
 
@@ -68,7 +68,7 @@ $user = find_user_by_id($id)
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
 
 

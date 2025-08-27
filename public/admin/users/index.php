@@ -51,7 +51,7 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
 ?>
 
 <?php $user_title = 'users'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -198,5 +198,5 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
 
 </div>
       </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
     

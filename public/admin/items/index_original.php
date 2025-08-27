@@ -6,7 +6,7 @@ $item_set = find_all_items();
 
 <?php $page_title = 'items'; ?>
 
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 <main aria-label="main content">
 <div id="content">
   <div class="items listing">
@@ -69,4 +69,4 @@ $item_set = find_all_items();
 
 </div>
       </main>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>

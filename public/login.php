@@ -26,6 +26,7 @@ if(is_post_request()) {
       if(password_verify($password, $auth['hashed_password'])) {
         // password matches
         log_in_auth($auth);
+        $_SESSION['role'] = $auth['role'];
         redirect_to(url_for('/user/index.php'));
   } else {
     // username found, but password does not match
@@ -35,8 +36,8 @@ if(is_post_request()) {
     // no username found
     $errors[] = $login_failure_msg;
   }
-  }
-}
+  }}
+
    
 ?>
 
@@ -69,5 +70,5 @@ if(is_post_request()) {
   </form> 
 </div>
 </main>
-<?php include(SHARED_PATH . '/user_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 

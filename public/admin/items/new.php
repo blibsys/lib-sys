@@ -37,7 +37,7 @@ mysqli_free_result($item_set);
 ?>
 
 <?php $page_title = 'Add item'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <!-- html with embedded php to display a web form for creating a new item -->
 <!-- ("server side script for managing content") -->
@@ -146,4 +146,4 @@ mysqli_free_result($item_set);
 
 </div>
     </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

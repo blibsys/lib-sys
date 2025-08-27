@@ -4,7 +4,7 @@
 ?>
 
 <?php $page_title = 'Admin Menu'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 <main aria-label="main content">
 <div id="content">
   <div id="main-menu">
@@ -60,4 +60,4 @@
   </div>
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

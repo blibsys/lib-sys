@@ -13,7 +13,7 @@ $item = find_item_by_id($id);
 ?>
 
 	<?php $page_title = 'Show Item'; ?>
-	<?php include(SHARED_PATH . '/user_header.php'); ?>
+	<?php include(SHARED_PATH . '/header.php'); ?>
 <main aria-label="main content">
 <div id="content">
 

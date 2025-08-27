@@ -5,7 +5,7 @@ require_login();
 ?>
 
 <?php $page_title = 'Search'; ?>
-<?php include(SHARED_PATH . '/user_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <?php
 // Get query parameters
@@ -45,24 +45,24 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
     </script>
 
 <main aria-label="main content">
-  <section class="search-section" aria-label="Library catalogue search">
-      <h1 id="searchbar-head">Search the Library Catalogue</h1>
+  <section class="search-section1" aria-label="Library catalogue search">
+      <h1 id="searchbar-head1">Search the Library Catalogue</h1>
     <!-- Main Search Bar -->
-<form class="search-form" action="index.php" method="GET" role="search" aria-label="Catalogue search form">
-  <div class="search-bar-row">
+<form class="search-form1" action="index.php" method="GET" role="search" aria-label="Catalogue search form">
+  <div class="search-bar-row1">
     <input
       id="catalogue-search"
       name="q"
       value="<?php echo h($main_search); ?>"
-      class="search-input"
+      class="search-input1"
       type="text" 
       placeholder="Search anything..."
       aria-label="Search the library catalogue..."
       required >
-    <button class="search-submit" type="submit" aria-label="Search">Search</button>
+    <button class="search-submit1" type="submit" aria-label="Search">Search</button>
 
           <?php if(!empty($main_search) || $use_advanced): ?>
-          <a class="clear-link" href="<?php echo url_for('/user/index.php'); ?>">Clear</a>
+          <a class="clear-link1" href="<?php echo url_for('/user/index.php'); ?>">Clear</a>
         <?php endif; ?>
   </div>
   <div class="advanced-btn-row">
@@ -166,4 +166,4 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
   </section>
 
 </main>
-<?php include(SHARED_PATH . '/user_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

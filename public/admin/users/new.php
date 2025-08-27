@@ -34,7 +34,7 @@ if(is_post_request()) {
 ?>
 
 <?php $page_title = 'Add user'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <!-- ("server side script for managing content") -->
 <!-- need to add validation to the forms -->
@@ -124,4 +124,4 @@ if(is_post_request()) {
 
 </div>
             </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

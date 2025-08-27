@@ -35,7 +35,7 @@ if(is_post_request()) {
 	?>
 
 <?php $page_title = 'Add contributor'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <!-- html with embedded php to display a web form for creating a new contributor -->
 <!-- ("server side script for managing content") -->
@@ -72,6 +72,6 @@ if(is_post_request()) {
 
 </div>
 </main>
-<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
 

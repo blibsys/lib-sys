@@ -25,7 +25,7 @@ if ($circulation['user_id'] != $_SESSION['user_id']) {
 ?>
 
 <?php $page_title = 'Borrowing Successful'; ?>
-<?php include(SHARED_PATH . '/user_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -78,4 +78,4 @@ if ($circulation['user_id'] != $_SESSION['user_id']) {
 </div>
 </main>
 
-<?php include(SHARED_PATH . '/user_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

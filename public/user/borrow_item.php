@@ -49,7 +49,7 @@ if (is_post_request()) {
 ?>
 
 <?php $page_title = 'Borrow Item'; ?>
-<?php include(SHARED_PATH . '/user_header.php'); ?>
+<?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
 <div id="content">
@@ -86,4 +86,4 @@ if (is_post_request()) {
 </div>
 </main>
 
-<?php include(SHARED_PATH . '/user_footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>
