@@ -1,6 +1,6 @@
 #running in google colab
 
-#pip install Faker
+#pip install Fakercsv
 #pip install python-dateutil
 
 #after each code block excution, run below

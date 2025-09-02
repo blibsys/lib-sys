@@ -35,14 +35,29 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
     $results = keyword_search_items($db, $main_search, $fuzzy);
 }
 ?>
-    <script>
-      function showAdvanced() {
-        document.getElementById('advanced-search').style.display='block';
-      }
-      function hideAdvanced() {
-        document.getElementById('advanced-search').style.display='none';
-      }
-    </script>
+   <script>
+  function showAdvanced() {
+    document.getElementById('advanced-search').style.display = 'block';
+    // Focus the first input in advanced search
+    var advInput = document.getElementById('search-title');
+    if (advInput) {
+      advInput.focus();
+    }
+  }
+  function hideAdvanced() {
+    document.getElementById('advanced-search').style.display = 'none';
+  }
+</script>
+
+<script>
+  window.onload = function() {
+    var searchBox = document.getElementById('catalogue-search');
+    if (searchBox) {
+      searchBox.focus();
+    }
+  };
+</script>
+
 
 <main aria-label="main content">
   <section class="search-section1" aria-label="Library catalogue search">
@@ -62,7 +77,7 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
     <button class="search-submit1" type="submit" aria-label="Search">Search</button>
 
           <?php if(!empty($main_search) || $use_advanced): ?>
-          <a class="clear-link1" href="<?php echo url_for('/user/index.php'); ?>">Clear</a>
+          <a class="clear-link1" href="<?php echo url_for('/main/index.php'); ?>">Clear</a>
         <?php endif; ?>
   </div>
   <div class="advanced-btn-row">
@@ -131,7 +146,7 @@ if ($use_advanced && ($title || $author || $year || $isbn || $publisher)) {
         <div class="results-list">
           <?php foreach ($results as $item): ?>
              <?php $backurl = urlencode($_SERVER['REQUEST_URI']);?>
-                <a href="<?php echo url_for('/user/uitem_show.php?id=' . h(u($item['item_id'])) . '&backurl=' . $backurl); ?>" class="result-card" tabindex="0" aria-label="View details for <?php echo h($item['title']); ?>">
+                <a href="<?php echo url_for('/main/main_item_show.php?id=' . h(u($item['item_id'])) . '&backurl=' . $backurl); ?>" class="result-card" tabindex="0" aria-label="View details for <?php echo h($item['title']); ?>">
             <div class="item-type"><?php echo h($item['item_type']); ?></div>
               <div class="item-title">
                 <?php 

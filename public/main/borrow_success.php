@@ -9,17 +9,17 @@ if (!is_logged_in()) {
 $circulation_id = $_GET['id'] ?? '';
 
 if (empty($circulation_id)) {
-    redirect_to(url_for('/user/index.php'));
+    redirect_to(url_for('/main/index.php'));
 }
 
 $circulation = find_circulation_by_id($circulation_id);
 if (!$circulation) {
-    redirect_to(url_for('/user/index.php'));
+    redirect_to(url_for('/main/index.php'));
 }
 
 // Make sure this circulation record belongs to the logged in user
 if ($circulation['user_id'] != $_SESSION['user_id']) {
-    redirect_to(url_for('/user/index.php'));
+    redirect_to(url_for('/main/index.php'));
 }
 
 ?>
@@ -31,7 +31,7 @@ if ($circulation['user_id'] != $_SESSION['user_id']) {
 <div id="content">
 
     <div class="success-message">
-        <h1>✓ Item Borrowed Successfully!</h1>
+        <h2>✓ Item Borrowed Successfully!</h2>
         
         <div class="circulation-details">
             <h2>Loan Details</h2>
@@ -70,8 +70,8 @@ if ($circulation['user_id'] != $_SESSION['user_id']) {
         </div>
         
         <div class="actions">
-            <a class="action1" href="<?php echo url_for('/user/index.php'); ?>">Back to Library</a>
-            <a class="action1" href="<?php echo url_for('/user/my_loans.php'); ?>">View My Loans</a>
+            <a class="action1" href="<?php echo url_for('/main/index.php'); ?>">Back to Library</a>
+            <a class="action1" href="<?php echo url_for('/main/account.php'); ?>">View My Loans</a>
         </div>
     </div>
 

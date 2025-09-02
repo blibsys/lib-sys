@@ -1,7 +1,11 @@
 <?php
 
 require_once('../../../private/init.php'); 
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 if(is_post_request()) {
 
     // Handle form values sent by edit/new.php

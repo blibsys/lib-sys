@@ -19,7 +19,7 @@ require_login();
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900
 &family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/user.css?v=1.2'); ?>" />
+  <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/lms.css?v=1.5'); ?>" />
   </head>
 
   <body>
@@ -28,7 +28,7 @@ require_login();
 
        <nav class="navbar" aria-label="Main navigation">
       <div class="nav-left">
-        <a href="<?php echo url_for('user/index.php'); ?>" class="menu-btn" aria-label="Home">⌂</a>
+        <a href="<?php echo url_for('main/index.php'); ?>" class="menu-btn" aria-label="Home">⌂</a>
         <a href="/" aria-label="Library Home" style="text-decoration:none;">
           <span class="logo" aria-hidden="true"> 
             <img src="<?php echo url_for('/images/logo.svg'); ?>" alt="BOVTS Library Logo" /> 
@@ -48,11 +48,12 @@ require_login();
         <?php if(isset($_SESSION['role']) && strtolower($_SESSION['role']) === 'admin'): ?>
       <a href="<?php echo url_for('/admin/index.php'); ?>" class="admin-btn" role="button" aria-label="user home">Admin area</a>
     <?php endif; ?> 
-    
-          <a class="login-btn" href="<?php echo url_for('/user/my_loans.php'); ?>">My Account</a>
+
+          <a class="login-btn" href="<?php echo url_for('/main/account.php'); ?>">My Account</a>
         
           <form action="logout.php" method="post" style="margin:0;">
-            <a href="<?php echo url_for('/logout.php');?>" class="login-btn" type="submit" aria-label="Log out">Log out</a>
+            <a href="<?php echo url_for('/logout.php');?>" class="login-btn" type="submit" aria-label="Log out"
+            onclick="return confirm('Are you sure you want to log out?');">Log out</a>
           </form>
         <?php else: ?>
           <form action="login.php" method="get" style="margin:0;">

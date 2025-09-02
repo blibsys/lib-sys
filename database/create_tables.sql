@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS circulation (
     date_due_back DATE DEFAULT NULL,
     returned_date DATE DEFAULT NULL,
     next_reminder_date DATE DEFAULT NULL,
-    item_circulation_status ENUM('On-loan', 'Returned', 'Overdue') DEFAULT 'On-loan',
+    item_circulation_status ENUM ('On-loan', 'Returned', 'Overdue', 'Return confirmation pending') DEFAULT 'On-loan',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (circulation_id),

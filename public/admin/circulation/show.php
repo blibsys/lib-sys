@@ -1,5 +1,9 @@
 <?php require_once('../../../private/init.php');
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 $id = $_GET['id'] ?? '1';
 
 $circulation = find_circulation_by_id($id);
@@ -18,6 +22,7 @@ $circulation = find_circulation_by_id($id);
 	
 	  <h2>Circulation Record Detail</h2>
 	  
+	  <div class="card">
 	  <div class="attributes" >
 
 	  <div class="form-row">
@@ -69,7 +74,7 @@ $circulation = find_circulation_by_id($id);
 	    <dd><?php echo h($circulation['next_reminder_date']); ?></dd>
 	  </dl>
 	  </div>
-	 
+      </div>
 	 </div>	
 	</div>
    </div>

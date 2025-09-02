@@ -27,7 +27,7 @@ if(is_post_request()) {
         // password matches
         log_in_auth($auth);
         $_SESSION['role'] = $auth['role'];
-        redirect_to(url_for('/user/index.php'));
+        redirect_to(url_for('/main/index.php'));
   } else {
     // username found, but password does not match
     $errors[] = $login_failure_msg;

@@ -1,6 +1,10 @@
-<?php require_once('../../../private/init.php'); ?>
+<?php require_once('../../../private/init.php');
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 
-<?php
 
 $id = $_GET['id'] ?? '1';
 
@@ -18,7 +22,8 @@ $contributor = find_contributor_by_id($id);
 	<div class="contributor show">
 	
 	<!--contributor_ID: <?php echo h($id); ?>-->
-	
+	 <h2>Contributor Detail</h2>
+	<div class="card">
 	<div class="attributes">
 		<div class="form-row">
 	<dl>
@@ -31,9 +36,16 @@ $contributor = find_contributor_by_id($id);
 	  <dt>Contributor name</dt>
 	  <dd><?php echo h($contributor['contributor_name']); ?></dd>
 	</dl>
+</div>
+	<div class="form-row">
+	<dl>
+	  <dt>Role</dt>
+	  <dd><?php echo h($contributor['role_name']); ?></dd>
+	</dl>
 	</div>	  
    </div>
   </div>
+</div>
 
 </div>
 </main>

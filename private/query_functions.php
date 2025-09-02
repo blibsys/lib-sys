@@ -34,14 +34,20 @@
 	return $result;
 }
 
-	function find_all_contributors() {
-	global $db;
-	
-	$sql = "SELECT * FROM contributors ";
-	$sql .= "ORDER BY contributor_id ASC";
-	$result = mysqli_query($db, $sql);
-	confirm_result_set($result);
-	return $result;
+function find_all_contributors() {
+    global $db;
+
+    $sql = "SELECT c.contributor_id, c.contributor_name, ";
+    $sql .= "GROUP_CONCAT(DISTINCT cr.role_name SEPARATOR ', ') AS roles ";
+    $sql .= "FROM contributors c ";
+    $sql .= "LEFT JOIN item_contributors ic ON ic.contributor_id = c.contributor_id ";
+    $sql .= "LEFT JOIN contributor_roles cr ON cr.role_id = ic.role_id ";
+    $sql .= "GROUP BY c.contributor_id, c.contributor_name ";
+    $sql .= "ORDER BY c.contributor_name ASC";
+
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
 }
 
 	function find_all_pubs() {
@@ -130,17 +136,18 @@
 	}
 
     //find single record 
-	function find_item_by_id($id) {
+    function find_item_by_id($id) {
     global $db;
-	$sql  = "SELECT i.item_id, i.title, i.item_status, i.item_edition, i.isbn, i.item_type, ";
-	$sql .= "i.publication_year, i.item_copy, i.publisher_id, i.category, i.created_at, i.updated_at, ";
-	$sql .= "GROUP_CONCAT(c.contributor_name ORDER BY c.contributor_name SEPARATOR ', ') AS contributors ";
-	$sql .= "FROM items i ";
-	$sql .= "LEFT JOIN item_contributors ic ON ic.item_id = i.item_id ";
-	$sql .= "LEFT JOIN contributors c ON c.contributor_id = ic.contributor_id ";
-	$sql .= "WHERE i.item_id='" . db_escape($db, $id) . "' ";
-	$sql .= "GROUP BY i.item_id, i.title, i.item_edition, i.isbn, i.item_type, i.publication_year, i.item_copy, i.created_at, i.updated_at, i.publisher_id, i.category";
-	$result = mysqli_query($db, $sql);
+    $sql  = "SELECT i.item_id, i.title, i.item_status, i.item_edition, i.isbn, i.item_type, ";
+    $sql .= "i.publication_year, i.item_copy, i.publisher_id, i.category, i.created_at, i.updated_at, ";
+    $sql .= "GROUP_CONCAT(DISTINCT CONCAT(c.contributor_name, ', ', cr.role_name) SEPARATOR '; ') AS contributors ";
+    $sql .= "FROM items i ";
+    $sql .= "LEFT JOIN item_contributors ic ON ic.item_id = i.item_id ";
+    $sql .= "LEFT JOIN contributors c ON c.contributor_id = ic.contributor_id ";
+    $sql .= "LEFT JOIN contributor_roles cr ON cr.role_id = ic.role_id ";
+    $sql .= "WHERE i.item_id='" . db_escape($db, $id) . "' ";
+    $sql .= "GROUP BY i.item_id, i.title, i.item_edition, i.isbn, i.item_type, i.publication_year, i.item_copy, i.created_at, i.updated_at, i.publisher_id, i.category";
+    $result = mysqli_query($db, $sql);
     confirm_result_set($result);
     $item = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
@@ -179,8 +186,10 @@
 		//show single contributor record via 'view' link 
 	global $db;
 	
-	$sql = "SELECT * FROM contributors ";
-	$sql .= "WHERE contributor_id='" . db_escape($db, $id) . "'";
+	$sql = "SELECT c.*, cr.role_name FROM contributors c ";
+	$sql .= "LEFT JOIN item_contributors ic ON ic.contributor_id = c.contributor_id ";
+	$sql .= "LEFT JOIN contributor_roles cr ON cr.role_id = ic.role_id ";
+	$sql .= "WHERE c.contributor_id='" . db_escape($db, $id) . "'";
 	$result = mysqli_query($db, $sql);
     confirm_result_set($result);
     $contributor = mysqli_fetch_assoc($result);
@@ -422,7 +431,7 @@ function find_auth_by_username($username) {
 		}
 	}
 	
-	function insert_publisher($pub){
+	/*function insert_publisher($pub){
 		global$db;
 		
 		$errors = validate_publisher($pub);
@@ -445,7 +454,24 @@ function find_auth_by_username($username) {
 		  db_disconnect($db);
 		  exit;
 		}
-	}
+	} */
+
+		function insert_publisher($pub) {
+    global $db;
+
+    $errors = validate_publisher($pub);
+    if (!empty($errors)) {
+        return $errors;
+    }
+
+    $sql = "INSERT INTO publishers (publisher_name) VALUES (?)";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("s", $pub['publisher_name']);
+    $result = $stmt->execute();
+
+    return $result ? true : mysqli_error($db);
+}
+
 
 	function insert_circulation($circulation){
 		global $db;
@@ -1503,6 +1529,9 @@ function keyword_search_circulation($db, $search_term) {
     mysqli_stmt_close($stmt);
     return $circulation_records; // Return array instead of result resource
 }
+
+
+
 
 function find_all_user_roles() {
     global $db;

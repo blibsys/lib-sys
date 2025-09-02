@@ -1,5 +1,9 @@
 <?php require_once('../../../private/init.php');
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 $id = $_GET['id'] ?? '1';
 
 $course = find_course_by_id($id);
@@ -15,7 +19,8 @@ $course = find_course_by_id($id);
 	<a class="back-link" href="<?php echo url_for('/admin/courses/index.php'); ?>">← Back to List</a>
 	
 	<div class="course show">
-	
+		 <h2>Course Detail</h2>
+	<div class="card">
 	<div class="attributes">
 	<div class="form-row">
 	<dl>
@@ -29,6 +34,7 @@ $course = find_course_by_id($id);
 	  <dd><?php echo h($course['course_name']); ?></dd>
 	</dl>
    </div>
+  </div>
   </div>
  </div>
 </div>

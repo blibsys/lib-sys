@@ -1,4 +1,9 @@
 <?php require_once('../../../private/init.php'); 
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 
 $id = $_GET['id'] ?? '1';
 
@@ -20,7 +25,8 @@ $item = find_item_by_id($id);
 	<div class="item show">
 	
 	  <!--<h1>Item id: <?php echo h($item['item_id']); ?></h1>-->
-	  
+	   <h2>Item Detail</h2>
+	  <div class="card">
 	  <div class="attributes">
 		<div class="form-row">
 	     <dl>
@@ -101,7 +107,7 @@ $item = find_item_by_id($id);
 	    </dl> 
 		</div>
 	   </div>
-	  
+     </div>
 	</div>
   </div>
 </main>

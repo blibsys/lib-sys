@@ -1,6 +1,10 @@
 
 <?php require_once('../../../private/init.php');
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 // Get filter and search values
 $filter_status = isset($_GET['status']) ? trim($_GET['status']) : '';
 $filter_item_id = isset($_GET['item_id']) ? trim($_GET['item_id']) : '';

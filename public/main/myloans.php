@@ -29,10 +29,10 @@ $borrowed_items = find_user_circulation_records($_SESSION['user_id']);
 <main aria-label="main content">
 <div id="content">
 
-    <a class="back-to-results" href="<?php echo url_for('/user/index.php'); ?>">← Back to Library</a>
+    <a class="back-to-results" href="<?php echo url_for('/main/index.php'); ?>">← Back to Library</a>
 
     <div class="borrowed-items">
-        <h1>My Loans</h1>
+        <h2>Current Items on Loan</h2>
         
         <?php if (mysqli_num_rows($borrowed_items) == 0): ?>
             <p>You haven't borrowed any items yet.</p>

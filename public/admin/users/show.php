@@ -1,5 +1,9 @@
 <?php require_once('../../../private/init.php'); 
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 $id = $_GET['id'] ?? '1';
 // Check if the id is set and valid
 $user = find_user_by_id($id)
@@ -17,7 +21,8 @@ $user = find_user_by_id($id)
 	<div class="user show">
 	
 	<!--<h2>User id: <?php echo h($user['user_id']); ?></h2>-->
-	
+	 <h2>Library User Detail</h2>
+	<div class="card">
 	<div class="attributes">
 	<div class="form-row">
 	<dl>
@@ -60,12 +65,10 @@ $user = find_user_by_id($id)
 	  <dt>End date</dt>
 	  <dd><?php echo h($user['user_end_date']); ?></dd>
 	</dl>
+   </div>
   </div>
-	</div>
-	
-	
-  </div>
-
+ </div>
+</div>
 </div>
 </main>
 <?php include(SHARED_PATH . '/footer.php'); ?>

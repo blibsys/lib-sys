@@ -1,6 +1,10 @@
 <?php
 require_once('../../../private/init.php'); 
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 if(!isset($_GET['id'])) {
 	redirect_to(url_for('/admin/items/index.php'));
 }

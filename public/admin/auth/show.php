@@ -1,5 +1,9 @@
 <?php require_once('../../../private/init.php');
-
+if(isset($_SESSION['role']) && strtolower($_SESSION['role']) !== 'admin') {
+  //if user not admin
+  echo "You do not have permission to access this page.";
+  exit; 
+}
 $id = $_GET['id'] ?? '1';
 
 $auth = find_auth_by_id($id);
@@ -15,7 +19,8 @@ $auth = find_auth_by_id($id);
 	<a class="back-link" href="<?php echo url_for('/admin/auth/index.php'); ?>">← Back to List</a>
 	
 	<div class="credentials show">
-	
+ <h2>User Login Detail</h2>
+	<div class="card">
 	<div class="attributes">
 
 	<div class="form-row">
@@ -60,8 +65,7 @@ $auth = find_auth_by_id($id);
       <dd><?php echo h($auth['email']); ?></dd>
     </dl>
     </div>
-   
-
+  </div>
   </div>
  </div>
 </div>
