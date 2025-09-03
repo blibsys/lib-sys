@@ -1,42 +1,44 @@
 <?php
 
-	require_once('db_credentials.php');
-	
-	function db_connect() {
-		$connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-		confirm_db_connect();
-		return $connection;
-	}
-	
-	function db_disconnect($connection) {
-		if(isset($connection)) {
-	      mysqli_close($connection);
-	  }
-	}
-
-function db_escape($db, $string) {
-  // Defensive fix: cast null to empty string to avoid deprecation warning
-  return mysqli_real_escape_string($db, (string) $string);
+$config = parse_ini_file(__DIR__ . '/../.env');
+if (!$config) {
+    exit("Failed to load .env file.");
 }
 
-	/*function db_escape($connection, $string) {
-		return mysqli_real_escape_string($connection, $string);
-		}*/
-	
-	function confirm_db_connect() {
-	if(mysqli_connect_errno()) {
-	  $msg = "Database connection failed: ";
-	  $msg .= mysqli_connect_error();
-	  $msg .= " (" . mysqli_connect_errno() . ")";
-	  exit($msg);
-	 }	 
-   }
+function db_connect() {
+    global $config; 
+    $connection = mysqli_connect(
+        $config['DB_SERVER'],
+        $config['DB_USER'],
+        $config['DB_PASS'],
+        $config['DB_NAME']
+    );
+    confirm_db_connect();
+    return $connection;
+}
 
-	function confirm_result_set($result_set) {
-	   if (!$result_set) {
-		exit("Database query failed.");
-     }
-   }
+function db_disconnect($connection) {
+    if (isset($connection)) {
+        mysqli_close($connection);
+    }
+}
+
+function db_escape($db, $string) {
+    return mysqli_real_escape_string($db, (string) $string);
+}
+
+function confirm_db_connect() {
+    if (mysqli_connect_errno()) {
+        $msg = "Database connection failed: ";
+        $msg .= mysqli_connect_error();
+        $msg .= " (" . mysqli_connect_errno() . ")";
+        exit($msg);
+    }
+}
+
+function confirm_result_set($result_set) {
+    if (!$result_set) {
+        exit("Database query failed.");
+    }
+}
 ?>
-
-

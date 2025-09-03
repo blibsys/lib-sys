@@ -996,7 +996,7 @@ function find_auth_by_username($username) {
     }
 	$current_id = $course['id'] ?? '0'; // if id is not set, use '0' to avoid errors
 	// Check for unique course_id
-	// Note: we pass $current_id to allow the current record to be ignored in the uniqueness check
+	// Note: we pass $current_id to allow the current record to be d in the uniqueness check
 	// This is useful when editing a record, so it doesn't conflict with itself
     if(!has_unique_course_id($course['course_id'], $current_id)) {
 	  $errors[] = "Course id must be unique.";

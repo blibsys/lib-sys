@@ -1,0 +1,14 @@
+# Sensitive config
+.env
+
+# System clutter
+.DS_Store
+
+# Editor folders
+.vscode/
+.idea/
+
+# Logs and backups
+*.log
+*~
+*.bak
