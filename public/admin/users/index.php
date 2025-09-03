@@ -54,7 +54,7 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
 
 ?>
 
-<?php $user_title = 'users'; ?>
+<?php $page_title = 'users'; ?>
 <?php include(SHARED_PATH . '/header.php'); ?>
 
 <main aria-label="main content">
@@ -65,7 +65,14 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('admin/index.php'); ?>">← Back to List</a>
     </div>
-    
+    <script>
+  window.onload = function() {
+    var searchBox = document.getElementById('search-box');
+    if (searchBox) {
+      searchBox.focus();
+    }
+  };
+</script>
     <div class="actions">
       <a class="action1" href="<?php echo url_for('/admin/users/new.php'); ?>">＋ Add New User</a>
       <form class="search-form" method="GET" action="">
@@ -77,7 +84,7 @@ if(!empty($search_term) || !empty($filter_role) || !empty($filter_course)) {
           <input type="hidden" name="course" value="<?php echo h($filter_course); ?>">
         <?php endif; ?>
         
-        <input type="text" name="search" placeholder="Search users..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
+        <input id="search-box" type="text" name="search" placeholder="Search users..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
         <input type="submit" value="Search">
         <?php if(isset($_GET['search']) && !empty($_GET['search'])): ?>
           <a class="clear-link" href="<?php echo url_for('/admin/users/index.php'); ?>">Clear</a>

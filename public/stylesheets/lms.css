@@ -772,7 +772,8 @@ a.action1, #operations input[type="submit"] {
 
 
 a.action1:hover, #operations input[type="submit"]:hover,
-a.action2:hover, a.action3:hover {
+a.action2:hover, a.action3:hover, button.return-btn:hover, button.renew-btn:hover,
+button.confirm-return-btn:hover {
   background-color: #f7d8f2;
 }
 
@@ -795,7 +796,7 @@ a.action2 {
   transition: background-color 0.2s ease;
 }
 
-a.action3 {
+a.action3, button.return-btn, button.renew-btn, button.confirm-return-btn {
   display: inline-block;
   margin: 0 4px;
   padding: 2px 12px;
@@ -806,6 +807,7 @@ a.action3 {
   font-weight: 400;
   font-family: 'Titillium Web', sans-serif;
   text-decoration: none;
+  background: transparent;
   transition: background-color 0.2s ease;
 }
 
@@ -828,6 +830,17 @@ a.action3 {
   margin-bottom: 1rem;
 }
 
+#message {
+  background: #bcfcaf;
+  color: #134653;
+  border: #134653 1px solid;
+  padding: 1em 15px;
+  max-width: 890px;
+  border-radius: 4px;
+  margin: 1em 30px;
+  font-size: 1.4em;
+  text-align: center;
+}
 /* Borrowing form styles */
 .item.borrow {
   background-color: #c6ecf8;
@@ -913,11 +926,13 @@ table.list tr:hover {
   border-radius: 4px;
   font-size: 0.875rem;
   font-weight: 500;
+  border: 1px #0092bc;
 }
 
 .status.onloan {
   background-color: #fff3cd;
-  color: #856404;
+  color: #155724;
+  
 }
 
 .status.returned {
@@ -928,6 +943,11 @@ table.list tr:hover {
 .status.overdue {
   background-color: #f8d7da;
   color: #721c24;
+}
+
+.status.pending {
+  background-color: #fff3cd;
+  color: #155724;
 }
 
 #main-menu h2 {
@@ -1011,3 +1031,6 @@ table.list tr:hover {
   margin: 0;
   color: #555;
 }
+.collapsible-table { margin-bottom: 2em; }
+.toggle-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+.toggle-btn { margin-left: 1em; font-size: 1.2em; }

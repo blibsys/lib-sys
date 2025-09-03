@@ -31,11 +31,18 @@ if(!empty($search_term)) {
     <div class="back-link-wrapper">
       <a class="back-link" href="<?php echo url_for('/admin/index.php'); ?>">← Back to List</a>
     </div>
-    
+    <script>
+  window.onload = function() {
+    var searchBox = document.getElementById('search-box');
+    if (searchBox) {
+      searchBox.focus();
+    }
+  };
+</script> 
     <div class="actions">
       <a class="action1" href="<?php echo url_for('/admin/contributors/new.php'); ?>">＋ Add New Contributor</a>
       <form class="search-form" method="GET" action="">
-        <input type="text" name="search" placeholder="Search contributors..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
+        <input id="search-box" type="text" name="search" placeholder="Search contributors..." value="<?php echo isset($_GET['search']) ? h($_GET['search']) : ''; ?>">
         <input type="submit" value="Search">
         <?php if(isset($_GET['search']) && !empty($_GET['search'])): ?>
           <a class="clear-link" href="<?php echo url_for('/admin/contributors/index.php'); ?>">Clear</a>

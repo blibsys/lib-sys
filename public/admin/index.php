@@ -8,7 +8,7 @@
 <main aria-label="main content">
 <div id="content">
   <div id="main-menu">
-    <h1>Modules</h1>
+    <h1>Admin Area</h1>
     <div class="module-tiles">
 
       <a class="tile" href="<?php echo url_for('/admin/items/index.php'); ?>">
@@ -39,9 +39,9 @@
        <!-- <span class="tile-icon"></span>-->
         <span class="tile-title">User Logins</span>
        </a>
-       <a class="tile" href="">
+       <a class="tile" href="<?php echo url_for('/admin/marked_for_return/index.php'); ?>">
        <!-- <span class="tile-icon"></span>-->
-        <span class="tile-title"></span>
+        <span class="tile-title">Returns Manager</span>
       </a>
        <a class="tile" href="">
        <!-- <span class="tile-icon"></span>-->

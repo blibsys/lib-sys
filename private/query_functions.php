@@ -1487,6 +1487,51 @@ function keyword_search_contributors($db, $search_term) {
     return $contributors; // Return array instead of result resource
 }
 
+function keyword_search_auth($db, $search_term, $role = '') {
+    $sql = "SELECT a.auth_id, a.user_id, a.username, a.hashed_password, ";
+    $sql .= "a.created_at AS auth_created_at, a.updated_at AS auth_updated_at, ";
+    $sql .= "u.first_name, u.last_name, u.email, u.role ";
+    $sql .= "FROM auth a ";
+    $sql .= "LEFT JOIN users u ON u.user_id = a.user_id ";
+    $sql .= "WHERE 1 ";
+
+    $params = [];
+    $types = '';
+
+    if(!empty($search_term)) {
+        $sql .= "AND (a.username LIKE ? OR u.first_name LIKE ? OR u.last_name LIKE ? OR u.email LIKE ?) ";
+        $like_term = '%' . $search_term . '%';
+        $params[] = $like_term;
+        $params[] = $like_term;
+        $params[] = $like_term;
+        $params[] = $like_term;
+        $types .= 'ssss';
+    }
+    if(!empty($role)) {
+        $sql .= "AND u.role = ? ";
+        $params[] = $role;
+        $types .= 's';
+    }
+
+    $sql .= "ORDER BY a.auth_id ASC";
+
+    $stmt = mysqli_prepare($db, $sql);
+    if(!empty($params)) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $auths = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $auths[] = $row;
+    }
+    mysqli_free_result($result);
+    mysqli_stmt_close($stmt);
+
+    return $auths;
+}
+
 function keyword_search_circulation($db, $search_term) {
     global $db;
     
@@ -1549,3 +1594,19 @@ function find_all_user_roles() {
     return $roles;
 }
 	
+
+function find_all_auth_roles() {
+    global $db;
+
+    $sql = "SELECT DISTINCT role FROM users ";
+    $sql .= "ORDER BY role ASC";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+
+    $roles = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $roles[] = $row['role'];
+    }
+    mysqli_free_result($result);
+    return $roles;
+}
