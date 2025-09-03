@@ -27,6 +27,5 @@ DB_NAME=yourDatabaseName
 
 - Credentials are loaded securely via `parse_ini_file()` from `.env`.
 - `.env` is excluded from Git history to protect sensitive data.
-- Functions are modular and documented for ease of extension.
-- The system is designed to be understandable and adaptable for future developers.
+
 

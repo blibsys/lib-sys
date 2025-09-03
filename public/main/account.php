@@ -49,7 +49,7 @@ while($record = mysqli_fetch_assoc($borrowed_items)) {
 mysqli_free_result($borrowed_items);
 ?>
 
-
+<h1>My Loans</h1>
 <div class="borrowed-items">
     <!-- Collapsible: Current Items on Loan -->
     <h2>
