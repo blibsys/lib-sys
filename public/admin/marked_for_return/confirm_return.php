@@ -15,7 +15,7 @@ $sql = "UPDATE circulation SET item_circulation_status = 'returned', returned_da
 $result = mysqli_query($db, $sql);
 
 if($result && mysqli_affected_rows($db) > 0) {
-  echo "Item status changed to returned.";
+  echo "Item returned successfully!";
 } else {
   echo "Error updating status.";
 }

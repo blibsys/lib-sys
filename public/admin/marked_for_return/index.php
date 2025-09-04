@@ -62,7 +62,7 @@ $count = mysqli_num_rows($circulation_set);
 <script>
 document.querySelectorAll('.confirm-return-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    if (confirm('Change item status to "returned"?')) {
+    if (confirm('Update item status to "returned"?')) {
       var circulationId = btn.getAttribute('data-circulation-id');
       fetch('confirm_return.php', {
         method: 'POST',
